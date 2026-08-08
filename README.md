@@ -5,6 +5,13 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
+> **📦 패치 다운로드: [Releases](../../releases/latest)**
+> — xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉. 원본 게임 데이터는 포함되지 않습니다.
+>
+> **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
+> (설치 안내 · 알려진 문제 · SDAT 암호 구조 · PSARC 레이아웃 · 고정 배치 재빌드 · 빌드 파이프라인)
+> — 소스는 [book/](book/SUMMARY.md)에 있습니다.
+
 | | |
 |---|---|
 | 버전 | `v20260808` |
@@ -142,10 +149,12 @@ RPCS3 버전을 바꿔도 같습니다. 이 패치 때문에 생기는 문제가
 
 ## 문서
 
-### 기술 문서 (GitBook)
+### 기술 문서
 
 역공학으로 규명한 SDAT 암호 구조, PSARC 레이아웃, 그리고 배포 패치를 667.7MB에서
-7.32MiB로 줄인 고정 배치 재빌드 기법을 [`book/`](book/README.md)에 정리했습니다.
+7.32MiB로 줄인 고정 배치 재빌드 기법을 정리했습니다.
+읽기 좋은 형태는 **[문서 사이트](https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/)**,
+소스는 [`book/`](book/README.md)에 있습니다.
 
 | 문서 | 내용 |
 |---|---|
