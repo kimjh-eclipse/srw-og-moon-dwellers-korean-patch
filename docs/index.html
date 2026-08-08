@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>슈퍼로봇대전 OG 문 드웰러즈 한국어 패치</title>
+  <meta name="description" content="PS3 슈퍼로봇대전 OG 더 문 드웰러즈 (BLJS10335) 한국어 번역 패치 문서" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" />
+  <style>
+    /* ================================================================
+       팔레트 — 문 드웰러즈 타이틀 화면에서 추출
+       심우주 네이비 배경 / 은빛 OG 링 / 금색 로고 / 시안 글로우
+       ================================================================ */
+    :root {
+      --bg:        #0B1B3A;  /* Deep Space  — 심우주 배경 */
+      --bg-deep:   #071129;  /* 코드 블록 등 더 어두운 면 */
+      --surface:   #14315E;  /* Orbit Navy  — 표면 */
+      --surface-2: #1B3F76;  /* 표면 강조 */
+      --primary:   #4FC8F5;  /* Glow Cyan   — 주조색 */
+      --primary-d: #2A9AC7;  /* 호버 */
+      --accent:    #F2B33D;  /* Signal Gold — 강조(한 곳만) */
+      --accent-d:  #D98324;  /* Amber Deep  — 강조 호버 */
+      --neutral:   #C6D3E2;  /* Steel Silver */
+      --text:      #F5F9FF;  /* Star White */
+      --text-dim:  #A7B8CE;
+      --line:      #23477F;
+      --theme-color: #4FC8F5;
+    }
+
+    * { -webkit-font-smoothing: antialiased; }
+
+    html, body { background: var(--bg); }
+    body {
+      font-family: 'Noto Sans KR', -apple-system, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      color: var(--text);
+    }
+
+    /* 별빛이 도는 배경 그라데이션 */
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(900px 500px at 78% 8%, rgba(79,200,245,.14), transparent 60%),
+        radial-gradient(700px 420px at 12% 92%, rgba(242,179,61,.08), transparent 60%),
+        var(--bg);
+    }
+
+    /* ---- 본문 ---- */
+    .markdown-section { max-width: 880px; color: var(--text); }
+    .markdown-section h1 {
+      font-weight: 900; letter-spacing: -0.02em; color: var(--text);
+    }
+    .markdown-section h2 {
+      font-weight: 700; color: var(--text);
+      border-bottom: 2px solid var(--line);
+      padding-bottom: .35em; margin-top: 2.6rem; letter-spacing: -0.01em;
+    }
+    /* OG 링을 연상시키는 마름모 불릿 */
+    .markdown-section h2::before {
+      content: ""; display: inline-block; width: .5em; height: .5em;
+      margin-right: .55em; background: var(--primary);
+      box-shadow: 0 0 10px rgba(79,200,245,.65);
+      transform: rotate(45deg); vertical-align: middle;
+    }
+    .markdown-section h3 { color: var(--neutral); font-weight: 700; }
+    .markdown-section h4, .markdown-section h5 { color: var(--neutral); }
+    .markdown-section p, .markdown-section li { color: var(--text); }
+    .markdown-section strong { color: #FFFFFF; }
+    .markdown-section hr { border-color: var(--line); }
+
+    .markdown-section a { color: var(--primary); font-weight: 500; text-decoration: none; }
+    .markdown-section a:hover { color: var(--primary-d); text-decoration: underline; }
+
+    /* ---- 표 ---- */
+    .markdown-section table { border-collapse: collapse; display: table; width: 100%; }
+    .markdown-section th {
+      background: var(--surface); color: var(--text);
+      font-weight: 700; border: 1px solid var(--line);
+    }
+    .markdown-section td { border: 1px solid var(--line); color: var(--text); }
+    .markdown-section tr { background: transparent; }
+    .markdown-section tr:nth-child(2n) { background: rgba(20,49,94,.42); }
+
+    /* 표가 넓으면 표만 가로 스크롤 — 페이지 자체는 가로로 밀리지 않게.
+       리스트 안에 중첩된 표까지 잡히도록 직계(>)로 한정하지 않는다. */
+    .markdown-section table { display: block; overflow-x: auto; white-space: nowrap; }
+
+    /* ---- 인용 / 코드 ---- */
+    .markdown-section blockquote {
+      border-left: 4px solid var(--accent);
+      background: rgba(242,179,61,.10);
+      color: var(--text); border-radius: 0 6px 6px 0;
+    }
+    .markdown-section blockquote strong { color: var(--accent); }
+    .markdown-section code {
+      color: var(--accent); background: rgba(20,49,94,.75);
+      border: 1px solid var(--line); border-radius: 4px;
+    }
+    .markdown-section pre { background: var(--bg-deep); border: 1px solid var(--line); }
+    .markdown-section pre > code {
+      color: #DCE8F7; background: transparent; border: 0;
+    }
+    .markdown-section pre::after { color: var(--text-dim); }
+
+    /* ---- 사이드바 ---- */
+    .sidebar {
+      background: rgba(7,17,41,.92);
+      border-right: 1px solid var(--line);
+    }
+    .sidebar .app-name-link {
+      color: var(--primary) !important; font-weight: 900;
+      text-shadow: 0 0 14px rgba(79,200,245,.45);
+    }
+    .sidebar ul li a { color: var(--text-dim); }
+    .sidebar ul li a:hover { color: var(--primary); }
+    .sidebar ul li.active > a {
+      color: var(--primary); font-weight: 700;
+      border-right: 3px solid var(--primary);
+    }
+    .sidebar-toggle { background-color: transparent; }
+    .sidebar-toggle span { background-color: var(--primary); }
+
+    /* ---- 검색 ---- */
+    .search input {
+      background: var(--surface); color: var(--text);
+      border: 1px solid var(--line); border-radius: 6px;
+    }
+    .search input::placeholder { color: var(--text-dim); }
+    .search .results-panel { background: var(--bg-deep); }
+    .search p, .search h2 { color: var(--text) !important; }
+    .search .matching-post { border-bottom: 1px solid var(--line); }
+    .search .matching-post a { color: var(--primary); }
+    .search .clear-button { color: var(--text-dim); }
+
+    /* ---- 페이지네이션 ---- */
+    .pagination-item-label, .pagination-item-title { color: var(--text-dim); }
+    .pagination-item-title { color: var(--primary) !important; }
+    .docsify-pagination-container { border-top: 1px solid var(--line); }
+
+    /* ---- 코드 복사 버튼 ---- */
+    .docsify-copy-code-button {
+      background: var(--surface) !important; color: var(--text) !important;
+      border: 1px solid var(--line);
+    }
+
+    .badges img { margin: 2px 4px 2px 0; }
+
+    /* 강조 배너 — 금색은 여기 하나에만 */
+    .hero-note {
+      border: 1px solid var(--accent);
+      background: linear-gradient(180deg, rgba(242,179,61,.14), rgba(242,179,61,.05));
+      border-radius: 8px; padding: 1rem 1.2rem; margin: 1.4rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">불러오는 중…</div>
+  <script>
+    window.$docsify = {
+      name: '🌙 문 드웰러즈<br><small style="font-weight:400;opacity:.7">한국어 패치</small>',
+      repo: 'https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch',
+      homepage: 'home.md',
+      loadSidebar: true,
+      loadNavbar: false,
+      coverpage: false,
+      auto2top: true,
+      maxLevel: 3,
+      subMaxLevel: 3,
+      relativePath: true,
+      notFoundPage: true,
+      search: {
+        placeholder: '문서 검색…',
+        noData: '검색 결과가 없습니다.',
+        depth: 4
+      },
+      pagination: {
+        previousText: '이전',
+        nextText: '다음',
+        crossChapter: true
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination@2/dist/docsify-pagination.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-powershell.min.js"></script>
+</body>
+</html>
