@@ -142,6 +142,21 @@ RPCS3 버전을 바꿔도 같습니다. 이 패치 때문에 생기는 문제가
 
 ## 문서
 
+### 기술 문서 (GitBook)
+
+역공학으로 규명한 SDAT 암호 구조, PSARC 레이아웃, 그리고 배포 패치를 667.7MB에서
+7.32MiB로 줄인 고정 배치 재빌드 기법을 [`book/`](book/README.md)에 정리했습니다.
+
+| 문서 | 내용 |
+|---|---|
+| [SDAT 암호 구조](book/sdat.md) | NPD 헤더, 블록 단위 AES 키 유도, 메타데이터 위조 |
+| [PSARC 아카이브 구조](book/psarc.md) | TOC·블록 테이블 레이아웃, `PSARCLIST.BIN` |
+| [고정 배치 재빌드](book/fixed-layout.md) | 델타를 87배 줄인 기법과 측정치 |
+| [빌드 파이프라인](book/pipeline.md) | 추출 → 번역 → 재조립 → 검증 절차 |
+| [실기 검증과 오판 정정](book/verification.md) | 타이틀 백화 원인 추적 기록 |
+
+### 배포물 문서
+
 - [설치 안내 (전문)](README_설치.txt)
 - [알려진 문제 (전문)](README_알려진문제.txt)
 - [변경 내역](CHANGELOG.txt)
