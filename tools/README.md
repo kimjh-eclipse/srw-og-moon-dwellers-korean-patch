@@ -86,31 +86,43 @@ pip install pycryptodome pillow
 
 ---
 
-## 이 폴더에 없는 것
+## 번역 대역표는 코드와 분리되어 있습니다
 
-다음은 **의도적으로 공개하지 않습니다.**
+빌드 스크립트 18개에는 원문→번역 대역표가 소스 안에 그대로 박혀 있었습니다.
+그대로 공개하면 게임 텍스트를 배포하는 것과 같으므로, **코드는 그대로 두고 데이터만
+외부 파일로 분리**했습니다.
 
-- **원본 게임 데이터** — `.sdat`, `.psarc`, ISO, 추출된 텍스트·폰트·이미지
-- **번역 대역표** — 일본어 원문과 한국어 번역을 짝지은 데이터
-- **원문이 인라인으로 박힌 빌드 스크립트 18개** — 아래 목록
+```python
+# 이전
+BATTLE_REVIEW_OVERRIDES = {
+    "「あの敵は…」": "「저 적은…」",
+    ...
+}
 
-```
-09_utf16_extract.py                 30_build_battle_poc_stream.py
-18_build_korean_font_poc.py         32_build_battle_safe_full.py
-19_build_minimal_glyph_poc.py       35_review_translation_draft.py
-21_build_v3_font_poc.py             40_build_battle_c117_override.py
-22_build_scenario_menu_poc.py       42_build_battle_c117_manual_v2.py
-24_build_general2d_full.py          44_build_battle_c117_eselda_v4.py
-27_build_logic_translation.py       45_build_battle_c117_android0137_v5.py
-                                    46_build_battle_c117_cleanup_v6.py
-                                    55_patch_general2d_pilot_training.py
-                                    57_patch_logic_ace_bonus.py
-work/check_legacy_fit_tsv.py
+# 지금
+BATTLE_REVIEW_OVERRIDES = load_table('BATTLE_REVIEW_OVERRIDES')
 ```
 
-이 스크립트들은 원문→번역 대역표를 소스 안에 그대로 담고 있어, 공개하면 게임 텍스트를
-배포하는 것과 같아집니다. 포맷 처리 로직은 위 공용 라이브러리와 나머지 스크립트에
-모두 들어 있으므로, 같은 절차를 자기 번역 데이터로 재현할 수 있습니다.
+대역표는 `tools/data/<스크립트이름>.json` 에서 읽습니다.
+**이 폴더는 저장소에 포함되지 않습니다.**
+
+| | |
+|---|---|
+| 분리된 스크립트 | 18개 |
+| 분리된 테이블 | 33개 |
+| 로더 | `tl_data.py` |
+
+형식과 작성 방법은 [`tl_data.py`](tl_data.py)의 독스트링에 있습니다.
+자기 번역 데이터를 같은 형식으로 만들어 `tools/data/` 에 두면 그대로 동작합니다.
+데이터가 없으면 로더가 경로와 형식을 알려주며 중단합니다.
+
+## 그 밖에 공개하지 않는 것
+
+- **원본 게임 데이터** — `.sdat`, `.psarc`, ISO
+- **추출된 텍스트·폰트·이미지**
+- **번역 배치·검수 산출물** — `translated/`, `extract*/`, `review_*/` 등
+
+`.gitignore` 가 위 경로와 확장자를 막아 두었습니다.
 
 ## 이어서 작업하려면
 
