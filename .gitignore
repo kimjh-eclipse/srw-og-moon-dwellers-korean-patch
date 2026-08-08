@@ -1,0 +1,5 @@
+backup_original_*/
+_patch_tmp_*/
+*.psarc.sdat
+*.psarc
+*.iso
