@@ -1,5 +1,35 @@
-backup_original_*/
-_patch_tmp_*/
+# --- 게임 원본 데이터 · 추출물 (절대 커밋 금지) ---
 *.psarc.sdat
 *.psarc
+*.sdat
 *.iso
+*.orig
+*.bin
+*.dds
+PSARCLIST.BIN
+
+# --- 번역 대역표 · 추출 텍스트 ---
+*.tsv
+*.csv
+translated/
+extract*/
+battle_translation/
+general2d_translation/
+font_dump/
+memdump/
+review_*/
+battle_review_*/
+
+# --- 빌드 산출물 · 백업 ---
+korean_build*/
+release_*/
+installed_backups/
+original_backups/
+backup_original_*/
+_patch_tmp_*/
+*.log
+
+# --- 기타 ---
+__pycache__/
+*.pyc
+.venv/
