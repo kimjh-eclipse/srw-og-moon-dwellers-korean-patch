@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """ISO에서 특정 파일의 LBA를 찾아 NPD(SDAT/EDAT) 헤더를 분석."""
 import struct
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 SECTOR = 2048
 TARGETS = ["COMMON_PSARC.SDAT", "GENERAL2D_PSARC.SDAT", "LOGIC_PSARC.SDAT",
            "MOVIE.PSARC", "EBOOT.BIN"]

@@ -3,13 +3,14 @@
 """전 PSARC의 모든 텍스트 컨테이너(.dat FIXH/DOFS + .bmd 배틀메시지) 통합 추출.
 정확한 파서(DatFile/BmdFile) 사용. 산출: extract2/{master.jsonl, unique_jp.jsonl, batches/}."""
 import sys, io, os, json
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
 from sdat import SDATReader
 from psarc import PSARC
 from dat_rebuild import DatFile
 from bmd_rebuild import BmdFile
 
-HDD=r'C:/Emul/PS3/rpcs3-v0.0.27-14986-db7f84f9_win64/dev_hdd0/game/BLJS10335/USRDIR/PSARC'
+HDD=rconfig.require('GAME_DIR')
 SDATS={'LOGIC':'Logic.psarc.sdat','COMMON':'Common.psarc.sdat.orig','BATTLE':'Battle.psarc.sdat',
        'GENERAL2D':'General2d.psarc.sdat','GENERAL3D':'General3d.psarc.sdat'}
 OUT='extract2'; os.makedirs(OUT+'/batches', exist_ok=True)

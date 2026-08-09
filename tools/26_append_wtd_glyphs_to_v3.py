@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 
 from PIL import ImageFont
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 
 def load_builder():
@@ -87,7 +88,7 @@ def main() -> None:
             f"append capacity {len(candidates)} < new glyphs {len(new_chars)}"
         )
 
-    face = ImageFont.truetype("C:/Windows/Fonts/malgunbd.ttf", 28)
+    face = ImageFont.truetype(config.KOREAN_FONT_BOLD, 28)
     appended = []
     for ch, (proxy_cp, slot) in zip(new_chars, candidates):
         builder.inject_cell(font, slot, builder.render_glyph(ch, face))

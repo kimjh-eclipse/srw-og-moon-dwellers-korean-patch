@@ -7,8 +7,8 @@ record span, the PSARC logical size, the SDAT header, the physical SDAT size,
 and the source timestamp.  It aborts unless the exact known-good C117 source
 is present.
 """
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import hashlib
 import importlib.util

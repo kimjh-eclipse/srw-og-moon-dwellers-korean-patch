@@ -7,8 +7,8 @@ are deliberately left in Japanese.  A changed PSARC block is also retained
 only when its compressed size does not grow, preserving the original archive
 budget without truncating dialogue.
 """
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import csv
 import hashlib

@@ -7,9 +7,9 @@ against its Japanese source and writes a JSON report plus JSONL findings.  A
 finding is a review queue, not an automatic rewrite: game control codes and
 short labels need contextual judgement before changing them.
 """
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import json
 import importlib.util

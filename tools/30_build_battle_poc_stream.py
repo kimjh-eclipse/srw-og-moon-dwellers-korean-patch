@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Build a size-preserving Battle dialogue PoC without a huge plain PSARC."""
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import csv
 import hashlib
@@ -122,10 +124,7 @@ def encode_chunks(
 def main() -> None:
     root = Path("work_ogmd")
     build = root / "korean_build_v3"
-    installed_sdat = Path(
-        r"C:\Emul\PS3\rpcs3-v0.0.27-14986-db7f84f9_win64"
-        r"\dev_hdd0\game\BLJS10335\USRDIR\PSARC\Battle.psarc.sdat"
-    )
+    installed_sdat = Path(config.game_file("Battle.psarc.sdat"))
     backup_sdat = root / "original_backups" / "Battle.psarc.sdat.orig"
     source_sdat = backup_sdat if backup_sdat.exists() else installed_sdat
     output_sdat = build / "Battle_dialogue_poc.psarc.sdat"

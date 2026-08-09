@@ -3,8 +3,9 @@
 """SDAT 첫 블록만 복호화하여 PSAR 매직 나오는 파라미터 조합을 실증 확정."""
 import struct
 from Crypto.Cipher import AES
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 SECTOR = 2048
 SDAT_KEY = bytes.fromhex("0D655EF8E674A98AB8505CFA7D012933")
 

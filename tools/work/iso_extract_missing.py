@@ -8,8 +8,11 @@ usage: python iso_extract_missing.py <출력폴더> <ISO내이름> [<ISO내이�
 import os
 import struct
 import sys
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), ".."))
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 SECTOR = 2048
 
 # ISO9660 디렉터리 레코드 플래그

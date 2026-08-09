@@ -1,9 +1,9 @@
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-load_table("_INLINE")[0]
+"""Pack the V3 full Korean atlas with only the donor glyph redirected to the 가 proxy."""
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import csv
 import hashlib
@@ -47,10 +47,10 @@ def main() -> None:
     font = bytearray((build / "font_ko.bin").read_bytes())
 
     with (build / "korean_font_map.tsv").open(encoding="utf-8", newline="") as stream:
-        ga = next(row for row in csv.DictReader(stream, delimiter="\t") if row["hangul"] == load_table("_INLINE")[2])
+        ga = next(row for row in csv.DictReader(stream, delimiter="\t") if row["hangul"] == load_table("_INLINE")[1])
     proxy_cp = int(ga["proxy_cp"][2:], 16)
     proxy_metric_offset = builder.metric_offset(font, proxy_cp)
-    target_metric_offset = builder.metric_offset(font, ord(load_table("_INLINE")[1]))
+    target_metric_offset = builder.metric_offset(font, ord(load_table("_INLINE")[0]))
     assert proxy_metric_offset is not None and target_metric_offset is not None
     old_metric = bytes(font[target_metric_offset : target_metric_offset + 4])
     proxy_metric = bytes(font[proxy_metric_offset : proxy_metric_offset + 4])

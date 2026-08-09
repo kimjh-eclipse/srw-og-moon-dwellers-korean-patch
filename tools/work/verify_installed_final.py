@@ -6,6 +6,9 @@ import json
 import re
 import sys
 from pathlib import Path
+import os as _os, sys as _sys
+_sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), ".."))
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -13,8 +16,8 @@ from psarc import PSARC
 from sdat import SDATReader
 
 
-ROOT = Path(r"C:\Emul\Switch\패치유틸.xdeltaUI\work_ogmd")
-GAME = Path(r"C:\Emul\PS3\rpcs3-v0.0.27-14986-db7f84f9_win64\dev_hdd0\game\BLJS10335\USRDIR\PSARC")
+ROOT = Path(rconfig.WORK_ROOT)
+GAME = Path(rconfig.require('GAME_DIR'))
 
 
 def sha(path: Path) -> str:

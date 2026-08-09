@@ -18,6 +18,7 @@ import struct
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 
 PAGE_DIR_OFFSET = 0x54
@@ -163,7 +164,7 @@ def main() -> None:
         help="Optional all-entry scan output to add to the protected character set",
     )
     ap.add_argument("--out-dir", default="work_ogmd/korean_build")
-    ap.add_argument("--face", default="C:/Windows/Fonts/malgunbd.ttf")
+    ap.add_argument("--face", default=config.KOREAN_FONT_BOLD)
     ap.add_argument("--size", type=int, default=28)
     args = ap.parse_args()
 
@@ -216,7 +217,7 @@ def main() -> None:
     records = []
     preview = Image.new("L", (16 * 64, 8 * 64), 0)
     preview_draw = ImageDraw.Draw(preview)
-    label_face = ImageFont.truetype("C:/Windows/Fonts/malgun.ttf", 10)
+    label_face = ImageFont.truetype(config.KOREAN_FONT, 10)
 
     for i, ch in enumerate(korean_chars):
         proxy_cp = proxy_cps[i]

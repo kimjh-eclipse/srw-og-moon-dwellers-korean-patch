@@ -21,6 +21,7 @@ import shutil
 from pathlib import Path
 
 from PIL import ImageFont
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 
 V3_MAP_SHA256 = "4579adc90141a9045937ee674a7793926e788fe26b79c36d04473d05a7eb1281"
@@ -52,7 +53,7 @@ def main() -> None:
     parser.add_argument("--font", default="work_ogmd/font_dump/font.bin")
     parser.add_argument("--map-dir", default="work_ogmd/korean_build_v3")
     parser.add_argument("--out-dir", default="work_ogmd/korean_build_v3_matched")
-    parser.add_argument("--face", default="C:/Windows/Fonts/malgunbd.ttf")
+    parser.add_argument("--face", default=config.KOREAN_FONT_BOLD)
     parser.add_argument("--size", type=int, default=28)
     args = parser.parse_args()
 

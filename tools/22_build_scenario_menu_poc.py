@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Patch the scenario/mode selection strings in GENERAL2D's main WTD."""
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import csv
 import hashlib

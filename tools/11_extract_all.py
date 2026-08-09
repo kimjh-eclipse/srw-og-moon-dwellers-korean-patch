@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """전 PSARC 텍스트 추출 → 재삽입용 master.jsonl + 번역용 unique 목록."""
 import sys, io, os, json, struct
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from sdat import SDATReader
 from psarc import PSARC
 from textextract import extract
 
-ISO=r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO=rconfig.require('ISO')
 OUTDIR="extract"; os.makedirs(OUTDIR, exist_ok=True)
 SECTOR=2048
 CAND_EXT={'.dat','.bin','.csv','.ebd','.tbd'}

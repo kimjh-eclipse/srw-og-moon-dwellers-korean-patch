@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Inject only one Korean glyph into a slot referenced by no original metric."""
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import hashlib
 import importlib.util
@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from PIL import Image, ImageFont
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -61,7 +62,7 @@ def main() -> None:
         raise ValueError("no completely unreferenced font slot")
     slot = candidates[0]
 
-    face = ImageFont.truetype("C:/Windows/Fonts/malgunbd.ttf", 24)
+    face = ImageFont.truetype(config.KOREAN_FONT_BOLD, 24)
     glyph = builder.render_glyph(load_table("_INLINE")[0], face)
     # A binary coverage mask keeps this diagnostic glyph highly compressible.
     # Full anti-aliasing will return after the storage/mapping test is isolated.

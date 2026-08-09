@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Apply all translated main-WTD strings and pack a size-preserving GENERAL2D."""
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import argparse
 import csv

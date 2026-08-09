@@ -12,6 +12,7 @@ import importlib.util
 import json
 import shutil
 from pathlib import Path
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 
 ROOT = Path("work_ogmd")
@@ -76,7 +77,7 @@ def main() -> None:
     if len(chars) > min(len(slots), len(proxies)):
         raise RuntimeError(f"font capacity {min(len(slots), len(proxies))} < {len(chars)}")
     from PIL import ImageFont
-    face = ImageFont.truetype("C:/Windows/Fonts/malgunbd.ttf", 28)
+    face = ImageFont.truetype(config.KOREAN_FONT_BOLD, 28)
     added = []
     for ch, slot, proxy_cp in zip(chars, slots, proxies):
         metric = font.metric_offset(original, proxy_cp)

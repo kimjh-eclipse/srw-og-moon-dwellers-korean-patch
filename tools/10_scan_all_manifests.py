@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """5개 PSARC.SDAT 매니페스트를 온더플라이로 스캔하여 텍스트 담긴 파일 위치 파악."""
 import sys, io, os
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from collections import Counter
 from sdat import SDATReader
 from psarc import PSARC
 
-ISO=r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO=rconfig.require('ISO')
 LBA={"COMMON":735289,"GENERAL2D":436663,"GENERAL3D":None,"BATTLE":None,"LOGIC":982276}
 # GENERAL3D/BATTLE LBA는 01_iso_list에서 재확인 필요 → ISO 재파싱으로 자동 획득
 import struct

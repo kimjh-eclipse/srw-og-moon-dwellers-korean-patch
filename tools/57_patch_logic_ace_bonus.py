@@ -6,9 +6,9 @@ The three bonus tables use fixed byte spans.  This patch edits those spans in
 place, preserves all entry/container sizes, and also carries forward the BGM
 ideographic-space fix so the two Logic corrections can be installed together.
 """
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import argparse
 import csv

@@ -6,8 +6,8 @@ The quote cleanup is deliberately conservative: it only removes literal ASCII
 double-quote glyphs already visible in the v5 Korean proxy text.  Japanese
 corner brackets and all BMD control/layout bytes are otherwise preserved.
 """
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import importlib.util
 import json

@@ -5,6 +5,7 @@
 import struct, hashlib, hmac
 from Crypto.Cipher import AES
 from sdat import SDAT_KEY, EDAT_KEY_1, parse_header
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 def forge_metadata(cipher, ck, dev, block_num):
     """flags 0x0100003C(SDAT+ENCRYPTED_KEY+0x10+0x20) 용 블록 메타(0x20) 위조.
@@ -47,7 +48,7 @@ def encode(plain_path, orig_header_bytes, out_path, meta_fn=None, progress=None)
 if __name__=='__main__':
     import sys,io
     sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
-    ISO=r'C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso'
+    ISO=rconfig.require('ISO')
     # 원본 NPD 헤더 확보(COMMON)
     with open(ISO,'rb') as f:
         f.seek(735289*2048); orig_hdr=f.read(0x100)

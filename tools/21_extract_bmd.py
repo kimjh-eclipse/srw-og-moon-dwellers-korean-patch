@@ -3,12 +3,13 @@
 """BATTLE PSARC의 .bmd 배틀 메시지 전체 추출 → 번역용.
 산출: extract_bmd/{master.jsonl(재삽입 좌표: psarc/file/idx/jp), unique_jp.jsonl, batches/}."""
 import sys, io, os, json
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from sdat import SDATReader
 from psarc import PSARC
 from bmd_rebuild import BmdFile
 
-BAT = r'C:/Emul/PS3/rpcs3-v0.0.27-14986-db7f84f9_win64/dev_hdd0/game/BLJS10335/USRDIR/PSARC/Battle.psarc.sdat'
+BAT = rconfig.game_file('Battle.psarc.sdat')
 OUT = 'extract_bmd'; os.makedirs(OUT + '/batches', exist_ok=True)
 
 def is_jp(t):

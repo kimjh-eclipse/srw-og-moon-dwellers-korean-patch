@@ -2,8 +2,9 @@
 # -*- coding: utf-8 -*-
 """PS3 ISO9660 directory tree lister (read-only, no full extraction)."""
 import struct, sys
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 SECTOR = 2048
 
 def read_sector(f, lba, count=1):

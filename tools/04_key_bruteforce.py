@@ -3,8 +3,9 @@
 """데이터 오프셋 0x120 고정, 키/IV 유도 조합을 브루트포스하여 PSAR 탐색."""
 import struct
 from Crypto.Cipher import AES
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 base = 982276*2048
 SDAT_KEY = bytes.fromhex("0D655EF8E674A98AB8505CFA7D012933")
 EDAT_KEY_0 = bytes.fromhex("BE959CA8308DEFA2E5E180C63712A9AE")

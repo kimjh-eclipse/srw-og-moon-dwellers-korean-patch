@@ -1,8 +1,14 @@
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-load_table("_INLINE")[0]
+"""Build manually reviewed Battle fixes on the known-good C117 container.
+
+No machine translation is performed.  The patch set is intentionally limited
+to source-identified records: E-Selda's Granteed lines and the terse
+``反撃開始`` status shared by bioroid/android battle-message tables.
+Nothing is installed by this script.
+"""
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import hashlib
 import importlib.util
@@ -26,10 +32,10 @@ SOURCE_SIZE = 1_729_186_848
 PLAIN_SIZE = 1_725_815_820
 
 JP_GRANTEED = (
-    load_table("_INLINE")[1]
+    load_table("_INLINE")[0]
 )
-JP_GO = load_table("_INLINE")[2]
-JP_COUNTER = load_table("_INLINE")[3]
+JP_GO = load_table("_INLINE")[1]
+JP_COUNTER = load_table("_INLINE")[2]
 JP_ESELDA_SHORT = load_table('JP_ESELDA_SHORT')
 JP_ESELDA_LONG = load_table('JP_ESELDA_LONG')
 

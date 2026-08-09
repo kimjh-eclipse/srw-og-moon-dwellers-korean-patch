@@ -1,8 +1,8 @@
+#!/usr/bin/env python3
+from __future__ import annotations
 import os as _os, sys as _sys
 _sys.path.insert(0, _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), ".."))
 from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
-#!/usr/bin/env python3
-from __future__ import annotations
 
 import importlib.util
 import json

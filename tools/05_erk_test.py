@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import struct, sys, io
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from Crypto.Cipher import AES
 
-ISO = r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+ISO = rconfig.require('ISO')
 base = 982276*2048
 SDAT_KEY   = bytes.fromhex("0D655EF8E674A98AB8505CFA7D012933")
 EDAT_KEY_0 = bytes.fromhex("BE959CA8308DEFA2E5E180C63712A9AE")

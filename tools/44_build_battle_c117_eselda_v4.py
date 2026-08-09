@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Manual E-Selda Granteed battle-message group, layered on C117 safety rules."""
-from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 from __future__ import annotations
+from tl_data import load_table  # 번역 대역표는 저장소에 포함되지 않는다
 
 import importlib.util
 import json

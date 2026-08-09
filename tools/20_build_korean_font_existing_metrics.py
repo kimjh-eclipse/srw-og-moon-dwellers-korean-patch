@@ -15,6 +15,7 @@ import json
 from pathlib import Path
 
 from PIL import ImageFont
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 
 COMPACT_ALIASES = {
@@ -65,7 +66,7 @@ def main() -> None:
         help="Optional JSONL rows whose ko field contributes additional glyphs",
     )
     parser.add_argument("--out-dir", default="work_ogmd/korean_build_v3")
-    parser.add_argument("--face", default="C:/Windows/Fonts/malgunbd.ttf")
+    parser.add_argument("--face", default=config.KOREAN_FONT_BOLD)
     parser.add_argument("--size", type=int, default=28)
     args = parser.parse_args()
 

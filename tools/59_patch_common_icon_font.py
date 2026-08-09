@@ -11,6 +11,7 @@ from psarc_fixed_blocks import rebuild_fixed_blocks
 from psarc_write import rebuild
 from sdat import SDATReader, decrypt_stream
 from sdat_encode import encode
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 ENTRY = 4
 TEX = 0x1E80
@@ -105,7 +106,7 @@ def main():
     for icon_id in (117,118):
         x,y,w,h=descriptor(font,icon_id); patch_rect(font,x,y,Image.new("L",(w,h),0)); changes.append({"id":icon_id,"action":"blank","rect":[x,y,w,h]})
     if not a.blank_options_only:
-        face=ImageFont.truetype("C:/Windows/Fonts/malgunbd.ttf",20)
+        face=ImageFont.truetype(config.KOREAN_FONT_BOLD,20)
         for icon_id,ch in zip((223,224,225,226),("공","지","해","우")):
             x,y,w,h=descriptor(font,icon_id); patch_rect(font,x,y,render_label(ch,w,h,face)); changes.append({"id":icon_id,"action":ch,"rect":[x,y,w,h]})
     if a.rebuild_mode == "fixed":

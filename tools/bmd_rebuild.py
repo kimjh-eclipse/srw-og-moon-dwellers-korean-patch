@@ -9,6 +9,7 @@ all proven relative references so translated dialogue may grow safely.
 """
 import re
 import struct
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 _UTF8=re.compile(rb'(?:[\x20-\x7e]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf4][\x80-\xbf]{3})+')
 
@@ -104,7 +105,7 @@ if __name__=='__main__':
     sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
     from sdat import SDATReader
     from psarc import PSARC
-    BAT=r'C:/Emul/PS3/rpcs3-v0.0.27-14986-db7f84f9_win64/dev_hdd0/game/BLJS10335/USRDIR/PSARC/Battle.psarc.sdat'
+    BAT=rconfig.game_file('Battle.psarc.sdat')
     p=PSARC(SDATReader(open(BAT,'rb'),0)); names=p.manifest(); idx={n:i+1 for i,n in enumerate(names)}
     d=p.read_entry(idx['/Dat/Battle/Message/@Ja/0002_ja.bmd'])
     bf=BmdFile(d)

@@ -10,6 +10,7 @@
 """
 import struct
 from Crypto.Cipher import AES
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 SDAT_KEY   = bytes.fromhex("0D655EF8E674A98AB8505CFA7D012933")
 EDAT_KEY_1 = bytes.fromhex("4CA9C14B01C95309969BEC68AA0BC081")
@@ -100,7 +101,7 @@ class SDATReader:
 
 if __name__ == '__main__':
     import sys
-    ISO=r"C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso"
+    ISO=rconfig.require('ISO')
     LBA={"LOGIC_PSARC.SDAT":982276,"COMMON_PSARC.SDAT":735289,"GENERAL2D_PSARC.SDAT":436663}
     name=sys.argv[1] if len(sys.argv)>1 else "LOGIC_PSARC.SDAT"
     out =sys.argv[2] if len(sys.argv)>2 else name.replace('.SDAT','.psarc')

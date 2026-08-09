@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 """COMMON PSARC의 폰트 파일 식별/헤더 덤프."""
 import sys, io, os, struct
+import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 sys.stdout=io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 from sdat import SDATReader
 from psarc import PSARC
 
-ISO=r'C:/Emul/Switch/패치유틸.xdeltaUI/Super Robot Taisen OG - The Moon Dwellers (Japan).iso'
+ISO=rconfig.require('ISO')
 SECTOR=2048
 
 def all_files():
