@@ -95,7 +95,7 @@ pip install pycryptodome pillow
 ```python
 # 이전
 BATTLE_REVIEW_OVERRIDES = {
-    "「あの敵は…」": "「저 적은…」",
+    "<원문 대사>": "<번역 대사>",
     ...
 }
 

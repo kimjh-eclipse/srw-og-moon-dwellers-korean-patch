@@ -75,7 +75,7 @@ def main() -> None:
         raise AssertionError("SDAT -> PSARC -> font readback mismatch")
 
     print(f"가 proxy: U+{proxy_cp:04X}, slot {ga['slot']}")
-    print(f"プ metric: {old_metric.hex()} -> {proxy_metric.hex()}")
+    print(f"donor metric: {old_metric.hex()} -> {proxy_metric.hex()}")
     print(f"font sha256: {hashlib.sha256(font).hexdigest()}")
     print(f"SDAT size: {sdat_path.stat().st_size}")
     print(f"SDAT sha256: {hashlib.sha256(sdat_path.read_bytes()).hexdigest()}")
