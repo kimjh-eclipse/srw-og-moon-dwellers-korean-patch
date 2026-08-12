@@ -1,7 +1,10 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
+  버전 v20260813
+
   - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
+  - 교체 후 이 게임의 SPU 캐시를 삭제합니다. (남아 있으면 화면이 하얗게 보일 수 있습니다)
   - 실패해도 원본이나 게임 폴더를 절대 삭제하지 않습니다.
 
   사용법:
@@ -16,12 +19,13 @@ param(
     [string]$PatchDir,
     # 백업은 게임 데이터 폴더 밖(기본값: 이 스크립트 위치)에 만듭니다.
     [string]$BackupRoot,
-    [switch]$SkipBackup
+    [switch]$SkipBackup,
+    # SPU 캐시를 지우지 않습니다. 권장하지 않습니다.
+    [switch]$KeepSpuCache
 )
 
 $ErrorActionPreference = 'Stop'
 
-# 스크립트 위치 (점 소싱 등으로 $PSScriptRoot 가 비어도 동작하도록 보정)
 $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path }
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = (Get-Location).Path }
@@ -33,28 +37,28 @@ if ([string]::IsNullOrEmpty($BackupRoot)) { $BackupRoot = $ScriptRoot }
 # name = 원본 SHA256 / 패치 후 SHA256 / 크기 / 원래 수정시각(UTC)
 $SPEC = [ordered]@{
     'Common' = @{
-        Size    = 505828992
-        Source  = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
-        Target  = '4DEA959A59D1114BED0A5546B1146B78BB4DFEE5F57D8EDAC32061F33C2DAB68'
-        Mtime   = '2016-05-04T04:37:57Z'
+        Size   = 505828992
+        Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
+        Target = 'A331AE43760FD276B1547A84CE9C1D56E71F24CC20FD0BF021641916A9468619'
+        Mtime  = '2016-05-04T04:37:57Z'
     }
     'General2d' = @{
-        Size    = 611585392
-        Source  = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target  = '1E10F52E2FFEC46E8BBE81AA4177E6D6E198794606A5669B6892934A21B206AC'
-        Mtime   = '2016-04-30T02:15:24Z'
+        Size   = 611585392
+        Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
+        Target = '6EC64D6D9407BC06E7A95E179087741BAC0C3DC7868818C70E3A3F66B848E835'
+        Mtime  = '2016-04-30T02:15:24Z'
     }
     'Logic' = @{
-        Size    = 38399120
-        Source  = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target  = '199AA123E527A3AD1FBDA77E85A94E334893F2298D5907E52E1E43B0F160D9BE'
-        Mtime   = '2016-05-04T10:52:39Z'
+        Size   = 38399120
+        Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
+        Target = '689240DB752B50E619AE1D14010A275019A4A7303E427F9A4DCB83FAADDD54B6'
+        Mtime  = '2016-05-04T10:52:39Z'
     }
     'Battle' = @{
-        Size    = 1729186848
-        Source  = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'
-        Target  = '1656789FB69AA8C5570CFC62C1CF098ECE1E63F054785F3F631DD6DCE56CEE24'
-        Mtime   = '2016-05-04T04:50:11Z'
+        Size   = 1729186848
+        Source = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'
+        Target = '12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF'
+        Mtime  = '2016-05-04T04:50:11Z'
     }
 }
 
@@ -104,10 +108,10 @@ foreach ($n in $SPEC.Keys) {
     }
     $h = (Get-FileHash -LiteralPath $f -Algorithm SHA256).Hash
     if ($h -eq $SPEC[$n].Target) {
-        Fail "$n 은 이미 한국어 패치가 적용된 파일입니다. 먼저 원본으로 복원한 뒤 실행하세요."
+        Fail "$n 은 이미 이 버전의 한국어 패치가 적용된 파일입니다. 먼저 원본으로 복원한 뒤 실행하세요."
     }
     if ($h -ne $SPEC[$n].Source) {
-        Fail "$n 원본 해시가 다릅니다.`n  기대: $($SPEC[$n].Source)`n  실제: $h`n  일본판 BLJS10335 원본이 맞는지 확인하세요."
+        Fail "$n 원본 해시가 다릅니다.`n  기대: $($SPEC[$n].Source)`n  실제: $h`n  일본판 BLJS10335 원본이 맞는지, 다른 버전 패치가 적용돼 있지 않은지 확인하세요."
     }
     Write-Host ("    {0,-10} OK  {1}" -f $n, $h)
 }
@@ -128,7 +132,7 @@ if ($SkipBackup) {
     Write-Ok '백업 완료'
 }
 
-# ---------------------------------------------------------------- 5~7. 패치 적용
+# ---------------------------------------------------------------- 5~8. 패치 적용
 $tempDir = Join-Path $full "_patch_tmp_$stamp"
 New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
 
@@ -155,7 +159,7 @@ try {
         # 검증된 결과만 교체
         Move-Item -LiteralPath $tmp -Destination $src -Force
 
-        # 8. 수정시각 복원
+        # 수정시각 복원 — 달라지면 부팅/로딩 문제가 생길 수 있습니다.
         $mt = [datetime]::Parse($SPEC[$n].Mtime, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AdjustToUniversal -bor [Globalization.DateTimeStyles]::AssumeUniversal)
         (Get-Item -LiteralPath $src).LastWriteTimeUtc = $mt
         Write-Ok "$n 교체 및 수정시각 복원"
@@ -167,7 +171,39 @@ finally {
     }
 }
 
-# ---------------------------------------------------------------- 9. 최종 출력
+# ---------------------------------------------------------------- 9. SPU 캐시 삭제
+# 게임 데이터를 교체한 뒤 예전 SPU 캐시가 남아 있으면 화면이 하얗게 보일 수 있습니다.
+# PPU 캐시와 셰이더 캐시는 건드리지 않습니다.
+if ($KeepSpuCache) {
+    Write-Host '[!] -KeepSpuCache 지정됨. SPU 캐시를 남깁니다.' -ForegroundColor Yellow
+    Write-Host '    화면이 하얗게 보이면 RPCS3 게임 목록에서 해당 게임 우클릭 →' -ForegroundColor Yellow
+    Write-Host '    Remove → Remove SPU Cache 를 실행하세요.' -ForegroundColor Yellow
+} else {
+    Write-Step 'SPU 캐시 삭제'
+    # <RPCS3>\dev_hdd0\game\BLJS10335\USRDIR\PSARC 에서 RPCS3 루트로 거슬러 올라갑니다.
+    $rpcs3Root = $full
+    for ($i = 0; $i -lt 5; $i++) { $rpcs3Root = Split-Path -Parent $rpcs3Root }
+    $cacheDir = Join-Path $rpcs3Root 'cache\BLJS10335'
+    if (Test-Path -LiteralPath $cacheDir -PathType Container) {
+        $spu = @(Get-ChildItem -LiteralPath $cacheDir -Recurse -File -Filter 'spu-*.dat' -ErrorAction SilentlyContinue)
+        if ($spu.Count -eq 0) {
+            Write-Host '    삭제할 SPU 캐시가 없습니다.'
+        } else {
+            foreach ($f in $spu) {
+                Remove-Item -LiteralPath $f.FullName -Force
+                Write-Host ("    삭제 {0} ({1:N0} bytes)" -f $f.Name, $f.Length)
+            }
+        }
+        Write-Ok 'SPU 캐시 정리 완료'
+        Write-Host '    플레이를 계속하면 캐시가 다시 쌓여 화면이 하얗게 보일 수 있습니다.' -ForegroundColor Yellow
+        Write-Host '    그때는 RPCS3 게임 목록에서 우클릭 -> Remove -> Remove SPU Cache 하세요.' -ForegroundColor Yellow
+    } else {
+        Write-Host "    캐시 폴더가 없습니다: $cacheDir"
+        Write-Host '    (아직 이 게임을 실행한 적이 없으면 정상입니다)'
+    }
+}
+
+# ---------------------------------------------------------------- 10. 최종 출력
 Write-Host ''
 Write-Host '=== 설치 완료 ===' -ForegroundColor Green
 foreach ($n in $SPEC.Keys) {
