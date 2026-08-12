@@ -26,12 +26,25 @@
 
 ## 설치
 
+> ### ⚠️ 어디에 패치할 것인가 — 가장 중요합니다
+>
+> 관련 폴더가 두 곳입니다. 헷갈리기 쉬우니 먼저 확인하세요.
+>
+> ```
+> 롬 (여기에 패치)     ...\BLJS10335\PS3_GAME\USRDIR\PSARC
+> 게임 데이터 (아님)   <RPCS3 폴더>\dev_hdd0\game\BLJS10335\USRDIR\PSARC
+> ```
+>
+> 게임 데이터는 게임이 첫 실행 때 롬에서 복사해 만드는 **사본**입니다.
+> 사본만 바꾸면 게임이 무결성 검사에서 걸려
+> **`게임 데이터가 손상되었습니다`** 가 뜨고 진행되지 않습니다.
+
 ### 1. 준비
 
 - RPCS3를 **완전히 종료**합니다. 실행 중이면 설치가 거부됩니다.
-- 게임 데이터 폴더를 확인합니다.
+- 롬의 PSARC 폴더를 확인합니다.
   ```
-  <RPCS3 폴더>\dev_hdd0\game\BLJS10335\USRDIR\PSARC
+  <롬 폴더>\BLJS10335\PS3_GAME\USRDIR\PSARC
   ```
 - 그 안에 다음 네 파일이 있어야 합니다.
 
@@ -51,7 +64,7 @@
 압축을 푼 폴더에서 PowerShell을 열고 실행합니다. 경로는 본인 환경에 맞게 바꾸세요.
 
 ```powershell
-.\install.ps1 -TargetDir "C:\RPCS3\dev_hdd0\game\BLJS10335\USRDIR\PSARC"
+.\install.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 실행이 막히면 아래를 먼저 실행합니다.
@@ -71,18 +84,35 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 7. 검증을 통과한 결과만 실제 파일로 교체
 8. 원래 수정시각 복원
 
-### 4. 확인
+### 4. 게임 데이터 폴더 삭제
+
+롬을 패치했으니, 예전에 만들어진 게임 데이터가 남아 있으면 그것이 먼저 쓰입니다.
+아래 폴더를 삭제하거나 다른 곳으로 옮긴 뒤 게임을 실행하세요.
+
+```
+<RPCS3 폴더>\dev_hdd0\game\BLJS10335
+```
+
+게임이 데이터를 다시 설치하고, 그 뒤 한국어로 표시됩니다.
+세이브 데이터는 `dev_hdd0\home\00000001\savedata` 에 따로 있으므로 안전합니다.
+
+### 5. 확인
 
 ```powershell
-.\verify.ps1 -TargetDir "C:\RPCS3\dev_hdd0\game\BLJS10335\USRDIR\PSARC"
+.\verify.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 네 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
 
+### 권장 설정
+
+게임 우클릭 → **Change Custom Configuration** → **Advanced** 탭 →
+Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표시가 생략됩니다.
+
 ### 되돌리기
 
 ```powershell
-.\restore_backup.ps1 -TargetDir "C:\RPCS3\dev_hdd0\game\BLJS10335\USRDIR\PSARC"
+.\restore_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 백업이 진짜 원본인지 해시로 확인한 뒤에만 복구합니다.
@@ -205,6 +235,20 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 - [알려진 문제 (전문)](README_알려진문제.txt)
 - [변경 내역](CHANGELOG.txt)
 - [파일 해시 목록](SHA256SUMS.txt)
+
+## 감사
+
+**박호울**님께 감사드립니다. 이 문서의 설치 안내는 박호울님이 정리해 주신 내용을 따랐습니다.
+게임 데이터가 아니라 롬 쪽에 패치해야 한다는 점, 수동 설치 절차, SPU 캐시 삭제,
+`libvdec.sprx` 설정까지 직접 확인해 알려 주셨습니다.
+화면이 하얗게 보이는 문제의 원인도 이 안내를 통해 알게 되었습니다.
+
+> https://naver.me/Gy3MRaii
+
+**하유하우**님께 감사드립니다. 게임 데이터 손상 메시지로 설치가 막혔을 때 여러 경로를
+직접 시험해 보시고, 원본 데이터를 먼저 패치한 뒤 설치하는 방법을 알려 주셨습니다.
+
+함께 증상을 확인하고 알려 주신 분들께도 감사드립니다.
 
 ## 라이선스
 

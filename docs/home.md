@@ -37,7 +37,7 @@ PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비�
 RPCS3를 **완전히 종료**한 뒤, 압축을 푼 폴더에서 실행합니다.
 
 ```powershell
-.\install.ps1 -TargetDir "C:\RPCS3\dev_hdd0\game\BLJS10335\USRDIR\PSARC"
+.\install.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 검증에 실패하면 게임 파일을 건드리지 않고 중단합니다.

@@ -21,7 +21,9 @@ param(
     [string]$BackupRoot,
     [switch]$SkipBackup,
     # SPU 캐시를 지우지 않습니다. 권장하지 않습니다.
-    [switch]$KeepSpuCache
+    [switch]$KeepSpuCache,
+    # 롬이 RPCS3 폴더 밖에 있을 때 RPCS3 위치를 직접 알려줍니다.
+    [string]$Rpcs3Dir
 )
 
 $ErrorActionPreference = 'Stop'
@@ -86,8 +88,18 @@ if (-not (Test-Path -LiteralPath $TargetDir -PathType Container)) {
     Fail "대상 폴더가 없습니다: $TargetDir"
 }
 $full = (Resolve-Path -LiteralPath $TargetDir).Path
-if ($full -notmatch 'BLJS10335[\\/]USRDIR[\\/]PSARC[\\/]?$') {
-    Fail "대상 경로가 BLJS10335\USRDIR\PSARC 로 끝나지 않습니다: $full"
+
+# 대상은 두 종류가 있습니다.
+#   롬(권장)      ...\PS3_GAME\USRDIR\PSARC
+#   게임 데이터    ...\dev_hdd0\game\BLJS10335\USRDIR\PSARC
+# 게임 데이터는 게임이 첫 실행 때 롬에서 복사해 만드는 사본입니다. 이쪽만 바꾸면
+# 게임이 무결성 검사에서 걸려 "게임 데이터가 손상되었습니다" 가 뜰 수 있습니다.
+$isRom      = $full -match 'PS3_GAME[\\/]USRDIR[\\/]PSARC[\\/]?$'
+$isGameData = $full -match 'BLJS10335[\\/]USRDIR[\\/]PSARC[\\/]?$'
+if (-not ($isRom -or $isGameData)) {
+    Fail ("대상 경로가 올바르지 않습니다: $full`n" +
+          "  롬(권장)   : ...\BLJS10335\PS3_GAME\USRDIR\PSARC`n" +
+          "  게임 데이터: ...\dev_hdd0\game\BLJS10335\USRDIR\PSARC")
 }
 if (-not (Test-Path -LiteralPath $XdeltaPath -PathType Leaf)) { Fail "xdelta.exe 를 찾을 수 없습니다: $XdeltaPath" }
 if (-not (Test-Path -LiteralPath $PatchDir  -PathType Container)) { Fail "패치 폴더를 찾을 수 없습니다: $PatchDir" }
@@ -96,6 +108,14 @@ foreach ($n in $SPEC.Keys) {
     if (-not (Test-Path -LiteralPath $pf -PathType Leaf)) { Fail "패치 파일이 없습니다: $pf" }
 }
 Write-Ok "대상: $full"
+if ($isRom) {
+    Write-Host '    (롬 쪽입니다 — 권장 대상)' -ForegroundColor Green
+} else {
+    Write-Host '    (게임 데이터 쪽입니다)' -ForegroundColor Yellow
+    Write-Host '    이 폴더는 게임이 롬에서 복사해 만든 사본입니다.' -ForegroundColor Yellow
+    Write-Host '    여기만 바꾸면 게임이 "게임 데이터가 손상되었습니다" 로 막을 수 있습니다.' -ForegroundColor Yellow
+    Write-Host '    롬 쪽(...\PS3_GAME\USRDIR\PSARC)에 적용하는 편이 안전합니다.' -ForegroundColor Yellow
+}
 
 # ---------------------------------------------------------------- 3. 원본 검증
 Write-Step '원본 4개 파일 크기 / SHA-256 검증'
@@ -180,11 +200,24 @@ if ($KeepSpuCache) {
     Write-Host '    Remove → Remove SPU Cache 를 실행하세요.' -ForegroundColor Yellow
 } else {
     Write-Step 'SPU 캐시 삭제'
-    # <RPCS3>\dev_hdd0\game\BLJS10335\USRDIR\PSARC 에서 RPCS3 루트로 거슬러 올라갑니다.
-    $rpcs3Root = $full
-    for ($i = 0; $i -lt 5; $i++) { $rpcs3Root = Split-Path -Parent $rpcs3Root }
-    $cacheDir = Join-Path $rpcs3Root 'cache\BLJS10335'
-    if (Test-Path -LiteralPath $cacheDir -PathType Container) {
+    # 롬 위치는 RPCS3 폴더 밖일 수 있으므로, 위로 거슬러 올라가며 cache\BLJS10335 를 찾습니다.
+    $cacheDir = $null
+    if (-not [string]::IsNullOrEmpty($Rpcs3Dir)) {
+        $cacheDir = Join-Path $Rpcs3Dir 'cache\BLJS10335'
+    } else {
+        $probe = $full
+        for ($i = 0; $i -lt 8 -and $probe; $i++) {
+            $candidate = Join-Path $probe 'cache\BLJS10335'
+            if (Test-Path -LiteralPath $candidate -PathType Container) { $cacheDir = $candidate; break }
+            $probe = Split-Path -Parent $probe
+        }
+    }
+    if ($null -eq $cacheDir) {
+        Write-Host '    RPCS3 폴더를 찾지 못했습니다. SPU 캐시는 직접 지워 주세요.' -ForegroundColor Yellow
+        Write-Host '    게임 목록에서 해당 게임 우클릭 -> Remove -> Remove SPU Cache' -ForegroundColor Yellow
+        Write-Host '    (-Rpcs3Dir "<RPCS3 폴더>" 로 위치를 알려줄 수도 있습니다)' -ForegroundColor Yellow
+    }
+    elseif (Test-Path -LiteralPath $cacheDir -PathType Container) {
         $spu = @(Get-ChildItem -LiteralPath $cacheDir -Recurse -File -Filter 'spu-*.dat' -ErrorAction SilentlyContinue)
         if ($spu.Count -eq 0) {
             Write-Host '    삭제할 SPU 캐시가 없습니다.'
@@ -215,4 +248,16 @@ Write-Host ''
 if (-not $SkipBackup) {
     Write-Host "원본 백업 위치: $backupDir" -ForegroundColor Yellow
     Write-Host '문제가 생기면 이 폴더의 파일을 다시 덮어쓰면 원상복구됩니다.' -ForegroundColor Yellow
+}
+
+if ($isRom) {
+    Write-Host ''
+    Write-Host '=== 남은 한 단계 ===' -ForegroundColor Cyan
+    Write-Host '롬을 패치했습니다. 예전에 만들어진 게임 데이터가 남아 있으면 그것이 먼저 쓰입니다.'
+    Write-Host '아래 폴더가 있으면 통째로 삭제하거나 다른 곳으로 옮긴 뒤 게임을 실행하세요.'
+    Write-Host ''
+    Write-Host '    <RPCS3 폴더>\dev_hdd0\game\BLJS10335' -ForegroundColor Yellow
+    Write-Host ''
+    Write-Host '게임이 데이터를 다시 설치하고, 그 뒤 한국어로 표시됩니다.'
+    Write-Host '세이브 데이터는 이 폴더가 아니라 dev_hdd0\home\00000001\savedata 에 있으므로 안전합니다.'
 }
