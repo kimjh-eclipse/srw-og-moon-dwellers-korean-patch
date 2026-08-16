@@ -6,7 +6,8 @@
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
 > **📦 패치 다운로드: [Releases](../../releases/latest)**
-> — xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉. 원본 게임 데이터는 포함되지 않습니다.
+> — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
+> 원본 게임 데이터는 포함되지 않습니다.
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
 > (설치 안내 · 알려진 문제 · SDAT 암호 구조 · PSARC 레이아웃 · 고정 배치 재빌드 · 빌드 파이프라인)
@@ -14,17 +15,53 @@
 
 | | |
 |---|---|
-| 버전 | `v20260813` |
+| 버전 | `v20260816` |
 | 대상 | 일본판 `BLJS10335` |
-| 배포 형식 | xdelta 패치 4개 (합계 약 7.23 MiB) |
+| 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
+| 배포 형식 | xdelta 패치 4개 (합계 약 20.72 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
+
+이번 버전부터 설치 방식이 두 가지입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
+환경에 맞는 **한 가지만** 쓰시고, 같은 원본에 두 방식을 겹쳐 적용하지 마세요.
+
+| 방식 | 대상 | 설명 |
+|---|---|---|
+| **A. ISO 빠른 패처** | 복호화된 ISO | `OGMD_ISO_QuickPatch.exe` 로 ISO의 바뀐 구간만 덮어씁니다. 11.8GB를 다시 만들지 않습니다 |
+| **B. xdelta** | 폴더형 게임 / 추출 PSARC | 이 저장소의 스크립트로 PSARC 4개를 패치합니다 |
+
+빠른 패처 실행 파일은 크기가 커서 저장소에 두지 않고 [Releases](../../releases/latest) 의
+ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tools/iso_quickpatch/) 에 있습니다.
+
+이전 버전을 설치하셨다면 원본으로 되돌린 뒤 이 버전을 적용해 주세요.
+이전 버전의 해시와 패치 파일은 더 이상 쓰지 않습니다.
 
 > **원본 게임 데이터는 직접 준비해야 합니다.**
 > 이 저장소에는 게임 파일이나 ISO가 들어 있지 않으며, 제공하지도 않습니다.
 
 ---
 
-## 설치
+## 설치 — 방법 A (ISO 빠른 패처)
+
+복호화된 ISO를 그대로 쓰시는 분에게 권장합니다.
+
+1. RPCS3를 완전히 종료합니다.
+2. 릴리스 ZIP의 `OGMD_ISO_QuickPatch.exe` 를 실행합니다.
+3. 복호화된 일본판 `BLJS10335` ISO와 백업 파일 경로를 지정합니다.
+4. 필요하면 RPCS3 경로도 지정합니다.
+5. **[원본 검사]** 로 ISO와 RPCS3 경로를 확인합니다.
+6. 주의사항 확인란을 체크하고 **[ISO에 한국어 패치 적용]** 을 누릅니다.
+
+처음 패치할 때 복구용 `.ogmd-backup` 파일을 만듭니다. 원상복구와 다음 버전 갱신에
+필요하니 보관하세요. 이미 정상 백업이 있으면 그것으로 원본 검사와 버전 갱신을 빠르게 처리합니다.
+
+서명되지 않은 실행 파일이라 SmartScreen이나 백신이 경고를 띄울 수 있습니다.
+릴리스 노트의 해시로 대조하실 수 있습니다.
+
+패치 뒤에는 아래 [게임 데이터 폴더 삭제](#4-게임-데이터-폴더-삭제)를 이어서 해 주세요.
+
+---
+
+## 설치 — 방법 B (xdelta)
 
 > ### ⚠️ 어디에 패치할 것인가 — 가장 중요합니다
 >
@@ -64,16 +101,10 @@
 압축을 푼 폴더에서 PowerShell을 열고 실행합니다. 경로는 본인 환경에 맞게 바꾸세요.
 
 ```powershell
-.\install.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
-실행이 막히면 아래를 먼저 실행합니다.
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-```
-
-`install.ps1`은 다음 순서로 동작하며, **검증에 실패하면 게임 파일을 건드리지 않고 중단**합니다.
+`install_xdelta.ps1`은 다음 순서로 동작하며, **검증에 실패하면 게임 파일을 건드리지 않고 중단**합니다.
 
 1. RPCS3 실행 여부 확인
 2. 대상 경로 확인
@@ -99,7 +130,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ### 5. 확인
 
 ```powershell
-.\verify.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 네 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
@@ -112,8 +143,10 @@ Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표�
 ### 되돌리기
 
 ```powershell
-.\restore_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
+
+복구할 백업 폴더를 직접 지정하려면 `-BackupDir "...\backup_original_YYYYMMDD_HHMMSS"` 를 덧붙입니다.
 
 백업이 진짜 원본인지 해시로 확인한 뒤에만 복구합니다.
 **게임 폴더를 통째로 지우지 마세요.** 백업 복구만으로 충분합니다.
@@ -122,7 +155,7 @@ Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표�
 
 ## 알려진 제한
 
-완전 무결한 100% 한글화가 아닙니다. 자세한 내용은 [README_알려진문제.txt](README_알려진문제.txt)를 읽어 주세요.
+완전 무결한 100% 한글화가 아닙니다. 자세한 내용은 [알려진 문제](docs/known-issues.md)를 읽어 주세요.
 
 ### 1. 화면이 하얗게 보일 때 — SPU 캐시를 지우세요
 
@@ -136,9 +169,11 @@ Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표�
 **한 번 지웠다고 끝나지 않습니다.** 플레이를 계속하면 캐시가 다시 쌓이면서 재발합니다.
 증상이 보이면 그때마다 같은 방법으로 지우면 됩니다.
 
-`install.ps1`은 설치 시점의 SPU 캐시를 자동으로 지웁니다.
-수동으로 패치하셨다면 직접 지워 주세요.
-PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
+**설치 스크립트도 빠른 패처도 캐시를 지우지 않습니다.** 위 `Remove SPU Cache` 만 쓰시면 됩니다.
+`cache\BLJS10335` 폴더 전체나 PPU 캐시, 셰이더 캐시는 지우지 마세요.
+
+> v20260813까지의 `install.ps1` 은 설치할 때 SPU 캐시를 자동으로 지웠습니다.
+> 사용자 환경을 임의로 건드리는 동작이라 v20260814부터 뺐습니다.
 
 **패치를 적용하지 않은 원본 상태에서도 동일하게 발생**하며, RPCS3 버전을 바꿔도 같습니다.
 이 패치 때문에 생기는 문제가 아닙니다.
@@ -179,6 +214,16 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 시나리오 데이터 불러오기 / 불러오기 화면 종료 확인창은 원래 자리보다 한글이 1바이트 길어
 이번 버전에서 변환하지 않았습니다. 한자처럼 보일 수 있습니다.
 
+### 7. `컴패티 카이저` 표기
+
+정식 표기는 `컴패터블 카이저` 입니다. 기체 사전과 대사 일부, 전투 대사 한 곳까지
+모두 14곳에 줄임 표기가 남아 있습니다. 대체 코드 인코딩에서 글자마다 자리가 정해져 있어
+세 바이트를 더 확보해야 하며, 다음 버전에서 정리합니다.
+
+### 8. 표시 공간이 좁은 항목
+
+인터미션 메인 메뉴의 `부대`, 그리고 `원호공격L2` 의 공백이 좁게 나옵니다.
+
 ---
 
 위 항목은 모두 게임 진행에는 영향이 없습니다.
@@ -196,12 +241,16 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `A331AE43760FD276B1547A84CE9C1D56E71F24CC20FD0BF021641916A9468619` |
-| `General2d.psarc.sdat` | `6EC64D6D9407BC06E7A95E179087741BAC0C3DC7868818C70E3A3F66B848E835` |
-| `Logic.psarc.sdat` | `689240DB752B50E619AE1D14010A275019A4A7303E427F9A4DCB83FAADDD54B6` |
-| `Battle.psarc.sdat` | `12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF` |
+| `Common.psarc.sdat` | `4F21D176D0BF8A4B28B6476ECC87DD2BA005622691D6700635DE7FC7F077873D` |
+| `General2d.psarc.sdat` | `1FB69D19FF325E81D513C1F267A9A61A3A785D865A6235CF07A64965F4623003` |
+| `Logic.psarc.sdat` | `E3499F062C63BDA904E5164768B9FC775F6AD31F1ED5D948DB5D3355C46FE519` |
+| `Battle.psarc.sdat` | `6B2D03568EF0C86ABB07F945392C71E9D899DE62C0E1AB26979F1158B9F49FDB` |
 
+두 설치 방식 모두 이 결과를 만듭니다.
 네 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(왕복 검증 4/4 통과).
+
+[SHA256SUMS.txt](SHA256SUMS.txt) 는 릴리스 ZIP 기준이라 `OGMD_ISO_QuickPatch.exe` 항목도
+들어 있습니다. 그 실행 파일은 저장소가 아니라 [Releases](../../releases/latest) 에 있습니다.
 
 ## 오류 제보
 
@@ -209,8 +258,11 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 
 1. 화면 캡처
 2. 그 화면까지 들어간 경로 (어떤 메뉴를 거쳤는지)
-3. 사용한 패치 버전
-4. `verify.ps1` 실행 결과
+3. 사용한 설치 방식 (ISO 빠른 패처 / xdelta)
+4. 사용한 패치 버전
+5. xdelta 방식이면 `verify_xdelta.ps1` 실행 결과
+
+화면이 하얗게 보이는 경우는 `Remove SPU Cache` 를 먼저 해 보신 뒤에 알려 주시면 감사하겠습니다.
 
 ## 문서
 
@@ -231,10 +283,15 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 
 ### 배포물 문서
 
-- [설치 안내 (전문)](README_설치.txt)
-- [알려진 문제 (전문)](README_알려진문제.txt)
+- [사용법 (전문)](README_사용법.txt)
+- [알려진 문제](docs/known-issues.md)
 - [변경 내역](CHANGELOG.txt)
 - [파일 해시 목록](SHA256SUMS.txt)
+
+### 도구
+
+- [파이프라인 도구](tools/README.md) — 추출·번역 배치·폰트·고정 배치 빌더
+- [ISO 빠른 패처 소스](tools/iso_quickpatch/README.md) — 패처 본체와 빌드 방법
 
 ## 감사
 
@@ -247,6 +304,10 @@ PPU 캐시와 셰이더 캐시는 건드릴 필요 없습니다.
 
 **하유하우**님께 감사드립니다. 게임 데이터 손상 메시지로 설치가 막혔을 때 여러 경로를
 직접 시험해 보시고, 원본 데이터를 먼저 패치한 뒤 설치하는 방법을 알려 주셨습니다.
+
+**냐옹**님께 감사드립니다. v20260814에서 일본어가 남아 있는 대사를 화면 캡처와 함께
+제보해 주셨습니다. 같은 용어가 세 곳(`ls001`, `ls073`, `ls079`)에 번역되지 않고 남아 있던 것을
+확인해 이번 버전에서 고쳤습니다. 같은 캡처에서 `컴패티 카이저` 표기도 발견했습니다.
 
 함께 증상을 확인하고 알려 주신 분들께도 감사드립니다.
 

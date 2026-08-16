@@ -77,9 +77,9 @@ Get-FileHash -Algorithm SHA256 <복원본>
 원본 PSARC/SDAT나 ISO는 절대 포함하지 않는다. 델타와 스크립트, 문서만 넣는다.
 
 ```
-install.ps1          안전 설치
-verify.ps1           설치 상태 확인
-restore_backup.ps1   원본 복구
+install_xdelta.ps1          안전 설치
+verify_xdelta.ps1           설치 상태 확인
+restore_xdelta_backup.ps1   원본 복구
 xdelta.exe           패치 적용 도구
 patches/             델타 4개
 README / CHANGELOG / SHA256SUMS

@@ -3,15 +3,17 @@
 PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비공식 한국어 패치 문서입니다.
 
 > **📦 다운로드: [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)**
-> — xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉. 원본 게임 데이터는 포함되지 않습니다.
+> — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
+> 원본 게임 데이터는 포함되지 않습니다.
 >
 > **💾 저장소: [srw-og-moon-dwellers-korean-patch](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch)**
 
 | | |
 |---|---|
-| 버전 | `v20260813` |
+| 버전 | `v20260816` |
 | 대상 | 일본판 `BLJS10335` |
-| 배포 형식 | xdelta 패치 4개 (합계 7,673,358 바이트, 약 7.32 MiB) |
+| 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
+| 배포 형식 | xdelta 패치 4개 (합계 21,725,953 바이트, 약 20.72 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 ## 번역 범위
@@ -34,10 +36,15 @@ PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비�
 
 ## 빠른 설치
 
-RPCS3를 **완전히 종료**한 뒤, 압축을 푼 폴더에서 실행합니다.
+설치 방식이 두 가지입니다. 두 방식의 결과는 같으니 **하나만** 고르세요.
+
+복호화된 ISO를 쓰신다면 릴리스 ZIP의 `OGMD_ISO_QuickPatch.exe` 를 실행합니다.
+
+폴더형 게임이나 추출한 PSARC를 쓰신다면, RPCS3를 **완전히 종료**한 뒤
+압축을 푼 폴더에서 실행합니다.
 
 ```powershell
-.\install.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+.\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
 검증에 실패하면 게임 파일을 건드리지 않고 중단합니다.

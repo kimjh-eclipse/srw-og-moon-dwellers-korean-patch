@@ -20,11 +20,11 @@
 
 GPL에 따라 해당 소프트웨어의 소스 코드는 위 원 저장소에서 받을 수 있습니다.
 
-이 저장소에 포함하지 않고 직접 받아 쓰고 싶다면, `install.ps1` 실행 시
+이 저장소에 포함하지 않고 직접 받아 쓰고 싶다면, `install_xdelta.ps1` 실행 시
 `-XdeltaPath` 인자로 위치를 지정할 수 있습니다.
 
 ```powershell
-.\install.ps1 -TargetDir "<...\BLJS10335\USRDIR\PSARC>" -XdeltaPath "C:\경로\xdelta3.exe"
+.\install_xdelta.ps1 -TargetDir "<...\BLJS10335\USRDIR\PSARC>" -XdeltaPath "C:\경로\xdelta3.exe"
 ```
 
 ---
