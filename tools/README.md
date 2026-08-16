@@ -74,6 +74,32 @@ pip install pycryptodome pillow
 | `62_build_logic_fixed_spans.py` | Logic — 엔트리 구간 고정 + 블록 경계 재배분 |
 | `47_build_battle_c117_review4000_test.py` | Battle |
 
+## ISO 빠른 패처 (`iso_quickpatch/`)
+
+복호화된 ISO의 바뀐 구간만 직접 덮어써 패치하는 도구입니다.
+소스와 빌드 방법은 [`iso_quickpatch/README.md`](iso_quickpatch/README.md)를 참고하세요.
+
+| 파일 | 역할 |
+|---|---|
+| `OGMDIsoQuickPatch.cs` | 패처 본체 (GUI, ISO 구간 쓰기, 백업·복구) |
+| `build_range_pack.py` | 원본과 최종 PSARC를 비교해 변경 구간만 모으는 생성기 |
+
+빌드된 실행 파일과 range pack 바이너리는 저장소에 넣지 않습니다.
+실행 파일은 릴리스 자산으로 배포되고, range pack은 게임 데이터에서 뽑아낸 페이로드입니다.
+
+## 이미지 한글화 (`102`~`110`)
+
+게임 내 이미지 자산을 찾아 목록을 만들고, 추출·대조표 생성·한글화·재설치·감사까지 하는 묶음입니다.
+
+| 스크립트 | 역할 |
+|---|---|
+| `102_inventory_image_assets.py` | 이미지 자산 목록화 |
+| `103_extract_image_assets.py` | 추출 |
+| `104_make_contact_sheet.py` | 한눈에 보는 대조표 생성 |
+| `105_localize_image_assets.py` | 한글화 적용 |
+| `106_build_image_localization.py` | 빌드 |
+| `107_audit_image_localization.py` | 결과 감사 |
+
 ## 검증 (`work/`)
 
 | 스크립트 | 역할 |

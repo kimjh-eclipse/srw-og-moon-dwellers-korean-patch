@@ -1,3 +1,7 @@
+# --- ISO 빠른 패처 산출물 (실행 파일은 릴리스 자산, range pack은 게임 데이터 파생) ---
+OGMD_ISO_QuickPatch*.exe
+OGMD_ISO_ranges.bin
+
 # --- 번역 대역표 (코드와 분리됨. tl_data.py 참고) ---
 tools/data/
 
