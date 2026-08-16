@@ -162,10 +162,15 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 게임이 데이터를 다시 설치하고, 그 뒤 한국어로 표시됩니다.
 세이브 데이터는 `dev_hdd0\home\00000001\savedata` 에 따로 있으므로 안전합니다.
 
-### 권장 설정
+### 필수 설정 — `libvdec.sprx` 를 LLE로
 
 게임 우클릭 → **Change Custom Configuration** → **Advanced** 탭 →
-Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표시가 생략됩니다.
+**Firmware Libraries** 목록에서 **`libvdec.sprx`** 를 체크합니다.
+기본값은 HLE이고, 체크하면 LLE가 됩니다.
+
+초반에 뜨는 오류 표시가 생략됩니다. 그리고 **화면이 하얗게 보이는 문제를 잡으려면
+이 설정이 먼저 되어 있어야 합니다.** 이 설정 없이 SPU 캐시만 지우면 다시 하얗게 보입니다.
+자세한 내용은 [알려진 문제](known-issues.md)를 참고하세요.
 
 ## 5. 설치 확인
 

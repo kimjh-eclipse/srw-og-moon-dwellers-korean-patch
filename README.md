@@ -148,10 +148,15 @@ powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS
 
 네 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
 
-### 권장 설정
+### 필수 설정 — `libvdec.sprx` 를 LLE로
 
 게임 우클릭 → **Change Custom Configuration** → **Advanced** 탭 →
-Firmware Libraries 에서 **`libvdec.sprx`** 를 체크하면 초반 오류 표시가 생략됩니다.
+Firmware Libraries 목록에서 **`libvdec.sprx`** 를 체크합니다.
+기본값은 HLE이고, 체크하면 LLE가 됩니다.
+
+초반에 뜨는 오류 표시가 생략되고, **화면이 하얗게 보이는 문제를 잡을 때도 이 설정이
+먼저 되어 있어야 합니다.** 아래 [알려진 제한](#1-화면이-하얗게-보일-때--spu-캐시를-지우세요)을
+참고하세요.
 
 ### 되돌리기
 
@@ -175,9 +180,17 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 타이틀이나 메뉴 화면이 흰색으로 보일 수 있습니다. 커서 이동과 소리는 정상인데
 그림만 안 나오는 상태입니다. RPCS3의 **SPU 캐시가 쌓이면서** 생기는 현상입니다.
 
-> **해결 방법**
+> **1단계 — `libvdec.sprx` 를 LLE로 바꿉니다 (먼저 하셔야 합니다)**
+> 게임 우클릭 → **Change Custom Configuration** → **Advanced** 탭 →
+> **Firmware Libraries** 목록에서 **`libvdec.sprx`** 를 체크합니다.
+> 기본값은 HLE이고, 체크하면 LLE가 됩니다.
+>
+> **2단계 — SPU 캐시를 지웁니다**
 > RPCS3 게임 목록에서 해당 게임을 우클릭 → **Remove** → **Remove SPU Cache**
 > 그 뒤 다시 실행하면 정상으로 돌아옵니다.
+
+**1단계를 건너뛰면 캐시를 지워도 다시 하얗게 보입니다.** 순서대로 해 주세요.
+이 설정은 초반에 뜨는 오류 표시도 함께 없애 줍니다.
 
 **한 번 지웠다고 끝나지 않습니다.** 플레이를 계속하면 캐시가 다시 쌓이면서 재발합니다.
 증상이 보이면 그때마다 같은 방법으로 지우면 됩니다.
