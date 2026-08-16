@@ -75,8 +75,37 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)에서
-받아 압축을 풉니다.
+[OGMD_KR_v20260816.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816.zip)
+을 받아 압축을 풉니다. 최신판은
+[Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
+에서 확인하세요.
+
+```
+OGMD_KR_v20260816.zip   44,297,981 바이트
+SHA-256: 12CA755E4DB1B387216AB0DAF0E6AD3AC8ACAC304AD2760ED8DCF24D1D4D21B5
+```
+
+```powershell
+Get-FileHash .\OGMD_KR_v20260816.zip -Algorithm SHA256
+```
+
+압축을 풀면 `OGMD_KR_v20260816` 폴더가 생기고 그 안에 아래 파일이 들어 있습니다.
+방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고, 방법 B는 나머지를 씁니다.
+
+```
+OGMD_KR_v20260816\
+  OGMD_ISO_QuickPatch.exe          방법 A
+  install_xdelta.ps1               방법 B
+  verify_xdelta.ps1
+  restore_xdelta_backup.ps1
+  xdelta.exe
+  patches\                         Common / General2d / Logic / Battle
+  README_사용법.txt
+  CHANGELOG.txt
+  SHA256SUMS.txt
+```
+
+아래 명령은 모두 이 `OGMD_KR_v20260816` 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
 
