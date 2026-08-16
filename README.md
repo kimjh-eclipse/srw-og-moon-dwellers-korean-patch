@@ -5,13 +5,13 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260816 내려받기: [OGMD_KR_v20260816.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816.zip)**
+> **📦 v20260816b 내려받기: [OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816b/OGMD_KR_v20260816b.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260816.zip   44,297,981 바이트
-> SHA-256: 12CA755E4DB1B387216AB0DAF0E6AD3AC8ACAC304AD2760ED8DCF24D1D4D21B5
+> OGMD_KR_v20260816b.zip   31,818,753 바이트
+> SHA-256: 39523AF19A4133E6D779BD8744BB57DB6313B905ACA76D141158E93909590DC2
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
@@ -20,10 +20,10 @@
 
 | | |
 |---|---|
-| 버전 | `v20260816` |
+| 버전 | `v20260816b` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
-| 배포 형식 | xdelta 패치 4개 (합계 약 20.72 MiB) |
+| 배포 형식 | xdelta 패치 4개 (합계 약 14.77 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 이번 버전부터 설치 방식이 두 가지입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
@@ -39,6 +39,14 @@ ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tool
 
 이전 버전을 설치하셨다면 원본으로 되돌린 뒤 이 버전을 적용해 주세요.
 이전 버전의 해시와 패치 파일은 더 이상 쓰지 않습니다.
+
+> **v20260816을 쓰고 계시다면 이 버전으로 바꿔 주세요.**
+> v20260816의 이미지 한글화가 전투 화면의 HP·EN·기체명 표시와 레벨업 글자를
+> 망가뜨렸습니다. 여러 이미지가 화면 간에 공유되는 자원이라, 한 곳을 한글로 바꾸면
+> 관계없는 화면까지 영향을 받았습니다.
+>
+> v20260816b는 이미지 교체를 **시작 시 경고문과 첫 화면 로고 2개로만** 제한합니다.
+> 자세한 내용은 [변경 내역](docs/changelog.md)에 있습니다.
 
 > **원본 게임 데이터는 직접 준비해야 합니다.**
 > 이 저장소에는 게임 파일이나 ISO가 들어 있지 않으며, 제공하지도 않습니다.
@@ -246,10 +254,10 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `4F21D176D0BF8A4B28B6476ECC87DD2BA005622691D6700635DE7FC7F077873D` |
-| `General2d.psarc.sdat` | `1FB69D19FF325E81D513C1F267A9A61A3A785D865A6235CF07A64965F4623003` |
-| `Logic.psarc.sdat` | `E3499F062C63BDA904E5164768B9FC775F6AD31F1ED5D948DB5D3355C46FE519` |
-| `Battle.psarc.sdat` | `6B2D03568EF0C86ABB07F945392C71E9D899DE62C0E1AB26979F1158B9F49FDB` |
+| `Common.psarc.sdat` | `CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821` |
+| `General2d.psarc.sdat` | `D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63` |
+| `Logic.psarc.sdat` | `7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368` |
+| `Battle.psarc.sdat` | `12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF` |
 
 두 설치 방식 모두 이 결과를 만듭니다.
 네 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(왕복 검증 4/4 통과).

@@ -27,33 +27,42 @@ FILES = (
         "name": "Common",
         "iso_path": "PS3_GAME/USRDIR/PSARC/COMMON_PSARC.SDAT",
         "source": ROOT / "original_backups/Common.psarc.sdat.orig",
-        "target": ROOT / "korean_build_v4_images/Common_images_ko_20260815.psarc.sdat",
+        # Keep only the startup warning, title logo, and scenario title cards.
+        # Shared/animated UI image replacements remain intentionally excluded.
+        "target": ROOT / "korean_build_v4_images/Common_final_plain_labels_ko_20260816.psarc.sdat",
         "source_hash": "99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB",
-        "target_hash": "4F21D176D0BF8A4B28B6476ECC87DD2BA005622691D6700635DE7FC7F077873D",
+        "target_hash": "CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821",
     },
     {
         "name": "General2d",
         "iso_path": "PS3_GAME/USRDIR/PSARC/GENERAL2D_PSARC.SDAT",
         "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
-        "target": ROOT / "korean_build_v4_images/General2d_images_ko_20260815.psarc.sdat",
+        # General2d/tex_06.dds image localization is intentionally excluded.
+        # It is a shared UI glyph atlas and corrupted the level-up display.
+        "target": ROOT / "korean_build_v3/General2d_plain_labels_options_ko_20260816.psarc.sdat",
         "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "1FB69D19FF325E81D513C1F267A9A61A3A785D865A6235CF07A64965F4623003",
+        "target_hash": "D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63",
     },
     {
         "name": "Logic",
         "iso_path": "PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT",
         "source": ROOT / "original_backups/Logic.psarc.sdat.orig",
-        "target": ROOT / "korean_build_v4_images/Logic_images_ko_20260815.psarc.sdat",
+        # Logic image replacements are retired; use the text-only archive.
+        # Includes all localized scenario titles plus the full location-card
+        # audit that replaces visible U+3000 separators with normal spaces.
+        "target": ROOT / "korean_build_v3/Logic_raio_range_ko_20260816.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "E3499F062C63BDA904E5164768B9FC775F6AD31F1ED5D948DB5D3355C46FE519",
+        "target_hash": "7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368",
     },
     {
         "name": "Battle",
         "iso_path": "PS3_GAME/USRDIR/PSARC/BATTLE_PSARC.SDAT",
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
-        "target": ROOT / "korean_build_v4_images/Battle_images_ko_20260815.psarc.sdat",
+        # Battle/cosl.dds image localization is intentionally excluded.
+        # It is a shared HUD atlas and hid unit names plus HP/EN at runtime.
+        "target": ROOT / "korean_build_v3/Battle_compatable_kaiser_20260812.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "6B2D03568EF0C86ABB07F945392C71E9D899DE62C0E1AB26979F1158B9F49FDB",
+        "target_hash": "12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF",
     },
 )
 

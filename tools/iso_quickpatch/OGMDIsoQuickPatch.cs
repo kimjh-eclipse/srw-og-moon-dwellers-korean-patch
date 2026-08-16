@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260816-fast-backup-check-gui";
+        private const string VersionText = "v20260816-plain-labels-options-gui";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string PackMagic = "OGMDRNG1";
     private const string BackupMagic = "OGMDBAK1";

@@ -2,7 +2,7 @@
 
 PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비공식 한국어 패치 문서입니다.
 
-> **📦 v20260816 내려받기: [OGMD_KR_v20260816.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816.zip)**
+> **📦 v20260816b 내려받기: [OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816b/OGMD_KR_v20260816b.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다.
 >
@@ -13,20 +13,20 @@ PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비�
 받으신 파일이 배포본과 같은지 확인하실 수 있습니다.
 
 ```
-OGMD_KR_v20260816.zip   44,297,981 바이트
-SHA-256: 12CA755E4DB1B387216AB0DAF0E6AD3AC8ACAC304AD2760ED8DCF24D1D4D21B5
+OGMD_KR_v20260816b.zip   31,818,753 바이트
+SHA-256: 39523AF19A4133E6D779BD8744BB57DB6313B905ACA76D141158E93909590DC2
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260816.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260816b.zip -Algorithm SHA256
 ```
 
 | | |
 |---|---|
-| 버전 | `v20260816` |
+| 버전 | `v20260816b` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
-| 배포 형식 | xdelta 패치 4개 (합계 21,725,953 바이트, 약 20.72 MiB) |
+| 배포 형식 | xdelta 패치 4개 (합계 15,489,967 바이트, 약 14.77 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 ## 번역 범위

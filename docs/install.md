@@ -13,6 +13,7 @@ PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 **일본판** — 게임 ID
 
 v20260816부터 방식이 둘입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
 
+
 | 방식 | 대상 | 사용 파일 |
 |---|---|---|
 | **A. ISO 빠른 패처** | 복호화된 ISO | `OGMD_ISO_QuickPatch.exe` |
@@ -75,37 +76,37 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260816.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816.zip)
+[OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816b/OGMD_KR_v20260816b.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260816.zip   44,297,981 바이트
-SHA-256: 12CA755E4DB1B387216AB0DAF0E6AD3AC8ACAC304AD2760ED8DCF24D1D4D21B5
+OGMD_KR_v20260816b.zip   31,818,753 바이트
+SHA-256: 39523AF19A4133E6D779BD8744BB57DB6313B905ACA76D141158E93909590DC2
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260816.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260816b.zip -Algorithm SHA256
 ```
 
-압축을 풀면 `OGMD_KR_v20260816` 폴더가 생기고 그 안에 아래 파일이 들어 있습니다.
-방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고, 방법 B는 나머지를 씁니다.
+압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
+방법 B는 나머지를 씁니다.
 
 ```
-OGMD_KR_v20260816\
-  OGMD_ISO_QuickPatch.exe          방법 A
-  install_xdelta.ps1               방법 B
-  verify_xdelta.ps1
-  restore_xdelta_backup.ps1
-  xdelta.exe
-  patches\                         Common / General2d / Logic / Battle
-  README_사용법.txt
-  CHANGELOG.txt
-  SHA256SUMS.txt
+OGMD_ISO_QuickPatch.exe          방법 A
+install_xdelta.ps1               방법 B
+verify_xdelta.ps1
+restore_xdelta_backup.ps1
+xdelta.exe
+patches\                         Common / General2d / Logic / Battle
+README_사용법.txt
+CHANGELOG.txt
+SHA256SUMS.txt
 ```
 
-아래 명령은 모두 이 `OGMD_KR_v20260816` 폴더 안에서 실행합니다.
+이 ZIP은 감싸는 폴더 없이 파일이 바로 들어 있습니다. 빈 폴더를 하나 만들어 그 안에
+푸시는 편이 정리하기 좋습니다. 아래 명령은 모두 압축을 푼 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
 
@@ -144,10 +145,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `4F21D176D0BF8A4B28B6476ECC87DD2BA005622691D6700635DE7FC7F077873D` |
-| `General2d.psarc.sdat` | `1FB69D19FF325E81D513C1F267A9A61A3A785D865A6235CF07A64965F4623003` |
-| `Logic.psarc.sdat` | `E3499F062C63BDA904E5164768B9FC775F6AD31F1ED5D948DB5D3355C46FE519` |
-| `Battle.psarc.sdat` | `6B2D03568EF0C86ABB07F945392C71E9D899DE62C0E1AB26979F1158B9F49FDB` |
+| `Common.psarc.sdat` | `CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821` |
+| `General2d.psarc.sdat` | `D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63` |
+| `Logic.psarc.sdat` | `7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368` |
+| `Battle.psarc.sdat` | `12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF` |
 
 ## 4. 게임 데이터 폴더 삭제
 
