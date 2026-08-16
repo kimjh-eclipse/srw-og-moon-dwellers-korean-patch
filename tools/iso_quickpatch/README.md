@@ -39,35 +39,70 @@ ISO 안의 PSARC는 크기가 바뀌지 않으므로 파일 배치가 밀리지 
 `OGMDIsoQuickPatch.cs` 는 .NET Framework WinForms 단일 파일 소스입니다.
 C# 5 문법만 쓰므로 Visual Studio 없이 Windows에 기본으로 있는 컴파일러로 빌드됩니다.
 
-range pack 을 먼저 만들고, 그것을 리소스로 묶어 실행 파일을 만듭니다.
+### 1. range pack 생성
+
+PSARC가 바뀌었을 때만 하면 됩니다. UI 코드만 고쳤다면 건너뜁니다.
+NumPy가 필요합니다.
 
 ```
+python -m pip install numpy
 python build_range_pack.py
+```
+
+`OGMD_ISO_ranges.bin` 이 만들어집니다. 스크립트가 자기 위치를 기준으로 경로를 잡으므로
+어느 폴더에서 실행해도 됩니다.
+
+### 2. 컴파일
+
+```
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-`build.ps1` 은 Visual Studio의 Roslyn `csc.exe` 를 먼저 찾고, 없으면
-`%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe` 를 씁니다. 둘 다 통과합니다.
+`build.ps1` 이 하는 일은 아래 한 줄과 같습니다.
 
-리소스 이름은 반드시 `OGMD_ISO_ranges.bin` 이어야 합니다.
-소스의 `PatchResourceName` 상수와 다르면 실행할 때
-`실행 파일 내부 패치 데이터를 찾을 수 없습니다.` 로 끝납니다.
+```
+%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe
+  /nologo /optimize+ /target:winexe
+  /out:OGMD_ISO_QuickPatch.exe
+  /reference:System.Windows.Forms.dll
+  /reference:System.Drawing.dll
+  /resource:OGMD_ISO_ranges.bin,OGMD_ISO_ranges.bin
+  OGMDIsoQuickPatch.cs
+```
+
+바꾸면 안 되는 것이 셋 있습니다.
+
+- `/target:winexe` — 빼면 일반 실행 때 콘솔 창이 같이 뜹니다
+- 리소스 이름 `OGMD_ISO_ranges.bin` — 소스의 `PatchResourceName` 상수와 달라지면
+  실행할 때 `실행 파일 내부 패치 데이터를 찾을 수 없습니다.` 로 끝납니다
+- 컴파일러 — Roslyn(Visual Studio)으로 바꾸면 산출물이 달라집니다
 
 | 옵션 | 기본값 |
 |---|---|
 | `-RangePack` | 같은 폴더의 `OGMD_ISO_ranges.bin` |
-| `-OutputPath` | 같은 폴더의 `OGMD_ISO_QuickPatch.exe` |
-| `-Platform` | `anycpu` (`x64`, `x86` 지정 가능) |
+| `-OutputPath` | 같은 폴더의 `<AssemblyName>.exe` |
+| `-AssemblyName` | `OGMD_ISO_QuickPatch` |
 
 ### 재현 빌드
 
-이 스크립트로 나온 실행 파일은 **릴리스에 올라간 것과 바이트 단위로 같지 않습니다.**
-배포본 25,719,808 바이트에 대해 약 1.5KB 차이가 납니다. Win32 매니페스트 쪽 차이로
-보이는데, 배포본을 만들 때 쓴 빌드 설정이 파일로 남아 있지 않아 그대로 되살리지
-못했습니다. 동작과 내장 range pack 은 동일합니다.
+이 소스와 절차로 **배포된 실행 파일이 그대로 재현됩니다.** 확인한 내용입니다.
 
-배포본과 같은 것을 쓰시려면 [Releases](../../../releases/latest) 의 ZIP 안에 든
-실행 파일을 그대로 쓰시고, 해시는 릴리스 노트에 적힌 값과 대조하세요.
+| 항목 | 결과 |
+|---|---|
+| 크기 | 25,719,808 바이트로 정확히 일치 |
+| 내장 range pack 25,674,724바이트 | 같은 위치에 바이트 단위로 동일 |
+| 메타데이터 스트림 (`#~` `#Strings` `#US` `#Blob`) | 크기 전부 일치 |
+| 다른 바이트 | 전체에서 **19개** |
+
+다른 19바이트는 컴파일할 때마다 달라지는 값입니다. PE 헤더의 타임스탬프 3바이트와
+모듈 GUID(MVID) 16바이트입니다. 이 컴파일러에는 결정적 빌드 옵션이 없어 없앨 수 없습니다.
+
+어셈블리 이름은 산출물에 들어가므로 `-AssemblyName` 을 바꾸면 그만큼 달라집니다.
+배포본은 `OGMD_ISO_QuickPatch_v20260816_fast_backup_check_gui.exe` 로 빌드한 뒤
+검증하고 `OGMD_ISO_QuickPatch.exe` 로 복사한 것입니다.
+
+해시까지 같은 파일이 필요하면 [Releases](../../../releases/latest) 의 ZIP 안에 든
+실행 파일을 쓰시고, 릴리스 노트에 적힌 값과 대조하세요.
 
 ## 주의
 
