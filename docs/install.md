@@ -76,7 +76,7 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816b/OGMD_KR_v20260816b.zip)
+[OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816b.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.

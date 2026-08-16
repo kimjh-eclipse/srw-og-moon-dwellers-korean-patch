@@ -2,7 +2,7 @@
 
 PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 일본판(`BLJS10335`) 비공식 한국어 패치 문서입니다.
 
-> **📦 v20260816b 내려받기: [OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816b/OGMD_KR_v20260816b.zip)**
+> **📦 v20260816b 내려받기: [OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816b.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다.
 >
