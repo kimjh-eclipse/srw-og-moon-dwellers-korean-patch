@@ -12,6 +12,7 @@ ISO 전체 11.8GB를 다시 만들지 않습니다.
 |---|---|
 | `OGMDIsoQuickPatch.cs` | 패처 본체. WinForms GUI, ISO 구간 쓰기, 백업·복구, RPCS3 경로 검사 |
 | `build_range_pack.py` | 원본 ISO와 최종 PSARC를 비교해 바뀐 구간만 모은 range pack 생성기 |
+| `build.ps1` | 위 둘을 묶어 실행 파일을 만드는 빌드 스크립트 |
 
 ## 동작 방식
 
@@ -35,14 +36,38 @@ ISO 안의 PSARC는 크기가 바뀌지 않으므로 파일 배치가 밀리지 
 
 ## 빌드
 
-`OGMDIsoQuickPatch.cs` 는 .NET WinForms 단일 파일 소스입니다.
-range pack 을 먼저 만든 뒤 함께 묶어 단일 실행 파일로 게시합니다.
+`OGMDIsoQuickPatch.cs` 는 .NET Framework WinForms 단일 파일 소스입니다.
+C# 5 문법만 쓰므로 Visual Studio 없이 Windows에 기본으로 있는 컴파일러로 빌드됩니다.
+
+range pack 을 먼저 만들고, 그것을 리소스로 묶어 실행 파일을 만듭니다.
 
 ```
-python build_range_pack.py          # OGMD_ISO_ranges.bin 생성
+python build_range_pack.py
+powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-생성된 range pack 을 리소스로 포함해 빌드하면 배포용 실행 파일이 나옵니다.
+`build.ps1` 은 Visual Studio의 Roslyn `csc.exe` 를 먼저 찾고, 없으면
+`%WINDIR%\Microsoft.NET\Framework64\v4.0.30319\csc.exe` 를 씁니다. 둘 다 통과합니다.
+
+리소스 이름은 반드시 `OGMD_ISO_ranges.bin` 이어야 합니다.
+소스의 `PatchResourceName` 상수와 다르면 실행할 때
+`실행 파일 내부 패치 데이터를 찾을 수 없습니다.` 로 끝납니다.
+
+| 옵션 | 기본값 |
+|---|---|
+| `-RangePack` | 같은 폴더의 `OGMD_ISO_ranges.bin` |
+| `-OutputPath` | 같은 폴더의 `OGMD_ISO_QuickPatch.exe` |
+| `-Platform` | `anycpu` (`x64`, `x86` 지정 가능) |
+
+### 재현 빌드
+
+이 스크립트로 나온 실행 파일은 **릴리스에 올라간 것과 바이트 단위로 같지 않습니다.**
+배포본 25,719,808 바이트에 대해 약 1.5KB 차이가 납니다. Win32 매니페스트 쪽 차이로
+보이는데, 배포본을 만들 때 쓴 빌드 설정이 파일로 남아 있지 않아 그대로 되살리지
+못했습니다. 동작과 내장 range pack 은 동일합니다.
+
+배포본과 같은 것을 쓰시려면 [Releases](../../../releases/latest) 의 ZIP 안에 든
+실행 파일을 그대로 쓰시고, 해시는 릴리스 노트에 적힌 값과 대조하세요.
 
 ## 주의
 

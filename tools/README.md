@@ -83,6 +83,7 @@ pip install pycryptodome pillow
 |---|---|
 | `OGMDIsoQuickPatch.cs` | 패처 본체 (GUI, ISO 구간 쓰기, 백업·복구) |
 | `build_range_pack.py` | 원본과 최종 PSARC를 비교해 변경 구간만 모으는 생성기 |
+| `build.ps1` | 실행 파일 빌드 |
 
 빌드된 실행 파일과 range pack 바이너리는 저장소에 넣지 않습니다.
 실행 파일은 릴리스 자산으로 배포되고, range pack은 게임 데이터에서 뽑아낸 페이로드입니다.
