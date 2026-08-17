@@ -1,17 +1,17 @@
-# 슈퍼로봇대전 OG 문 드웰러즈 한국어 패치
+﻿# 슈퍼로봇대전 OG 문 드웰러즈 한국어 패치
 
 **슈퍼로봇대전 OG 더 문 드웰러즈** 일본판(PS3, `BLJS10335`) 한국어 패치입니다.
 
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260816b 내려받기: [OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816b.zip)**
+> **📦 v20260818 내려받기: [OGMD_KR_v20260818.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260818/OGMD_KR_v20260818.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260816b.zip   31,818,753 바이트
-> SHA-256: 39523AF19A4133E6D779BD8744BB57DB6313B905ACA76D141158E93909590DC2
+> OGMD_KR_v20260818.zip   104,700,965 바이트
+> SHA-256: 6CE16B1DB50A890840BA0DBCAEAF92732B05CAC66C5A3420046F4CD62090EA32
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
@@ -20,10 +20,10 @@
 
 | | |
 |---|---|
-| 버전 | `v20260816b` |
+| 버전 | `v20260818` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
-| 배포 형식 | xdelta 패치 4개 (합계 약 14.77 MiB) |
+| 배포 형식 | xdelta 패치 4개 (합계 약 49.51 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 이번 버전부터 설치 방식이 두 가지입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
@@ -267,10 +267,10 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821` |
-| `General2d.psarc.sdat` | `D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63` |
-| `Logic.psarc.sdat` | `7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368` |
-| `Battle.psarc.sdat` | `12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF` |
+| `Common.psarc.sdat` | `577C02A7BBEDA1CC981D5EB7F042827D3FDE0E0B5C60DB708E5527CA0DA212D4` |
+| `General2d.psarc.sdat` | `871F3E10DADFB6DBA2431AF5BF3D0B597BE140B601A0D299B8FE640BEE68F94B` |
+| `Logic.psarc.sdat` | `C89D69E2CC103716ADC5FD08ECDEB1104427E680F877B2445C9F10752EC88EE1` |
+| `Battle.psarc.sdat` | `04D212340C7F627B61C1CCFDB3E9F8CE82D0D2DDC6FE37A37525329E53575792` |
 
 두 설치 방식 모두 이 결과를 만듭니다.
 네 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(왕복 검증 4/4 통과).

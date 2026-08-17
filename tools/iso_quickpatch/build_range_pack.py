@@ -1,4 +1,4 @@
-"""Build the OGMD in-place ISO range patch resource.
+﻿"""Build the OGMD in-place ISO range patch resource.
 
 The output contains only replacement ranges.  Nearby differences separated by at
 most MERGE_GAP bytes are merged so the runtime does fewer memory-copy calls.
@@ -29,9 +29,9 @@ FILES = (
         "source": ROOT / "original_backups/Common.psarc.sdat.orig",
         # Keep only the startup warning, title logo, and scenario title cards.
         # Shared/animated UI image replacements remain intentionally excluded.
-        "target": ROOT / "korean_build_v4_images/Common_final_plain_labels_ko_20260816.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Common_cumulative_all_requests_ko_20260817.psarc.sdat",
         "source_hash": "99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB",
-        "target_hash": "CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821",
+        "target_hash": "577C02A7BBEDA1CC981D5EB7F042827D3FDE0E0B5C60DB708E5527CA0DA212D4",
     },
     {
         "name": "General2d",
@@ -39,9 +39,9 @@ FILES = (
         "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
         # General2d/tex_06.dds image localization is intentionally excluded.
         # It is a shared UI glyph atlas and corrupted the level-up display.
-        "target": ROOT / "korean_build_v3/General2d_plain_labels_options_ko_20260816.psarc.sdat",
+        "target": ROOT / "korean_build_v3/General2d_cumulative_all_requests_ko_20260817.psarc.sdat",
         "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63",
+        "target_hash": "871F3E10DADFB6DBA2431AF5BF3D0B597BE140B601A0D299B8FE640BEE68F94B",
     },
     {
         "name": "Logic",
@@ -50,9 +50,9 @@ FILES = (
         # Logic image replacements are retired; use the text-only archive.
         # Includes all localized scenario titles plus the full location-card
         # audit that replaces visible U+3000 separators with normal spaces.
-        "target": ROOT / "korean_build_v3/Logic_raio_range_ko_20260816.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Logic_cumulative_all_requests_ko_20260817.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368",
+        "target_hash": "C89D69E2CC103716ADC5FD08ECDEB1104427E680F877B2445C9F10752EC88EE1",
     },
     {
         "name": "Battle",
@@ -60,9 +60,9 @@ FILES = (
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
         # Battle/cosl.dds image localization is intentionally excluded.
         # It is a shared HUD atlas and hid unit names plus HP/EN at runtime.
-        "target": ROOT / "korean_build_v3/Battle_compatable_kaiser_20260812.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Battle_cumulative_all_requests_ko_20260817.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF",
+        "target_hash": "04D212340C7F627B61C1CCFDB3E9F8CE82D0D2DDC6FE37A37525329E53575792",
     },
 )
 

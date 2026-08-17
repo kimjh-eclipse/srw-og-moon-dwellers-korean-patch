@@ -1,4 +1,4 @@
-# 설치 안내
+﻿# 설치 안내
 
 ## 적용 대상
 
@@ -76,18 +76,18 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260816b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260816/OGMD_KR_v20260816b.zip)
+[OGMD_KR_v20260818.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260818/OGMD_KR_v20260818.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260816b.zip   31,818,753 바이트
-SHA-256: 39523AF19A4133E6D779BD8744BB57DB6313B905ACA76D141158E93909590DC2
+OGMD_KR_v20260818.zip   104,700,965 바이트
+SHA-256: 6CE16B1DB50A890840BA0DBCAEAF92732B05CAC66C5A3420046F4CD62090EA32
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260816b.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260818.zip -Algorithm SHA256
 ```
 
 압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
@@ -105,8 +105,8 @@ CHANGELOG.txt
 SHA256SUMS.txt
 ```
 
-이 ZIP은 감싸는 폴더 없이 파일이 바로 들어 있습니다. 빈 폴더를 하나 만들어 그 안에
-푸시는 편이 정리하기 좋습니다. 아래 명령은 모두 압축을 푼 폴더 안에서 실행합니다.
+v20260818부터 ZIP 안에 `OGMD_KR_v20260818` 폴더가 들어 있습니다. 압축을 풀면
+이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
 
@@ -145,10 +145,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `CF7BB5AA952697A21334F5D31A0B74DBC6BBAF5DAD5FADB792DE41474533D821` |
-| `General2d.psarc.sdat` | `D5D69DBC19AA86FE1C3D1121610350A80DA971B9BC686F04A81B3549A2361E63` |
-| `Logic.psarc.sdat` | `7F78792487C03CA423936C9951835ABBC79F8B49A4B131687610E033F236D368` |
-| `Battle.psarc.sdat` | `12C7D6AAD3B928A640B3FC091FE50B182E9D67CBAE07084102AC49A5A6B803BF` |
+| `Common.psarc.sdat` | `577C02A7BBEDA1CC981D5EB7F042827D3FDE0E0B5C60DB708E5527CA0DA212D4` |
+| `General2d.psarc.sdat` | `871F3E10DADFB6DBA2431AF5BF3D0B597BE140B601A0D299B8FE640BEE68F94B` |
+| `Logic.psarc.sdat` | `C89D69E2CC103716ADC5FD08ECDEB1104427E680F877B2445C9F10752EC88EE1` |
+| `Battle.psarc.sdat` | `04D212340C7F627B61C1CCFDB3E9F8CE82D0D2DDC6FE37A37525329E53575792` |
 
 ## 4. 게임 데이터 폴더 삭제
 
