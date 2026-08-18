@@ -1,111 +1,60 @@
-﻿========================================================================
- 슈퍼로봇대전 OG 문 드웰러즈 한국어 패치 v20260818
- 대상: PS3 일본판 BLJS10335
-========================================================================
+슈퍼로봇대전 OG 문 드웰러즈 한국어 패치 v20260819
+대상: PS3 일본판 BLJS10335
 
-이 배포본은 설치 환경에 맞춰 두 가지 방식을 제공합니다.
-두 방식의 최종 한국어 데이터는 동일합니다. 한 가지만 선택해 사용하세요.
+두 설치 방식 중 하나만 사용하세요. 같은 대상에 두 방식을 중복 적용하지 마세요.
 
-
-========================================================================
- 방법 A — ISO 빠른 패처 (복호화된 ISO 사용자에게 권장)
-========================================================================
-
-사용 파일
-  OGMD_ISO_QuickPatch.exe
-
-1. RPCS3를 완전히 종료합니다.
+[A. 복호화 ISO]
+1. RPCS3와 ISO 마운트 프로그램을 종료합니다.
 2. OGMD_ISO_QuickPatch.exe를 실행합니다.
-3. 복호화된 일본판 BLJS10335 ISO와 백업 파일 경로를 지정합니다.
-4. 필요하면 RPCS3 경로도 지정합니다.
-5. [원본 검사]로 ISO와 RPCS3 경로의 검사 결과를 확인합니다.
-6. 주의사항 확인란을 체크한 뒤 [ISO에 한국어 패치 적용]을 누릅니다.
+3. 복호화된 일본판 ISO를 선택하고 [원본 검사]를 실행합니다.
+4. 안내를 확인한 뒤 패치를 적용합니다.
 
-빠른 패처는 선택한 ISO 자체의 필요한 구간만 수정합니다.
-ISO 전체 11.8GB를 새로 복사하지 않습니다.
+원본 ISO 입력 시 같은 위치에 .iso.ogmd-backup 백업을 남깁니다.
+정리 옵션을 선택한 경우에만 dev_hdd0\game\BLJS10335 설치 데이터와
+cache\BLJS10335\spu-safe-v1-tane.dat를 정리합니다.
+PPU·셰이더 캐시, 세이브, savestate는 삭제하지 않습니다.
 
-원본 ISO에서 처음 패치할 때는 복구용 .ogmd-backup 파일을 만듭니다.
-이미 정상 백업이 있으면 그 백업을 사용해 원본 검사와 버전 갱신을 빠르게 처리합니다.
-백업 파일은 원상복구와 다음 버전 갱신에 필요하므로 보관하세요.
+[B. 폴더형 게임/추출 PSARC]
+PowerShell에서 다음 명령을 실행합니다.
 
-패치 후 예전에 설치된 게임 데이터가 남아 있으면 새 ISO 내용이 사용되지 않습니다.
-빠른 패처에서 RPCS3 경로를 지정했다면 패치 작업 중 다음 폴더만 선택적으로
-삭제할 수 있습니다.
+powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 
-  <RPCS3 폴더>\dev_hdd0\game\BLJS10335
+상태 확인:
+powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 
-세이브 데이터와 PPU/SPU/셰이더 캐시는 삭제하지 않습니다.
+백업 복구:
+powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 
+주의: 패치 후 RPCS3 저장 상태(Save State)로 이어하지 마세요.
+저장 상태는 패치 전 폰트와 메모리를 복원할 수 있습니다.
+정상 부팅 후 게임 내부 세이브를 사용하세요.
 
-========================================================================
- 방법 B — 기존 xdelta 방식 (폴더형 게임/추출 PSARC 사용자)
-========================================================================
+[화면이 하얗게 보일 때]
 
-사용 파일
-  install_xdelta.ps1
-  verify_xdelta.ps1
-  restore_xdelta_backup.ps1
-  xdelta.exe
-  patches 폴더
+타이틀이나 메뉴 화면이 흰색으로 보이는 경우가 있습니다. 커서 이동과 소리는
+정상인데 그림만 나오지 않는 상태입니다.
 
-권장 패치 대상
-  ...\BLJS10335\PS3_GAME\USRDIR\PSARC
+순서가 중요합니다. 1단계를 건너뛰고 캐시만 지우면 다시 하얗게 보입니다.
 
-1. RPCS3를 완전히 종료합니다.
-2. 이 배포 폴더의 빈 곳에서 PowerShell을 엽니다.
-3. 아래 명령을 실행합니다. 경로는 본인의 게임 경로로 바꾸세요.
+1단계. 게임 우클릭 → Change Custom Configuration → Advanced 탭 →
+Firmware Libraries 목록에서 libvdec.sprx를 체크합니다. 기본값은 HLE이고
+체크하면 LLE가 됩니다. 저장하고 닫습니다.
 
-  powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+2단계. RPCS3 게임 목록에서 해당 게임 우클릭 → Remove → Remove SPU Cache
+하신 뒤 다시 켜면 정상으로 돌아옵니다.
 
-스크립트는 원본 4개 파일을 SHA-256으로 확인하고, 이 배포 폴더에
-backup_original_날짜시간 폴더를 만든 뒤 임시 파일에 패치를 적용합니다.
-결과 해시가 정확할 때만 실제 PSARC를 교체하고 원래 수정시각을 복원합니다.
+1단계는 한 번만 하면 됩니다. 초반에 뜨는 오류 표시도 이 설정으로 함께 사라집니다.
 
-설치 상태 확인
+2단계는 한 번 지웠다고 끝나지 않습니다. 플레이를 계속하면 캐시가 다시 쌓이면서
+재발합니다. 증상이 보이면 그때마다 2단계를 다시 하시면 됩니다.
 
-  powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+캐시 폴더 전체를 지우지는 마세요. Remove SPU Cache만 쓰시면 됩니다.
 
-원본 복구
+이 현상은 한국어 패치와 무관합니다. 패치하지 않은 원본에서도 발생하고 RPCS3
+버전을 바꿔도 같습니다. 설치 스크립트와 빠른 패처는 캐시도 세이브도 지우지 않습니다.
 
-  powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
-
-복구할 백업 폴더를 직접 지정하려면 다음처럼 실행합니다.
-
-  powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir "...\PSARC" -BackupDir "...\backup_original_YYYYMMDD_HHMMSS"
-
-xdelta 방식으로 롬 폴더를 패치한 뒤에도 다음 기존 설치 데이터는 삭제하거나
-다른 곳으로 옮겨 게임이 새로 설치하게 해야 합니다.
-
-  <RPCS3 폴더>\dev_hdd0\game\BLJS10335
-
-이 폴더는 세이브 폴더가 아닙니다. 세이브는 dev_hdd0\home 아래에 있습니다.
-
-
-========================================================================
- 공통 주의사항
-========================================================================
-
-1. 복호화된 일본판 BLJS10335만 지원합니다.
-2. RPCS3와 ISO 마운트 프로그램을 완전히 종료한 뒤 작업하세요.
-3. ISO 빠른 패처와 xdelta 방식을 같은 원본에 중복 적용하지 마세요.
-4. 패치 중 프로그램을 강제 종료하거나 저장장치를 분리하지 마세요.
-5. 문제가 생기면 게임 폴더 전체를 지우지 말고 먼저 백업으로 복구하세요.
-6. 화면이 하얗게 보일 때만 RPCS3의 Remove SPU Cache를 사용하세요.
-7. cache\BLJS10335 전체, PPU 캐시, 셰이더 캐시, 세이브 데이터는 지우지 마세요.
-
-
-========================================================================
- 최종 PSARC SHA-256
-========================================================================
-
-Common.psarc.sdat
-  577C02A7BBEDA1CC981D5EB7F042827D3FDE0E0B5C60DB708E5527CA0DA212D4
-
-General2d.psarc.sdat
-  871F3E10DADFB6DBA2431AF5BF3D0B597BE140B601A0D299B8FE640BEE68F94B
-
-Logic.psarc.sdat
-  C89D69E2CC103716ADC5FD08ECDEB1104427E680F877B2445C9F10752EC88EE1
-
-Battle.psarc.sdat
-  04D212340C7F627B61C1CCFDB3E9F8CE82D0D2DDC6FE37A37525329E53575792
+최종 PSARC SHA-256
+Common     16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2
+General2d  2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332
+Logic      88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45
+Battle     4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420

@@ -76,18 +76,18 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260818.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260818/OGMD_KR_v20260818.zip)
+[OGMD_KR_v20260819.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260818.zip   104,700,965 바이트
-SHA-256: 6CE16B1DB50A890840BA0DBCAEAF92732B05CAC66C5A3420046F4CD62090EA32
+OGMD_KR_v20260819.zip   104,709,741 바이트
+SHA-256: 856CE2C48494B051D9FB06399AD2E31B109102C3B8CD5725EC60C39766894A94
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260818.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260819.zip -Algorithm SHA256
 ```
 
 압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
@@ -105,7 +105,7 @@ CHANGELOG.txt
 SHA256SUMS.txt
 ```
 
-v20260818부터 ZIP 안에 `OGMD_KR_v20260818` 폴더가 들어 있습니다. 압축을 풀면
+v20260819부터 ZIP 안에 `OGMD_KR_v20260819` 폴더가 들어 있습니다. 압축을 풀면
 이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
@@ -145,10 +145,10 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `577C02A7BBEDA1CC981D5EB7F042827D3FDE0E0B5C60DB708E5527CA0DA212D4` |
-| `General2d.psarc.sdat` | `871F3E10DADFB6DBA2431AF5BF3D0B597BE140B601A0D299B8FE640BEE68F94B` |
-| `Logic.psarc.sdat` | `C89D69E2CC103716ADC5FD08ECDEB1104427E680F877B2445C9F10752EC88EE1` |
-| `Battle.psarc.sdat` | `04D212340C7F627B61C1CCFDB3E9F8CE82D0D2DDC6FE37A37525329E53575792` |
+| `Common.psarc.sdat` | `16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2` |
+| `General2d.psarc.sdat` | `2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332` |
+| `Logic.psarc.sdat` | `88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45` |
+| `Battle.psarc.sdat` | `4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420` |
 
 ## 4. 게임 데이터 폴더 삭제
 

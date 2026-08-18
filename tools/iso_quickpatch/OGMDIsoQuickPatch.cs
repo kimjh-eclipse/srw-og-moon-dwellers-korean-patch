@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-        private const string VersionText = "v20260816-plain-labels-options-gui";
+        private const string VersionText = "v20260819c-keyguide";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string PackMagic = "OGMDRNG1";
     private const string BackupMagic = "OGMDBAK1";
@@ -256,7 +256,7 @@ internal static class OGMDIsoQuickPatch
             Controls.Add(rpcs3BrowseButton);
 
             deleteInstalledGameCheck = new CheckBox();
-            deleteInstalledGameCheck.Text = "패치 성공 후 dev_hdd0\\game\\BLJS10335 기존 설치 데이터만 삭제";
+            deleteInstalledGameCheck.Text = "패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리";
             deleteInstalledGameCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             deleteInstalledGameCheck.AutoSize = true;
             deleteInstalledGameCheck.Location = new Point(22, 269);
@@ -279,8 +279,8 @@ internal static class OGMDIsoQuickPatch
                 "1. 복호화된 일본판 BLJS10335 ISO만 지원합니다. 암호화 ISO나 다른 판본에는 적용하지 마세요.\r\n" +
                 "2. 선택한 ISO 파일 자체를 수정합니다. 작업 중 RPCS3를 완전히 종료하고 ISO 마운트도 해제하세요.\r\n" +
                 "3. 기존 백업은 같은 경로에서 현재 버전용으로 갱신됩니다. 별도 백업은 만들지 않습니다.\r\n" +
-                "4. 설치 데이터 삭제 옵션은 선택한 RPCS3의 dev_hdd0\\game\\BLJS10335 폴더 하나만 삭제합니다.\r\n" +
-                "5. 세이브·savestate·캐시(PPU/SPU/셰이더)와 BLJS10335.pre_* 폴더는 삭제하지 않습니다.";
+                "4. 정리 옵션은 dev_hdd0\\game\\BLJS10335와 cache\\BLJS10335\\spu-safe-v1-tane.dat만 삭제합니다.\r\n" +
+                "5. 세이브·savestate·PPU·셰이더 캐시와 BLJS10335.pre_* 폴더는 삭제하지 않습니다.";
             warningGroup.Controls.Add(warnings);
 
             warningCheck = new CheckBox();
@@ -562,6 +562,25 @@ internal static class OGMDIsoQuickPatch
 
         private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            // BackgroundWorker normally posts this callback to the WinForms UI thread.
+            // Be defensive in case the ambient SynchronizationContext was not captured
+            // (observed on some systems during restore): every control update must still
+            // be marshalled to the thread that created the form.
+            if (IsDisposed || Disposing)
+                return;
+            if (InvokeRequired)
+            {
+                try
+                {
+                    BeginInvoke(new RunWorkerCompletedEventHandler(WorkerCompleted), sender, e);
+                }
+                catch (InvalidOperationException)
+                {
+                    // The form was closed while the completion callback was queued.
+                }
+                return;
+            }
+
             SetBusy(false, "대기 중");
             UiResult result = e.Result as UiResult;
             if (result == null || result.Error != null || result.ExitCode != 0)
@@ -1021,18 +1040,38 @@ internal static class OGMDIsoQuickPatch
         if (!Directory.Exists(target))
         {
             WriteOk("삭제할 기존 설치 데이터가 없습니다: " + target);
-            return;
+        }
+        else
+        {
+            FileAttributes attributes = File.GetAttributes(target);
+            if ((attributes & FileAttributes.ReparsePoint) != 0)
+                throw new InvalidDataException("설치 폴더가 링크 또는 재분석 지점이어서 삭제하지 않았습니다: " + target);
+
+            Directory.Delete(target, true);
+            if (Directory.Exists(target))
+                throw new IOException("기존 설치 데이터 폴더 삭제에 실패했습니다: " + target);
+            WriteOk("RPCS3 기존 설치 데이터 삭제 완료: " + target);
         }
 
-        FileAttributes attributes = File.GetAttributes(target);
-        if ((attributes & FileAttributes.ReparsePoint) != 0)
-            throw new InvalidDataException("설치 폴더가 링크 또는 재분석 지점이어서 삭제하지 않았습니다: " + target);
-
-        Directory.Delete(target, true);
-        if (Directory.Exists(target))
-            throw new IOException("기존 설치 데이터 폴더 삭제에 실패했습니다: " + target);
-        WriteOk("RPCS3 기존 설치 데이터 삭제 완료: " + target);
-        Console.WriteLine("세이브·savestate·PPU/SPU/셰이더 캐시와 BLJS10335.pre_* 폴더는 건드리지 않았습니다.");
+        string cacheRoot = Path.GetFullPath(Path.Combine(root, "cache", "BLJS10335"));
+        string spu = Path.GetFullPath(Path.Combine(cacheRoot, "spu-safe-v1-tane.dat"));
+        string expectedSpu = cacheRoot.TrimEnd(
+            Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) +
+            Path.DirectorySeparatorChar + "spu-safe-v1-tane.dat";
+        if (!String.Equals(spu, expectedSpu, StringComparison.OrdinalIgnoreCase))
+            throw new InvalidDataException("안전 검증에 실패해 SPU 캐시 정리를 중단했습니다.");
+        if (File.Exists(spu))
+        {
+            File.Delete(spu);
+            if (File.Exists(spu))
+                throw new IOException("BLJS10335 SPU 캐시 삭제에 실패했습니다: " + spu);
+            WriteOk("BLJS10335 SPU 캐시 정리 완료: " + spu);
+        }
+        else
+        {
+            WriteOk("정리할 BLJS10335 SPU 캐시가 없습니다: " + spu);
+        }
+        Console.WriteLine("세이브·savestate·PPU·셰이더 캐시와 BLJS10335.pre_* 폴더는 건드리지 않았습니다.");
     }
 
     private static int RestoreMode(
