@@ -5,13 +5,13 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260819 내려받기: [OGMD_KR_v20260819.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819.zip)**
+> **📦 v20260819 내려받기: [OGMD_KR_v20260819c.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819c.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260819.zip   104,709,741 바이트
-> SHA-256: 856CE2C48494B051D9FB06399AD2E31B109102C3B8CD5725EC60C39766894A94
+> OGMD_KR_v20260819c.zip   104,712,671 바이트
+> SHA-256: 934DE5FD9258582E561826BE259577B67AB553B3B5715AC7D34FAA740529B34B
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**

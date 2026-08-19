@@ -76,18 +76,18 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260819.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819.zip)
+[OGMD_KR_v20260819c.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819c.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260819.zip   104,709,741 바이트
-SHA-256: 856CE2C48494B051D9FB06399AD2E31B109102C3B8CD5725EC60C39766894A94
+OGMD_KR_v20260819c.zip   104,712,671 바이트
+SHA-256: 934DE5FD9258582E561826BE259577B67AB553B3B5715AC7D34FAA740529B34B
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260819.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260819c.zip -Algorithm SHA256
 ```
 
 압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
@@ -105,7 +105,7 @@ CHANGELOG.txt
 SHA256SUMS.txt
 ```
 
-v20260819부터 ZIP 안에 `OGMD_KR_v20260819` 폴더가 들어 있습니다. 압축을 풀면
+v20260819부터 ZIP 안에 `OGMD_KR_v20260819c` 폴더가 들어 있습니다. 압축을 풀면
 이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
