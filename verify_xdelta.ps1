@@ -13,6 +13,26 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+if (-not (Get-Command Get-FileHash -ErrorAction SilentlyContinue)) {
+    function Get-FileHash {
+        param(
+            [Parameter(Mandatory = $true)][string]$LiteralPath,
+            [string]$Algorithm = 'SHA256'
+        )
+        if ($Algorithm -ne 'SHA256') { throw "지원하지 않는 해시 알고리즘: $Algorithm" }
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        $stream = [System.IO.File]::OpenRead($LiteralPath)
+        try {
+            $value = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '')
+        }
+        finally {
+            $stream.Dispose()
+            $sha.Dispose()
+        }
+        [pscustomobject]@{ Algorithm = 'SHA256'; Hash = $value; Path = $LiteralPath }
+    }
+}
 
 $SPEC = [ordered]@{
     'Common' = @{
@@ -23,17 +43,17 @@ $SPEC = [ordered]@{
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332'
+        Target = '29EC56DB773F1ADD358D883ECC522AC28FACC2BEC124F947B28FCBA280282D1E'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = '88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45'
+        Target = '3CB73CD83E946070995A0EA4529F7C3BF2CB101B9FD24C3D36E38719360B079F'
     }
     'Battle' = @{
         Size   = 1729186848
         Source = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'
-        Target = '4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420'
+        Target = 'B5CB66BBA32BBF066E4846886E5394FF42C6789B814B9F1282A374E4DDA4113E'
     }
 }
 

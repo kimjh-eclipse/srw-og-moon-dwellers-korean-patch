@@ -17,6 +17,26 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+if (-not (Get-Command Get-FileHash -ErrorAction SilentlyContinue)) {
+    function Get-FileHash {
+        param(
+            [Parameter(Mandatory = $true)][string]$LiteralPath,
+            [string]$Algorithm = 'SHA256'
+        )
+        if ($Algorithm -ne 'SHA256') { throw "지원하지 않는 해시 알고리즘: $Algorithm" }
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        $stream = [System.IO.File]::OpenRead($LiteralPath)
+        try {
+            $value = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '')
+        }
+        finally {
+            $stream.Dispose()
+            $sha.Dispose()
+        }
+        [pscustomobject]@{ Algorithm = 'SHA256'; Hash = $value; Path = $LiteralPath }
+    }
+}
 
 $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path }

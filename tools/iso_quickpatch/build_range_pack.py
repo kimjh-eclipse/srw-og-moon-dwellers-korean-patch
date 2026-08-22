@@ -39,9 +39,9 @@ FILES = (
         "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
         # General2d/tex_06.dds image localization is intentionally excluded.
         # It is a shared UI glyph atlas and corrupted the level-up display.
-        "target": ROOT / "korean_build_v3/General2d_runtime_followups_ko_20260819.psarc.sdat",
+        "target": ROOT / "korean_build_v3/General2d_name_followups_ko_20260822.psarc.sdat",
         "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332",
+        "target_hash": "29EC56DB773F1ADD358D883ECC522AC28FACC2BEC124F947B28FCBA280282D1E",
     },
     {
         "name": "Logic",
@@ -50,9 +50,9 @@ FILES = (
         # Logic image replacements are retired; use the text-only archive.
         # Includes all localized scenario titles plus the full location-card
         # audit that replaces visible U+3000 separators with normal spaces.
-        "target": ROOT / "korean_build_v3/Logic_keyguide_placeholder_ko_20260819.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Logic_character_names_ko_20260822.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45",
+        "target_hash": "3CB73CD83E946070995A0EA4529F7C3BF2CB101B9FD24C3D36E38719360B079F",
     },
     {
         "name": "Battle",
@@ -60,9 +60,9 @@ FILES = (
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
         # Battle/cosl.dds image localization is intentionally excluded.
         # It is a shared HUD atlas and hid unit names plus HP/EN at runtime.
-        "target": ROOT / "korean_build_v3/Battle_screenshot_followups_ko_20260818.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Battle_character_names_ko_20260822.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420",
+        "target_hash": "B5CB66BBA32BBF066E4846886E5394FF42C6789B814B9F1282A374E4DDA4113E",
     },
 )
 

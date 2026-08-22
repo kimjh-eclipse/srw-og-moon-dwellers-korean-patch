@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-        private const string VersionText = "v20260819c-keyguide";
+    private const string VersionText = "v20260822b-rpcs3-ui";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string PackMagic = "OGMDRNG1";
     private const string BackupMagic = "OGMDBAK1";
@@ -98,7 +98,20 @@ internal static class OGMDIsoQuickPatch
     {
         Verify,
         Patch,
-        Restore
+        Restore,
+        DirectVerify,
+        DirectPatch
+    }
+
+    private sealed class UiWorkItem
+    {
+        public UiOperation Operation;
+        public string IsoPath;
+        public string BackupPath;
+        public string Rpcs3Path;
+        public bool DeleteInstalledGame;
+        public string DirectTargetPath;
+        public bool DirectBackup;
     }
 
     private sealed class UiResult
@@ -108,6 +121,7 @@ internal static class OGMDIsoQuickPatch
         public UiOperation Operation;
         public bool DeleteInstalledGame;
         public bool Rpcs3Inspected;
+        public string DirectTargetPath;
     }
 
     private sealed class UiTextWriter : TextWriter
@@ -151,11 +165,14 @@ internal static class OGMDIsoQuickPatch
         private readonly Button backupBrowseButton;
         private readonly TextBox rpcs3PathBox;
         private readonly Button rpcs3BrowseButton;
+        private readonly CheckBox directBackupCheck;
         private readonly CheckBox deleteInstalledGameCheck;
         private readonly CheckBox warningCheck;
         private readonly Button verifyButton;
         private readonly Button patchButton;
         private readonly Button restoreButton;
+        private readonly Button directVerifyButton;
+        private readonly Button directPatchButton;
         private readonly Button closeButton;
         private readonly RichTextBox logBox;
         private readonly ProgressBar progressBar;
@@ -166,11 +183,11 @@ internal static class OGMDIsoQuickPatch
 
         public MainForm(string initialIsoPath)
         {
-            Text = "OGMD 한국어 ISO 빠른 패처 " + VersionText;
+            Text = "OGMD 한국어 빠른 패처 " + VersionText;
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            ClientSize = new Size(900, 872);
+            ClientSize = new Size(900, 930);
             Font = new Font("Segoe UI", 9F);
             BackColor = Color.FromArgb(242, 246, 250);
             AllowDrop = true;
@@ -181,7 +198,7 @@ internal static class OGMDIsoQuickPatch
             Controls.Add(titlePanel);
 
             Label title = new Label();
-            title.Text = "OG 문 드웰러즈 한국어 ISO 빠른 패처";
+            title.Text = "OG 문 드웰러즈 한국어 빠른 패처";
             title.ForeColor = Color.White;
             title.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             title.AutoSize = true;
@@ -189,7 +206,7 @@ internal static class OGMDIsoQuickPatch
             titlePanel.Controls.Add(title);
 
             Label subtitle = new Label();
-            subtitle.Text = "11.8GB 전체 복사 없이 ISO 내부의 변경 구간만 직접 패치합니다.";
+            subtitle.Text = "ISO 또는 RPCS3 폴더형 게임에 안전 검증 후 패치를 적용합니다.";
             subtitle.ForeColor = Color.FromArgb(205, 226, 242);
             subtitle.AutoSize = true;
             subtitle.Location = new Point(27, 51);
@@ -239,7 +256,7 @@ internal static class OGMDIsoQuickPatch
             isoPathBox.TextChanged += delegate { UpdateDefaultBackupPath(); };
 
             Label rpcs3Label = new Label();
-            rpcs3Label.Text = "RPCS3 폴더 (선택 사항)";
+            rpcs3Label.Text = "RPCS3 / 폴더형 게임 경로 (게임 루트·PS3_GAME·PSARC 자동 판별)";
             rpcs3Label.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             rpcs3Label.AutoSize = true;
             rpcs3Label.Location = new Point(22, 212);
@@ -255,11 +272,19 @@ internal static class OGMDIsoQuickPatch
             rpcs3BrowseButton.Click += delegate { BrowseRpcs3(); };
             Controls.Add(rpcs3BrowseButton);
 
+            directBackupCheck = new CheckBox();
+            directBackupCheck.Text = "폴더 직접 패치 전 원본 PSARC 4개 자동 백업 (권장)";
+            directBackupCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            directBackupCheck.AutoSize = true;
+            directBackupCheck.Checked = true;
+            directBackupCheck.Location = new Point(22, 269);
+            Controls.Add(directBackupCheck);
+
             deleteInstalledGameCheck = new CheckBox();
-            deleteInstalledGameCheck.Text = "패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리";
+            deleteInstalledGameCheck.Text = "ISO 패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리";
             deleteInstalledGameCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             deleteInstalledGameCheck.AutoSize = true;
-            deleteInstalledGameCheck.Location = new Point(22, 269);
+            deleteInstalledGameCheck.Location = new Point(22, 294);
             Controls.Add(deleteInstalledGameCheck);
 
             GroupBox warningGroup = new GroupBox();
@@ -267,7 +292,7 @@ internal static class OGMDIsoQuickPatch
             warningGroup.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             warningGroup.ForeColor = Color.FromArgb(123, 72, 0);
             warningGroup.BackColor = Color.FromArgb(255, 248, 220);
-            warningGroup.SetBounds(22, 299, 856, 220);
+            warningGroup.SetBounds(22, 324, 856, 220);
             Controls.Add(warningGroup);
 
             Label warnings = new Label();
@@ -276,15 +301,15 @@ internal static class OGMDIsoQuickPatch
             warnings.AutoSize = false;
             warnings.SetBounds(18, 28, 820, 145);
             warnings.Text =
-                "1. 복호화된 일본판 BLJS10335 ISO만 지원합니다. 암호화 ISO나 다른 판본에는 적용하지 마세요.\r\n" +
-                "2. 선택한 ISO 파일 자체를 수정합니다. 작업 중 RPCS3를 완전히 종료하고 ISO 마운트도 해제하세요.\r\n" +
-                "3. 기존 백업은 같은 경로에서 현재 버전용으로 갱신됩니다. 별도 백업은 만들지 않습니다.\r\n" +
+                "1. 일본판 BLJS10335의 복호화 ISO 또는 원본 폴더형 게임만 지원합니다.\r\n" +
+                "2. 선택한 ISO/PSARC 자체를 수정합니다. 작업 중 RPCS3를 완전히 종료하세요.\r\n" +
+                "3. ISO는 .ogmd-backup, 폴더 패치는 backup_original_* 폴더에 원본을 보관합니다.\r\n" +
                 "4. 정리 옵션은 dev_hdd0\\game\\BLJS10335와 cache\\BLJS10335\\spu-safe-v1-tane.dat만 삭제합니다.\r\n" +
                 "5. 세이브·savestate·PPU·셰이더 캐시와 BLJS10335.pre_* 폴더는 삭제하지 않습니다.";
             warningGroup.Controls.Add(warnings);
 
             warningCheck = new CheckBox();
-            warningCheck.Text = "위 주의사항을 확인했으며, 선택한 ISO가 직접 수정되는 것에 동의합니다.";
+            warningCheck.Text = "위 주의사항을 확인했으며, 선택한 ISO/PSARC가 직접 수정되는 것에 동의합니다.";
             warningCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             warningCheck.AutoSize = true;
             warningCheck.Location = new Point(20, 179);
@@ -294,11 +319,11 @@ internal static class OGMDIsoQuickPatch
             logLabel.Text = "진행 로그";
             logLabel.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             logLabel.AutoSize = true;
-            logLabel.Location = new Point(22, 534);
+            logLabel.Location = new Point(22, 559);
             Controls.Add(logLabel);
 
             logBox = new RichTextBox();
-            logBox.SetBounds(22, 557, 856, 176);
+            logBox.SetBounds(22, 582, 856, 176);
             logBox.ReadOnly = true;
             logBox.BackColor = Color.FromArgb(22, 28, 34);
             logBox.ForeColor = Color.FromArgb(225, 235, 240);
@@ -306,9 +331,25 @@ internal static class OGMDIsoQuickPatch
             logBox.WordWrap = false;
             Controls.Add(logBox);
 
+            directVerifyButton = new Button();
+            directVerifyButton.Text = "폴더 게임 상태 검사";
+            directVerifyButton.SetBounds(22, 775, 145, 38);
+            directVerifyButton.Click += delegate { StartDirectOperation(UiOperation.DirectVerify); };
+            Controls.Add(directVerifyButton);
+
+            directPatchButton = new Button();
+            directPatchButton.Text = "RPCS3 / 폴더 게임에 직접 패치";
+            directPatchButton.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            directPatchButton.BackColor = Color.FromArgb(38, 130, 82);
+            directPatchButton.ForeColor = Color.White;
+            directPatchButton.FlatStyle = FlatStyle.Flat;
+            directPatchButton.SetBounds(178, 775, 260, 38);
+            directPatchButton.Click += delegate { StartDirectOperation(UiOperation.DirectPatch); };
+            Controls.Add(directPatchButton);
+
             verifyButton = new Button();
-            verifyButton.Text = "원본 검사";
-            verifyButton.SetBounds(22, 749, 120, 38);
+            verifyButton.Text = "ISO 원본 검사";
+            verifyButton.SetBounds(22, 823, 120, 38);
             verifyButton.Click += delegate { StartOperation(UiOperation.Verify); };
             Controls.Add(verifyButton);
 
@@ -318,30 +359,30 @@ internal static class OGMDIsoQuickPatch
             patchButton.BackColor = Color.FromArgb(34, 112, 166);
             patchButton.ForeColor = Color.White;
             patchButton.FlatStyle = FlatStyle.Flat;
-            patchButton.SetBounds(153, 749, 214, 38);
+            patchButton.SetBounds(153, 823, 214, 38);
             patchButton.Click += delegate { StartOperation(UiOperation.Patch); };
             Controls.Add(patchButton);
 
             restoreButton = new Button();
             restoreButton.Text = "원본으로 복구";
-            restoreButton.SetBounds(378, 749, 140, 38);
+            restoreButton.SetBounds(378, 823, 140, 38);
             restoreButton.Click += delegate { StartOperation(UiOperation.Restore); };
             Controls.Add(restoreButton);
 
             closeButton = new Button();
             closeButton.Text = "닫기";
-            closeButton.SetBounds(758, 749, 120, 38);
+            closeButton.SetBounds(758, 823, 120, 38);
             closeButton.Click += delegate { Close(); };
             Controls.Add(closeButton);
 
             progressBar = new ProgressBar();
-            progressBar.SetBounds(22, 805, 650, 20);
+            progressBar.SetBounds(22, 879, 650, 20);
             Controls.Add(progressBar);
 
             statusLabel = new Label();
             statusLabel.Text = "대기 중";
             statusLabel.TextAlign = ContentAlignment.MiddleRight;
-            statusLabel.SetBounds(685, 802, 193, 25);
+            statusLabel.SetBounds(685, 876, 193, 25);
             Controls.Add(statusLabel);
 
             worker = new BackgroundWorker();
@@ -392,7 +433,7 @@ internal static class OGMDIsoQuickPatch
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog())
             {
-                dialog.Description = "rpcs3.exe가 있는 RPCS3 폴더를 선택하세요.";
+                dialog.Description = "RPCS3 폴더, BLJS10335 게임 폴더, PS3_GAME 또는 PSARC 폴더를 선택하세요.";
                 dialog.ShowNewFolderButton = false;
                 string current = rpcs3PathBox.Text.Trim().Trim('"');
                 if (!String.IsNullOrWhiteSpace(current) && Directory.Exists(current))
@@ -425,6 +466,94 @@ internal static class OGMDIsoQuickPatch
                 isoPathBox.Text = files[0];
                 UpdateDefaultBackupPath();
             }
+            else if (files != null && files.Length == 1 && Directory.Exists(files[0]))
+            {
+                rpcs3PathBox.Text = files[0];
+            }
+        }
+
+        private void StartDirectOperation(UiOperation operation)
+        {
+            string targetPath;
+            try
+            {
+                targetPath = ResolvePsarcTarget(rpcs3PathBox.Text.Trim().Trim('"'));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "폴더형 게임 경로 확인",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (operation == UiOperation.DirectPatch && !warningCheck.Checked)
+            {
+                MessageBox.Show(this, "직접 패치 전에 주의사항 확인란을 체크하세요.", "주의사항 확인 필요",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (operation == UiOperation.DirectPatch)
+            {
+                bool installedData = targetPath.IndexOf(
+                    "\\dev_hdd0\\game\\BLJS10335\\USRDIR\\PSARC",
+                    StringComparison.OrdinalIgnoreCase) >= 0;
+                string warning = installedData ?
+                    "\r\n\r\n[주의] 선택된 경로는 RPCS3 설치 데이터 사본입니다.\r\n" +
+                    "가능하면 원본 폴더형 게임의 PS3_GAME\\USRDIR\\PSARC를 패치하는 편이 안전합니다." :
+                    String.Empty;
+                if (!directBackupCheck.Checked)
+                    warning += "\r\n\r\n[주의] 자동 백업을 끈 상태입니다.";
+
+                DialogResult answer = MessageBox.Show(this,
+                    "다음 PSARC 폴더에 한국어 패치를 직접 적용합니다:\r\n\r\n" + targetPath +
+                    warning + "\r\n\r\nRPCS3가 완전히 종료되었습니까?",
+                    "폴더형 게임 직접 패치 확인", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (answer != DialogResult.Yes)
+                    return;
+            }
+
+            logBox.Clear();
+            SetBusy(true, operation == UiOperation.DirectVerify ? "폴더 게임 검사 중..." : "폴더 게임 패치 중...");
+            worker.RunWorkerAsync(new UiWorkItem
+            {
+                Operation = operation,
+                DirectTargetPath = targetPath,
+                DirectBackup = directBackupCheck.Checked
+            });
+        }
+
+        private static string ResolvePsarcTarget(string selectedPath)
+        {
+            if (String.IsNullOrWhiteSpace(selectedPath) || !Directory.Exists(selectedPath))
+                throw new DirectoryNotFoundException(
+                    "RPCS3 폴더, BLJS10335 게임 폴더, PS3_GAME 또는 PSARC 폴더를 선택하세요.");
+
+            string full = Path.GetFullPath(selectedPath);
+            string[] candidates = new string[]
+            {
+                full,
+                Path.Combine(full, "PS3_GAME", "USRDIR", "PSARC"),
+                Path.Combine(full, "USRDIR", "PSARC"),
+                Path.Combine(full, "dev_hdd0", "game", "BLJS10335", "USRDIR", "PSARC"),
+                Path.Combine(full, "game", "BLJS10335", "USRDIR", "PSARC")
+            };
+            string[] names = { "Common", "General2d", "Logic", "Battle" };
+            foreach (string candidate in candidates.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                if (Directory.Exists(candidate) && names.All(delegate(string name)
+                {
+                    return File.Exists(Path.Combine(candidate, name + ".psarc.sdat"));
+                }))
+                    return Path.GetFullPath(candidate);
+            }
+
+            throw new DirectoryNotFoundException(
+                "선택한 경로에서 OGMD PSARC 4개를 찾지 못했습니다.\r\n\r\n" +
+                "지원 예시:\r\n" +
+                "  ...\\BLJS10335\\PS3_GAME\\USRDIR\\PSARC\r\n" +
+                "  ...\\dev_hdd0\\game\\BLJS10335\\USRDIR\\PSARC");
         }
 
         private void StartOperation(UiOperation operation)
@@ -513,39 +642,46 @@ internal static class OGMDIsoQuickPatch
             logBox.Clear();
             SetBusy(true, operation == UiOperation.Verify ? "원본 검사 중..." :
                 (operation == UiOperation.Patch ? "패치 적용 중..." : "원본 복구 중..."));
-            worker.RunWorkerAsync(new object[]
+            worker.RunWorkerAsync(new UiWorkItem
             {
-                operation, Path.GetFullPath(isoPath), backupPath, rpcs3Path, deleteInstalledGame
+                Operation = operation,
+                IsoPath = Path.GetFullPath(isoPath),
+                BackupPath = backupPath,
+                Rpcs3Path = rpcs3Path,
+                DeleteInstalledGame = deleteInstalledGame
             });
         }
 
         private void WorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            object[] values = (object[])e.Argument;
-            UiOperation operation = (UiOperation)values[0];
-            string isoPath = (string)values[1];
-            string backupPath = (string)values[2];
-            string rpcs3Path = (string)values[3];
-            bool deleteInstalledGame = (bool)values[4];
+            UiWorkItem work = (UiWorkItem)e.Argument;
             UiResult result = new UiResult();
-            result.Operation = operation;
-            result.DeleteInstalledGame = deleteInstalledGame;
-            result.Rpcs3Inspected = !String.IsNullOrWhiteSpace(rpcs3Path);
+            result.Operation = work.Operation;
+            result.DeleteInstalledGame = work.DeleteInstalledGame;
+            result.Rpcs3Inspected = !String.IsNullOrWhiteSpace(work.Rpcs3Path);
+            result.DirectTargetPath = work.DirectTargetPath;
 
             TextWriter originalOutput = Console.Out;
             try
             {
                 Console.SetOut(new UiTextWriter(AppendLog));
-                Options options = new Options();
-                options.IsoPath = isoPath;
-                options.BackupPath = backupPath;
-                options.Yes = true;
-                options.VerifyOnly = operation == UiOperation.Verify;
-                options.Restore = operation == UiOperation.Restore;
-                options.Pause = false;
-                options.Rpcs3Path = rpcs3Path;
-                options.DeleteInstalledGame = deleteInstalledGame;
-                result.ExitCode = Run(options);
+                if (work.Operation == UiOperation.DirectVerify || work.Operation == UiOperation.DirectPatch)
+                {
+                    result.ExitCode = RunDirectFolderScript(work.Operation, work.DirectTargetPath, work.DirectBackup);
+                }
+                else
+                {
+                    Options options = new Options();
+                    options.IsoPath = work.IsoPath;
+                    options.BackupPath = work.BackupPath;
+                    options.Yes = true;
+                    options.VerifyOnly = work.Operation == UiOperation.Verify;
+                    options.Restore = work.Operation == UiOperation.Restore;
+                    options.Pause = false;
+                    options.Rpcs3Path = work.Rpcs3Path;
+                    options.DeleteInstalledGame = work.DeleteInstalledGame;
+                    result.ExitCode = Run(options);
+                }
             }
             catch (Exception ex)
             {
@@ -558,6 +694,76 @@ internal static class OGMDIsoQuickPatch
                 Console.SetOut(originalOutput);
             }
             e.Result = result;
+        }
+
+        private int RunDirectFolderScript(UiOperation operation, string targetPath, bool createBackup)
+        {
+            string baseDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (String.IsNullOrWhiteSpace(baseDirectory))
+                throw new InvalidOperationException("패처 실행 파일의 위치를 확인할 수 없습니다.");
+            string scriptName = operation == UiOperation.DirectPatch ? "install_xdelta.ps1" : "verify_xdelta.ps1";
+            string scriptPath = Path.Combine(baseDirectory, scriptName);
+            if (!File.Exists(scriptPath))
+                throw new FileNotFoundException("패처 옆에서 " + scriptName + " 파일을 찾을 수 없습니다.", scriptPath);
+
+            if (operation == UiOperation.DirectPatch)
+            {
+                string xdeltaPath = Path.Combine(baseDirectory, "xdelta.exe");
+                string patchDirectory = Path.Combine(baseDirectory, "patches");
+                if (!File.Exists(xdeltaPath))
+                    throw new FileNotFoundException("패처 옆에서 xdelta.exe를 찾을 수 없습니다.", xdeltaPath);
+                if (!Directory.Exists(patchDirectory))
+                    throw new DirectoryNotFoundException("패처 옆에서 patches 폴더를 찾을 수 없습니다: " + patchDirectory);
+            }
+
+            ProcessStartInfo start = new ProcessStartInfo();
+            string windowsPowerShell = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.System),
+                "WindowsPowerShell", "v1.0", "powershell.exe");
+            start.FileName = File.Exists(windowsPowerShell) ? windowsPowerShell : "powershell.exe";
+            start.Arguments = "-NoLogo -NoProfile -NonInteractive -ExecutionPolicy Bypass -File " +
+                QuoteProcessArgument(scriptPath) + " -TargetDir " + QuoteProcessArgument(targetPath) +
+                (operation == UiOperation.DirectPatch && !createBackup ? " -SkipBackup" : String.Empty);
+            start.WorkingDirectory = baseDirectory;
+            start.UseShellExecute = false;
+            start.CreateNoWindow = true;
+            start.RedirectStandardOutput = true;
+            start.RedirectStandardError = true;
+            start.StandardOutputEncoding = Encoding.UTF8;
+            start.StandardErrorEncoding = Encoding.UTF8;
+            string systemModulePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.System),
+                "WindowsPowerShell", "v1.0", "Modules");
+            string inheritedModulePath = start.EnvironmentVariables["PSModulePath"] ?? String.Empty;
+            if (inheritedModulePath.IndexOf(systemModulePath, StringComparison.OrdinalIgnoreCase) < 0)
+                start.EnvironmentVariables["PSModulePath"] = String.IsNullOrWhiteSpace(inheritedModulePath) ?
+                    systemModulePath : inheritedModulePath + Path.PathSeparator + systemModulePath;
+
+            using (Process process = new Process())
+            {
+                process.StartInfo = start;
+                process.OutputDataReceived += delegate(object sender, DataReceivedEventArgs args)
+                {
+                    if (args.Data != null)
+                        AppendLog(args.Data + Environment.NewLine);
+                };
+                process.ErrorDataReceived += delegate(object sender, DataReceivedEventArgs args)
+                {
+                    if (args.Data != null)
+                        AppendLog("[stderr] " + args.Data + Environment.NewLine);
+                };
+                if (!process.Start())
+                    throw new InvalidOperationException("PowerShell 패치 프로세스를 시작하지 못했습니다.");
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+                return process.ExitCode;
+            }
+        }
+
+        private static string QuoteProcessArgument(string value)
+        {
+            return "\"" + value.Replace("\"", "\\\"") + "\"";
         }
 
         private void WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -609,6 +815,21 @@ internal static class OGMDIsoQuickPatch
                     "세이브 데이터와 PPU/SPU/셰이더 캐시는 삭제하지 마세요.",
                     "패치 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            else if (result.Operation == UiOperation.DirectVerify)
+            {
+                MessageBox.Show(this,
+                    "폴더형 게임의 PSARC 상태 검사가 완료되었습니다.\r\n\r\n" + result.DirectTargetPath +
+                    "\r\n\r\n자세한 상태는 진행 로그를 확인하세요.",
+                    "폴더 게임 검사 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (result.Operation == UiOperation.DirectPatch)
+            {
+                MessageBox.Show(this,
+                    "폴더형 게임에 한국어 패치 적용과 최종 해시 검증이 완료되었습니다.\r\n\r\n" +
+                    result.DirectTargetPath +
+                    "\r\n\r\nSave State 대신 게임 내부 세이브로 실행해 확인하세요.",
+                    "폴더 게임 패치 완료", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
             else
             {
                 MessageBox.Show(this, "원본 ISO 복구와 해시 검증이 완료되었습니다.",
@@ -635,7 +856,7 @@ internal static class OGMDIsoQuickPatch
             if (!busyState)
                 return;
             e.Cancel = true;
-            MessageBox.Show(this, "ISO 작업 중에는 창을 닫을 수 없습니다. 완료될 때까지 기다리세요.",
+            MessageBox.Show(this, "패치 작업 중에는 창을 닫을 수 없습니다. 완료될 때까지 기다리세요.",
                 "작업 진행 중", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
@@ -648,11 +869,14 @@ internal static class OGMDIsoQuickPatch
             backupBrowseButton.Enabled = !busy;
             rpcs3PathBox.Enabled = !busy;
             rpcs3BrowseButton.Enabled = !busy;
+            directBackupCheck.Enabled = !busy;
             deleteInstalledGameCheck.Enabled = !busy;
             warningCheck.Enabled = !busy;
             verifyButton.Enabled = !busy;
             patchButton.Enabled = !busy;
             restoreButton.Enabled = !busy;
+            directVerifyButton.Enabled = !busy;
+            directPatchButton.Enabled = !busy;
             closeButton.Enabled = !busy;
             progressBar.Style = busy ? ProgressBarStyle.Marquee : ProgressBarStyle.Blocks;
             progressBar.MarqueeAnimationSpeed = busy ? 25 : 0;

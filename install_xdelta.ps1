@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
-  버전 v20260819c
+  버전 v20260822b
 
   - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
@@ -23,6 +23,26 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+if (-not (Get-Command Get-FileHash -ErrorAction SilentlyContinue)) {
+    function Get-FileHash {
+        param(
+            [Parameter(Mandatory = $true)][string]$LiteralPath,
+            [string]$Algorithm = 'SHA256'
+        )
+        if ($Algorithm -ne 'SHA256') { throw "지원하지 않는 해시 알고리즘: $Algorithm" }
+        $sha = [System.Security.Cryptography.SHA256]::Create()
+        $stream = [System.IO.File]::OpenRead($LiteralPath)
+        try {
+            $value = [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-', '')
+        }
+        finally {
+            $stream.Dispose()
+            $sha.Dispose()
+        }
+        [pscustomobject]@{ Algorithm = 'SHA256'; Hash = $value; Path = $LiteralPath }
+    }
+}
 
 $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path }
@@ -43,19 +63,19 @@ $SPEC = [ordered]@{
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332'
+        Target = '29EC56DB773F1ADD358D883ECC522AC28FACC2BEC124F947B28FCBA280282D1E'
         Mtime  = '2016-04-30T02:15:24Z'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = '88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45'
+        Target = '3CB73CD83E946070995A0EA4529F7C3BF2CB101B9FD24C3D36E38719360B079F'
         Mtime  = '2016-05-04T10:52:39Z'
     }
     'Battle' = @{
         Size   = 1729186848
         Source = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'
-        Target = '4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420'
+        Target = 'B5CB66BBA32BBF066E4846886E5394FF42C6789B814B9F1282A374E4DDA4113E'
         Mtime  = '2016-05-04T04:50:11Z'
     }
 }
@@ -92,7 +112,8 @@ $full = (Resolve-Path -LiteralPath $TargetDir).Path
 # 게임이 무결성 검사에서 걸려 "게임 데이터가 손상되었습니다" 가 뜰 수 있습니다.
 $isRom      = $full -match 'PS3_GAME[\\/]USRDIR[\\/]PSARC[\\/]?$'
 $isGameData = $full -match 'BLJS10335[\\/]USRDIR[\\/]PSARC[\\/]?$'
-if (-not ($isRom -or $isGameData)) {
+$isDirectPsarc = (Split-Path -Leaf $full) -eq 'PSARC'
+if (-not ($isRom -or $isGameData -or $isDirectPsarc)) {
     Fail ("대상 경로가 올바르지 않습니다: $full`n" +
           "  롬(권장)   : ...\BLJS10335\PS3_GAME\USRDIR\PSARC`n" +
           "  게임 데이터: ...\dev_hdd0\game\BLJS10335\USRDIR\PSARC")
@@ -106,11 +127,13 @@ foreach ($n in $SPEC.Keys) {
 Write-Ok "대상: $full"
 if ($isRom) {
     Write-Host '    (롬 쪽입니다 — 권장 대상)' -ForegroundColor Green
-} else {
+} elseif ($isGameData) {
     Write-Host '    (게임 데이터 쪽입니다)' -ForegroundColor Yellow
     Write-Host '    이 폴더는 게임이 롬에서 복사해 만든 사본입니다.' -ForegroundColor Yellow
     Write-Host '    여기만 바꾸면 게임이 "게임 데이터가 손상되었습니다" 로 막을 수 있습니다.' -ForegroundColor Yellow
     Write-Host '    롬 쪽(...\PS3_GAME\USRDIR\PSARC)에 적용하는 편이 안전합니다.' -ForegroundColor Yellow
+} else {
+    Write-Host '    (직접 선택한 PSARC 폴더입니다 — 파일 해시로 판본을 검증합니다)' -ForegroundColor Cyan
 }
 
 # ---------------------------------------------------------------- 3. 원본 검증

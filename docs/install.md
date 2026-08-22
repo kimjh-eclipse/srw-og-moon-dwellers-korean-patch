@@ -36,6 +36,11 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 처음 패치할 때 복구용 `.ogmd-backup` 파일을 만듭니다. 원상복구와 다음 버전 갱신에
 필요하니 보관하세요.
 
+v20260822부터 같은 실행 파일에서 **RPCS3/폴더형 게임 경로를 직접 선택해 패치**할 수도
+있습니다. BLJS10335 게임 루트, `PS3_GAME`, `USRDIR\PSARC`, RPCS3 루트를 자동 판별하고,
+`폴더 게임 상태 검사`로 먼저 확인한 뒤 `RPCS3 / 폴더 게임에 직접 패치`를 누릅니다.
+원본 PSARC 4개 자동 백업 옵션은 기본으로 켜져 있습니다.
+
 패치가 끝나면 아래 **4. 게임 데이터 폴더 삭제** 로 이어집니다.
 
 아래 내용은 **방법 B (xdelta)** 기준입니다.
@@ -76,18 +81,18 @@ ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260819c.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260819/OGMD_KR_v20260819c.zip)
+[OGMD_KR_v20260822b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260822/OGMD_KR_v20260822b.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260819c.zip   104,712,671 바이트
-SHA-256: 934DE5FD9258582E561826BE259577B67AB553B3B5715AC7D34FAA740529B34B
+OGMD_KR_v20260822b.zip   104,587,361 바이트
+SHA-256: 32DA4BC5E3C798A7948F41947E8A14FE903F489C46112615277960A85EB0AB4F
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260819c.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260822b.zip -Algorithm SHA256
 ```
 
 압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
@@ -105,7 +110,7 @@ CHANGELOG.txt
 SHA256SUMS.txt
 ```
 
-v20260819부터 ZIP 안에 `OGMD_KR_v20260819c` 폴더가 들어 있습니다. 압축을 풀면
+ZIP 안에 `OGMD_KR_v20260822b` 폴더가 들어 있습니다. 압축을 풀면
 이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
@@ -146,9 +151,9 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 | 파일 | SHA-256 |
 |---|---|
 | `Common.psarc.sdat` | `16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2` |
-| `General2d.psarc.sdat` | `2B93DC5F3067BA94379429553699A978A63E8BB8AB7105B5286F912FB4E19332` |
-| `Logic.psarc.sdat` | `88805060C4D910749A926199D96B6DE11EC2BD5F49FA422E28C759407834BB45` |
-| `Battle.psarc.sdat` | `4841F5801429D74B06DFCE71B4FBBDD0F8635D88BE72F17B5D9069EF77980420` |
+| `General2d.psarc.sdat` | `29EC56DB773F1ADD358D883ECC522AC28FACC2BEC124F947B28FCBA280282D1E` |
+| `Logic.psarc.sdat` | `3CB73CD83E946070995A0EA4529F7C3BF2CB101B9FD24C3D36E38719360B079F` |
+| `Battle.psarc.sdat` | `B5CB66BBA32BBF066E4846886E5394FF42C6789B814B9F1282A374E4DDA4113E` |
 
 ## 4. 게임 데이터 폴더 삭제
 
