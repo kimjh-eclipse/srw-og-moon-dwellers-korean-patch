@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260822b-rpcs3-ui";
+    private const string VersionText = "v20260823-hayuhau-followups";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string PackMagic = "OGMDRNG1";
     private const string BackupMagic = "OGMDBAK1";

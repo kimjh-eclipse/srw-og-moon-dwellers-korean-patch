@@ -5,13 +5,13 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260822 내려받기: [OGMD_KR_v20260822b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260822/OGMD_KR_v20260822b.zip)**
+> **📦 v20260823 내려받기: [OGMD_KR_v20260823.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260823/OGMD_KR_v20260823.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260822b.zip   104,587,361 바이트
-> SHA-256: 32DA4BC5E3C798A7948F41947E8A14FE903F489C46112615277960A85EB0AB4F
+> OGMD_KR_v20260823.zip   104,627,673 바이트
+> SHA-256: B2BACA98ECC3E5D8EDF1580B33ABD018EDE19B8F95AEA79DC874234586FEBEE0
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
@@ -20,10 +20,10 @@
 
 | | |
 |---|---|
-| 버전 | `v20260822` |
+| 버전 | `v20260823` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
-| 배포 형식 | xdelta 패치 4개 (합계 약 49.45 MiB) |
+| 배포 형식 | xdelta 패치 4개 (합계 약 49.47 MiB) |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 이번 버전부터 설치 방식이 두 가지입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
@@ -273,9 +273,9 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 | 파일 | SHA-256 |
 |---|---|
 | `Common.psarc.sdat` | `16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2` |
-| `General2d.psarc.sdat` | `29EC56DB773F1ADD358D883ECC522AC28FACC2BEC124F947B28FCBA280282D1E` |
-| `Logic.psarc.sdat` | `3CB73CD83E946070995A0EA4529F7C3BF2CB101B9FD24C3D36E38719360B079F` |
-| `Battle.psarc.sdat` | `B5CB66BBA32BBF066E4846886E5394FF42C6789B814B9F1282A374E4DDA4113E` |
+| `General2d.psarc.sdat` | `3275C466AF8C23693933CCB3449965C7E10F8B34BA4D62596D7EEDE7491A39BF` |
+| `Logic.psarc.sdat` | `D8F6CA3AE3332E0BFFBF9C32D2AC83F4706ED35D11EDB09C66D8B8CF7CE423AD` |
+| `Battle.psarc.sdat` | `F13220CF8CF8A3FE41EB75C3FC8919168331CB52D98F5C4AA351E195F3FAE36F` |
 
 두 설치 방식 모두 이 결과를 만듭니다.
 네 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(왕복 검증 4/4 통과).
