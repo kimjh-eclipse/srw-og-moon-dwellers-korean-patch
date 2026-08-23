@@ -10,8 +10,8 @@
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260823.zip   104,627,673 바이트
-> SHA-256: B2BACA98ECC3E5D8EDF1580B33ABD018EDE19B8F95AEA79DC874234586FEBEE0
+> OGMD_KR_v20260823.zip   104,627,623 바이트
+> SHA-256: 68D32A3AD5547E451B621B565517A03183DDBA09A8C236467AAFC8F8B904D6EF
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
