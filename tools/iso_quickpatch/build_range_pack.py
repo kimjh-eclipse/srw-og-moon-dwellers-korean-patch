@@ -39,9 +39,9 @@ FILES = (
         "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
         # General2d/tex_06.dds image localization is intentionally excluded.
         # It is a shared UI glyph atlas and corrupted the level-up display.
-        "target": ROOT / "korean_build_v3/General2d_hayuhau_followups_ko_20260823.psarc.sdat",
+        "target": ROOT / "korean_build_v3/General2d_prompts_ko_20260826.psarc.sdat",
         "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "3275C466AF8C23693933CCB3449965C7E10F8B34BA4D62596D7EEDE7491A39BF",
+        "target_hash": "699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473",
     },
     {
         "name": "Logic",
@@ -50,9 +50,9 @@ FILES = (
         # Logic image replacements are retired; use the text-only archive.
         # Includes all localized scenario titles plus the full location-card
         # audit that replaces visible U+3000 separators with normal spaces.
-        "target": ROOT / "korean_build_v3/Logic_hayuhau_followups_ko_20260823.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Logic_names_ko_20260825.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "D8F6CA3AE3332E0BFFBF9C32D2AC83F4706ED35D11EDB09C66D8B8CF7CE423AD",
+        "target_hash": "D1C3FC23F35D9A1710A53C089610558567B22E66D9132CAC9083972CA3CE3A51",
     },
     {
         "name": "Battle",
@@ -60,9 +60,9 @@ FILES = (
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
         # Battle/cosl.dds image localization is intentionally excluded.
         # It is a shared HUD atlas and hid unit names plus HP/EN at runtime.
-        "target": ROOT / "korean_build_v3/Battle_hayuhau_followups_ko_20260823.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Battle_names_ko_20260825.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "F13220CF8CF8A3FE41EB75C3FC8919168331CB52D98F5C4AA351E195F3FAE36F",
+        "target_hash": "F7A5BA065F32E72294A4F63CD43E42A9D97B4F87869209CCEBD40DF0914B51C3",
     },
 )
 
