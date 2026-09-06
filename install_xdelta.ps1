@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
-  버전 v20260826
+  버전 v20260907
 
   - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
@@ -69,7 +69,7 @@ $SPEC = [ordered]@{
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = 'D1C3FC23F35D9A1710A53C089610558567B22E66D9132CAC9083972CA3CE3A51'
+        Target = '1AFD7A9AE89CBDE7D6F5B329B8A36EDEDA9045C690E3CB6530A26F8DE4A0235B'
         Mtime  = '2016-05-04T10:52:39Z'
     }
     'Battle' = @{
