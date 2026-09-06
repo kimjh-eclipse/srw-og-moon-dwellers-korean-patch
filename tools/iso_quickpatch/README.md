@@ -13,6 +13,7 @@ ISO 전체 11.8GB를 다시 만들지 않습니다.
 | `OGMDIsoQuickPatch.cs` | 패처 본체. WinForms GUI, ISO 구간 쓰기, 백업·복구, RPCS3 경로 검사 |
 | `build_range_pack.py` | 원본 ISO와 최종 PSARC를 비교해 바뀐 구간만 모은 range pack 생성기 |
 | `build.ps1` | 위 둘을 묶어 실행 파일을 만드는 빌드 스크립트 |
+| `OGMD_SAVE_proxymap.tsv` | 세이브 목록 한글화용 대체 코드→한글 역매핑 표(1,305쌍). 실행 파일에 리소스로 내장 |
 
 ## 동작 방식
 

@@ -58,6 +58,11 @@ Write-Host ("range pack {0:N0} bytes" -f (Get-Item -LiteralPath $RangePack).Leng
 # "실행 파일 내부 패치 데이터를 찾을 수 없습니다." 로 실패한다.
 $resourceName = 'OGMD_ISO_ranges.bin'
 
+# 세이브 목록 한글화용 대체 코드 역매핑 표. 소스의 SaveMapResourceName 과 같아야 한다.
+$saveMap = Join-Path $here 'OGMD_SAVE_proxymap.tsv'
+if (-not (Test-Path -LiteralPath $saveMap)) { throw "세이브 문자 표가 없습니다: $saveMap" }
+$saveMapName = 'OGMD_SAVE_proxymap.tsv'
+
 # /target:winexe 라야 일반 실행 때 콘솔 창이 뜨지 않는다.
 $arguments = @(
     '/nologo'
@@ -67,6 +72,7 @@ $arguments = @(
     '/reference:System.Windows.Forms.dll'
     '/reference:System.Drawing.dll'
     "/resource:$RangePack,$resourceName"
+    "/resource:$saveMap,$saveMapName"
     $source
 )
 

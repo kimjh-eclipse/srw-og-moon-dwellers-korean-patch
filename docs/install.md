@@ -81,18 +81,18 @@ v20260822부터 같은 실행 파일에서 **RPCS3/폴더형 게임 경로를 �
 
 ## 2. 내려받기
 
-[OGMD_KR_v20260907.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260907/OGMD_KR_v20260907.zip)
+[OGMD_KR_v20260907b.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260907b/OGMD_KR_v20260907b.zip)
 을 받아 압축을 풉니다. 최신판은
 [Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
 에서 확인하세요.
 
 ```
-OGMD_KR_v20260907.zip   104,626,875 바이트
-SHA-256: F404229D54D4975853E30D0440602C4CCE81ED6E205052D08AC759CA1C9734DC
+OGMD_KR_v20260907b.zip   104,983,409 바이트
+SHA-256: 80FC91AF1F440731D4B90F4CCDC6CC10D212C7D1DC88EE8545881B4533F94575
 ```
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260907.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260907b.zip -Algorithm SHA256
 ```
 
 압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
@@ -110,7 +110,7 @@ CHANGELOG.txt
 SHA256SUMS.txt
 ```
 
-ZIP 안에 `OGMD_KR_v20260907` 폴더가 들어 있습니다. 압축을 풀면
+ZIP 안에 `OGMD_KR_v20260907b` 폴더가 들어 있습니다. 압축을 풀면
 이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
 
 ## 3. 자동 설치 (권장)
@@ -153,7 +153,7 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 | `Common.psarc.sdat` | `16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2` |
 | `General2d.psarc.sdat` | `699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473` |
 | `Logic.psarc.sdat` | `1AFD7A9AE89CBDE7D6F5B329B8A36EDEDA9045C690E3CB6530A26F8DE4A0235B` |
-| `Battle.psarc.sdat` | `F7A5BA065F32E72294A4F63CD43E42A9D97B4F87869209CCEBD40DF0914B51C3` |
+| `Battle.psarc.sdat` | `48C356CA87C6BBF9BB0B32424EA46FB8B01FEE3FC6EAF29B698FCEF7300C1523` |
 
 ## 4. 게임 데이터 폴더 삭제
 
