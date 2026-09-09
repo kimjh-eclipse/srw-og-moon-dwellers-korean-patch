@@ -50,9 +50,9 @@ FILES = (
         # Logic image replacements are retired; use the text-only archive.
         # Includes all localized scenario titles plus the full location-card
         # audit that replaces visible U+3000 separators with normal spaces.
-        "target": ROOT / "korean_build_v3/Logic_ending_key_ko_20260906.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Logic_issue6_ko_20260909.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "1AFD7A9AE89CBDE7D6F5B329B8A36EDEDA9045C690E3CB6530A26F8DE4A0235B",
+        "target_hash": "6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE",
     },
     {
         "name": "Battle",
@@ -60,9 +60,9 @@ FILES = (
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
         # Battle/cosl.dds: the shared HUD atlas. A whole-file replacement once hid
         # unit names and HP/EN; 173 repaints only the 9 attack-type label boxes.
-        "target": ROOT / "korean_build_v3/Battle_hud_labels_ko_20260906.psarc.sdat",
+        "target": ROOT / "korean_build_v3/Battle_issue6_ko_20260909.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "48C356CA87C6BBF9BB0B32424EA46FB8B01FEE3FC6EAF29B698FCEF7300C1523",
+        "target_hash": "F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E",
     },
 )
 

@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260907b-hud-labels-save-hangul";
+    private const string VersionText = "v20260909c-cleanup-default";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string SaveMapResourceName = "OGMD_SAVE_proxymap.tsv";
     private const string SaveDirectoryPrefix = "BLJS10335_OMI-";
@@ -289,9 +289,12 @@ internal static class OGMDIsoQuickPatch
             Controls.Add(directBackupCheck);
 
             deleteInstalledGameCheck = new CheckBox();
-            deleteInstalledGameCheck.Text = "ISO 패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리";
+            deleteInstalledGameCheck.Text = "ISO 패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리 (권장)";
             deleteInstalledGameCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             deleteInstalledGameCheck.AutoSize = true;
+            // 설치 데이터 사본이 남아 있으면 게임이 그것을 먼저 읽어 패치가 적용되지 않는다.
+            // 수정시각 보존 이후로는 그 상황에서 오류도 뜨지 않으므로 기본값을 켜 둔다.
+            deleteInstalledGameCheck.Checked = true;
             deleteInstalledGameCheck.Location = new Point(22, 294);
             Controls.Add(deleteInstalledGameCheck);
 
@@ -677,8 +680,19 @@ internal static class OGMDIsoQuickPatch
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(this, ex.Message, "RPCS3 경로 확인", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    // 정리가 기본값이므로 RPCS3 경로가 없다고 패치 자체를 막지는 않는다.
+                    DialogResult skip = MessageBox.Show(this,
+                        ex.Message + "\r\n\r\n" +
+                        "설치 데이터 정리를 건너뛰고 ISO만 패치할 수 있습니다.\r\n\r\n" +
+                        "[주의] RPCS3에 예전 설치 데이터(dev_hdd0\\game\\BLJS10335)가 남아 있으면 게임이\r\n" +
+                        "그 사본을 먼저 읽기 때문에 패치가 적용되지 않은 상태로 실행됩니다.\r\n" +
+                        "이때 오류 메시지는 뜨지 않으므로 해당 폴더를 직접 지워 주세요.\r\n\r\n" +
+                        "정리 없이 계속하시겠습니까?",
+                        "설치 데이터 정리 건너뛰기", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    if (skip != DialogResult.Yes)
+                        return;
+                    deleteInstalledGame = false;
                 }
             }
 
@@ -689,7 +703,10 @@ internal static class OGMDIsoQuickPatch
                     "RPCS3가 완전히 종료되었고 ISO 마운트가 해제되었습니까?" +
                     (deleteInstalledGame ?
                         "\r\n\r\n패치 성공 후 다음 설치 폴더만 삭제합니다:\r\n" +
-                        GetInstalledGamePath(rpcs3Path) : String.Empty),
+                        GetInstalledGamePath(rpcs3Path) :
+                        "\r\n\r\n[주의] 설치 데이터 정리를 하지 않습니다.\r\n" +
+                        "예전 dev_hdd0\\game\\BLJS10335 사본이 남아 있으면 게임이 그것을 먼저 읽어\r\n" +
+                        "패치가 적용되지 않은 상태로 실행됩니다. 오류는 뜨지 않으므로 직접 지워 주세요."),
                     "ISO 직접 패치 확인", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (answer != DialogResult.Yes)
                     return;

@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
-  버전 v20260907b
+  버전 v20260909c
 
   - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
@@ -52,31 +52,28 @@ if ([string]::IsNullOrEmpty($XdeltaPath)) { $XdeltaPath = Join-Path $ScriptRoot 
 if ([string]::IsNullOrEmpty($PatchDir))   { $PatchDir   = Join-Path $ScriptRoot 'patches' }
 if ([string]::IsNullOrEmpty($BackupRoot)) { $BackupRoot = $ScriptRoot }
 
-# name = 원본 SHA256 / 패치 후 SHA256 / 크기 / 원래 수정시각(UTC)
+# name = 원본 SHA256 / 패치 후 SHA256 / 크기
+# 수정시각은 대상 파일에서 읽어 교체 후 그대로 복원합니다.
 $SPEC = [ordered]@{
     'Common' = @{
         Size   = 505828992
         Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
         Target = '16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2'
-        Mtime  = '2016-05-04T04:37:57Z'
     }
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
         Target = '699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473'
-        Mtime  = '2016-04-30T02:15:24Z'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = '1AFD7A9AE89CBDE7D6F5B329B8A36EDEDA9045C690E3CB6530A26F8DE4A0235B'
-        Mtime  = '2016-05-04T10:52:39Z'
+        Target = '6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE'
     }
     'Battle' = @{
         Size   = 1729186848
         Source = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'
-        Target = '48C356CA87C6BBF9BB0B32424EA46FB8B01FEE3FC6EAF29B698FCEF7300C1523'
-        Mtime  = '2016-05-04T04:50:11Z'
+        Target = 'F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E'
     }
 }
 
@@ -185,6 +182,9 @@ try {
         & $XdeltaPath -d -f -s $src $pf $tmp
         if ($LASTEXITCODE -ne 0) { Fail "$n xdelta 적용 실패 (exit $LASTEXITCODE)" }
 
+        # ISO와 RPCS3 설치 데이터의 시각이 다르므로 대상의 실제 값을 보존합니다.
+        $sourceMtimeUtc = (Get-Item -LiteralPath $src).LastWriteTimeUtc
+
         $ti = Get-Item -LiteralPath $tmp
         if ($ti.Length -ne $SPEC[$n].Size) {
             Fail "$n 결과 크기 불일치. 기대 $($SPEC[$n].Size), 실제 $($ti.Length)"
@@ -198,9 +198,8 @@ try {
         # 검증된 결과만 교체
         Move-Item -LiteralPath $tmp -Destination $src -Force
 
-        # 수정시각 복원 — 달라지면 부팅/로딩 문제가 생길 수 있습니다.
-        $mt = [datetime]::Parse($SPEC[$n].Mtime, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AdjustToUniversal -bor [Globalization.DateTimeStyles]::AssumeUniversal)
-        (Get-Item -LiteralPath $src).LastWriteTimeUtc = $mt
+        # 패치 전 대상 파일의 수정시각을 정확히 복원합니다.
+        (Get-Item -LiteralPath $src).LastWriteTimeUtc = $sourceMtimeUtc
         Write-Ok "$n 교체 및 수정시각 복원"
     }
 }

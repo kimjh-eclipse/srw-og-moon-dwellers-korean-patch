@@ -42,12 +42,12 @@ $ScriptRoot = $PSScriptRoot
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path }
 if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = (Get-Location).Path }
 
-# 원본 SHA-256 및 원래 수정시각(UTC)
+# 원본 SHA-256 (수정시각은 백업 파일 자체의 값을 사용)
 $SPEC = [ordered]@{
-    'Common'    = @{ Size = 505828992;  Hash = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'; Mtime = '2016-05-04T04:37:57Z' }
-    'General2d' = @{ Size = 611585392;  Hash = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'; Mtime = '2016-04-30T02:15:24Z' }
-    'Logic'     = @{ Size = 38399120;   Hash = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'; Mtime = '2016-05-04T10:52:39Z' }
-    'Battle'    = @{ Size = 1729186848; Hash = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844'; Mtime = '2016-05-04T04:50:11Z' }
+    'Common'    = @{ Size = 505828992;  Hash = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB' }
+    'General2d' = @{ Size = 611585392;  Hash = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667' }
+    'Logic'     = @{ Size = 38399120;   Hash = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181' }
+    'Battle'    = @{ Size = 1729186848; Hash = '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844' }
 }
 
 function Fail($m) {
@@ -104,9 +104,9 @@ Write-Host '[*] 원본 복구'
 foreach ($n in $SPEC.Keys) {
     $b = Join-Path $BackupDir "$n.psarc.sdat"
     $t = Join-Path $full "$n.psarc.sdat"
+    $backupMtimeUtc = (Get-Item -LiteralPath $b).LastWriteTimeUtc
     Copy-Item -LiteralPath $b -Destination $t -Force
-    $mt = [datetime]::Parse($SPEC[$n].Mtime, [Globalization.CultureInfo]::InvariantCulture, [Globalization.DateTimeStyles]::AdjustToUniversal -bor [Globalization.DateTimeStyles]::AssumeUniversal)
-    (Get-Item -LiteralPath $t).LastWriteTimeUtc = $mt
+    (Get-Item -LiteralPath $t).LastWriteTimeUtc = $backupMtimeUtc
     Write-Host ("    {0,-10} 복구 완료" -f $n)
 }
 
