@@ -34,21 +34,37 @@ if (-not (Get-Command Get-FileHash -ErrorAction SilentlyContinue)) {
     }
 }
 
+# PS3_GAME 루트의 제목·아이콘. 선택 적용이며, 없거나 원본 해시가 다르면 건너뜁니다.
+$EXTRA = [ordered]@{
+    'PARAM.SFO' = @{
+        Size   = 1040
+        Source = '0A876ACFABB16CEAA017EDD51A700079678AA8E61C0B7AEFE0B59CB19B59FF22'
+        Target = 'B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54'
+        Patch  = 'PARAM.SFO.xdelta'
+    }
+    'ICON0.PNG' = @{
+        Size   = 114574
+        Source = '9B2E67DC606CEF3CD269E13DDA425445820A65F034DE4B3BC000435EA0B9B136'
+        Target = '0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00'
+        Patch  = 'ICON0.PNG.xdelta'
+    }
+}
+
 $SPEC = [ordered]@{
     'Common' = @{
         Size   = 505828992
         Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
-        Target = '16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2'
+        Target = '52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373'
     }
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473'
+        Target = '6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = '6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE'
+        Target = '8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C'
     }
     'Battle' = @{
         Size   = 1729186848
@@ -91,6 +107,22 @@ foreach ($n in $SPEC.Keys) {
         Write-Host ("           크기 {0:N0} (기대 {1:N0})" -f $i.Length, $SPEC[$n].Size)
         $unknown++
     }
+}
+
+# ------------------------------------------------- 제목·아이콘 상태 (선택 항목)
+Write-Host ''
+Write-Host '[제목·아이콘]'
+$gameRoot = Split-Path -Parent (Split-Path -Parent $full)
+foreach ($e in $EXTRA.Keys) {
+    $ef = Join-Path $gameRoot $e
+    if (-not (Test-Path -LiteralPath $ef -PathType Leaf)) {
+        Write-Host ("{0,-12} 없음 (이 대상에는 해당 파일이 없습니다)" -f $e) -ForegroundColor Yellow
+        continue
+    }
+    $eh = (Get-FileHash -LiteralPath $ef -Algorithm SHA256).Hash
+    if ($eh -eq $EXTRA[$e].Target)     { Write-Host ("{0,-12} 한국어판" -f $e) -ForegroundColor Green }
+    elseif ($eh -eq $EXTRA[$e].Source) { Write-Host ("{0,-12} 일본판 원본" -f $e) -ForegroundColor Cyan }
+    else                               { Write-Host ("{0,-12} 알 수 없는 판본 $eh" -f $e) -ForegroundColor Yellow }
 }
 
 Write-Host ''

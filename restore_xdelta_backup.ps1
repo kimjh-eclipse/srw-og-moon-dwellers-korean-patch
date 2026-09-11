@@ -118,3 +118,17 @@ foreach ($n in $SPEC.Keys) {
 }
 Write-Host ''
 Write-Host '백업 폴더는 지우지 않았습니다. 필요 없으면 직접 삭제하세요.' -ForegroundColor Yellow
+$EXTRA = @('PARAM.SFO', 'ICON0.PNG')
+
+# ------------------------------------------------- 제목·아이콘 복구 (백업에 있으면)
+$gameRoot = Split-Path -Parent (Split-Path -Parent $full)
+foreach ($e in $EXTRA) {
+    $bf = Join-Path $BackupDir $e
+    $tf = Join-Path $gameRoot $e
+    if (-not (Test-Path -LiteralPath $bf -PathType Leaf)) { continue }
+    if (-not (Test-Path -LiteralPath (Split-Path -Parent $tf) -PathType Container)) { continue }
+    $mt = (Get-Item -LiteralPath $bf).LastWriteTimeUtc
+    Copy-Item -LiteralPath $bf -Destination $tf -Force
+    (Get-Item -LiteralPath $tf).LastWriteTimeUtc = $mt
+    Write-Host "[OK] $e 복구" -ForegroundColor Green
+}

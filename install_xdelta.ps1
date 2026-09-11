@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
-  버전 v20260909c
+  버전 v20260910
 
   - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
@@ -54,21 +54,37 @@ if ([string]::IsNullOrEmpty($BackupRoot)) { $BackupRoot = $ScriptRoot }
 
 # name = 원본 SHA256 / 패치 후 SHA256 / 크기
 # 수정시각은 대상 파일에서 읽어 교체 후 그대로 복원합니다.
+# PS3_GAME 루트의 제목·아이콘. 선택 적용이며, 없거나 원본 해시가 다르면 건너뜁니다.
+$EXTRA = [ordered]@{
+    'PARAM.SFO' = @{
+        Size   = 1040
+        Source = '0A876ACFABB16CEAA017EDD51A700079678AA8E61C0B7AEFE0B59CB19B59FF22'
+        Target = 'B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54'
+        Patch  = 'PARAM.SFO.xdelta'
+    }
+    'ICON0.PNG' = @{
+        Size   = 114574
+        Source = '9B2E67DC606CEF3CD269E13DDA425445820A65F034DE4B3BC000435EA0B9B136'
+        Target = '0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00'
+        Patch  = 'ICON0.PNG.xdelta'
+    }
+}
+
 $SPEC = [ordered]@{
     'Common' = @{
         Size   = 505828992
         Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
-        Target = '16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2'
+        Target = '52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373'
     }
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473'
+        Target = '6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = '6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE'
+        Target = '8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C'
     }
     'Battle' = @{
         Size   = 1729186848
@@ -207,6 +223,52 @@ finally {
     if (Test-Path -LiteralPath $tempDir) {
         Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
     }
+}
+
+# ------------------------------------------------- 8b. 제목·아이콘 (선택 적용)
+Write-Step '게임 목록 제목·아이콘 확인'
+$gameRoot = Split-Path -Parent (Split-Path -Parent $full)
+$extraDone = @()
+$extraSkip = @()
+if (-not (Test-Path -LiteralPath $gameRoot -PathType Container)) {
+    Write-Host "    상위 폴더를 찾지 못해 건너뜁니다: $gameRoot" -ForegroundColor Yellow
+} else {
+    foreach ($e in $EXTRA.Keys) {
+        $ef = Join-Path $gameRoot $e
+        $ep = Join-Path $PatchDir $EXTRA[$e].Patch
+        if (-not (Test-Path -LiteralPath $ef -PathType Leaf)) {
+            $extraSkip += "$e (파일 없음)"
+            continue
+        }
+        if (-not (Test-Path -LiteralPath $ep -PathType Leaf)) {
+            $extraSkip += "$e (패치 파일 없음)"
+            continue
+        }
+        $eh = (Get-FileHash -LiteralPath $ef -Algorithm SHA256).Hash
+        if ($eh -eq $EXTRA[$e].Target) { $extraSkip += "$e (이미 적용됨)"; continue }
+        if ($eh -ne $EXTRA[$e].Source) { $extraSkip += "$e (원본 해시 다름)"; continue }
+
+        if (-not $SkipBackup) {
+            Copy-Item -LiteralPath $ef -Destination (Join-Path $backupDir $e) -Force
+        }
+        $etmp = Join-Path $full ("_extra_tmp_" + $stamp + "_" + $e)
+        & $XdeltaPath -d -f -s $ef $ep $etmp
+        if ($LASTEXITCODE -ne 0) { Fail "$e xdelta 적용 실패 (exit $LASTEXITCODE)" }
+        $eti = Get-Item -LiteralPath $etmp
+        if ($eti.Length -ne $EXTRA[$e].Size) { Fail "$e 결과 크기 불일치. 기대 $($EXTRA[$e].Size), 실제 $($eti.Length)" }
+        $eth = (Get-FileHash -LiteralPath $etmp -Algorithm SHA256).Hash
+        if ($eth -ne $EXTRA[$e].Target) { Fail "$e 결과 해시 불일치.`n  기대: $($EXTRA[$e].Target)`n  실제: $eth" }
+        $emtime = (Get-Item -LiteralPath $ef).LastWriteTimeUtc
+        Move-Item -LiteralPath $etmp -Destination $ef -Force
+        (Get-Item -LiteralPath $ef).LastWriteTimeUtc = $emtime
+        $extraDone += $e
+        Write-Ok "$e 교체 및 수정시각 복원"
+    }
+}
+if ($extraDone.Count -gt 0) { Write-Ok ("제목·아이콘 적용: " + ($extraDone -join ', ')) }
+foreach ($s in $extraSkip) { Write-Host "    건너뜀: $s" -ForegroundColor Yellow }
+if ($extraDone.Count -eq 0) {
+    Write-Host '    제목·아이콘은 롬(PS3_GAME) 쪽에 적용됩니다. 게임 데이터 사본에는 적용하지 않습니다.' -ForegroundColor Yellow
 }
 
 # ---------------------------------------------------------------- 9. 캐시 보존

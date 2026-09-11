@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260909c-cleanup-default";
+    private const string VersionText = "v20260910-archive-title-icon";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string SaveMapResourceName = "OGMD_SAVE_proxymap.tsv";
     private const string SaveDirectoryPrefix = "BLJS10335_OMI-";
@@ -1274,7 +1274,7 @@ internal static class OGMDIsoQuickPatch
             }
 
             Console.WriteLine();
-            WriteOk("ISO 직접 패치 및 최종 해시 검증 4/4 완료");
+            WriteOk("ISO 직접 패치 및 최종 해시 검증 " + patchFiles.Count + "/" + patchFiles.Count + " 완료");
             Console.WriteLine("복구하려면 이 실행 파일을 다음 옵션으로 실행하세요:");
             Console.WriteLine("  OGMD_ISO_QuickPatch.exe --restore --backup \"" + backupPath + "\" \"" + options.IsoPath + "\"");
             Console.WriteLine("복구 백업은 삭제하지 않는 것을 권장합니다:");
@@ -1430,7 +1430,7 @@ internal static class OGMDIsoQuickPatch
         Dictionary<LocatedFile, FileState> after = VerifyStates(iso, located);
         if (!after.Values.All(delegate(FileState state) { return state == FileState.Source; }))
             throw new InvalidDataException("복구 후 원본 해시 검증에 실패했습니다. 백업을 삭제하지 마세요.");
-        WriteOk("원본 ISO 복구 및 해시 검증 4/4 완료");
+        WriteOk("원본 ISO 복구 및 해시 검증 " + located.Count + "/" + located.Count + " 완료");
         Console.WriteLine("백업은 재적용에 대비해 그대로 보존했습니다: " + backupPath);
         return 0;
     }
@@ -1697,7 +1697,7 @@ internal static class OGMDIsoQuickPatch
                 throw new InvalidDataException("패치 데이터 형식이 올바르지 않습니다.");
             int version = reader.ReadInt32();
             int fileCount = reader.ReadInt32();
-            if (version != FormatVersion || fileCount != 4)
+            if (version != FormatVersion || fileCount < 1 || fileCount > 16)
                 throw new InvalidDataException("지원하지 않는 패치 데이터 버전입니다.");
 
             List<PackFile> files = new List<PackFile>();

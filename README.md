@@ -5,13 +5,13 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260909c 내려받기: [OGMD_KR_v20260909c.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260909c/OGMD_KR_v20260909c.zip)**
+> **📦 v20260910 내려받기: [OGMD_KR_v20260910.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260910/OGMD_KR_v20260910.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
 > ```
-> OGMD_KR_v20260909c.zip   104,868,548 바이트
-> SHA-256: 465E7F7BE3759CEBBE0E7246BFD042F96E1EFA1AB36AF5FA199C6FBDC49C574F
+> OGMD_KR_v20260910.zip   105,302,382 바이트
+> SHA-256: CB5225069E63FF3E291DCDF2A334822020FCBFD7A068D256EDEFCBAF799E7FCD
 > ```
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
@@ -20,7 +20,7 @@
 
 | | |
 |---|---|
-| 버전 | `v20260909c` |
+| 버전 | `v20260910` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
 | 배포 형식 | xdelta 패치 4개 (합계 약 49.47 MiB) |
@@ -272,9 +272,9 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 
 | 파일 | SHA-256 |
 |---|---|
-| `Common.psarc.sdat` | `16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2` |
-| `General2d.psarc.sdat` | `699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473` |
-| `Logic.psarc.sdat` | `6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE` |
+| `Common.psarc.sdat` | `52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373` |
+| `General2d.psarc.sdat` | `6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47` |
+| `Logic.psarc.sdat` | `8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C` |
 | `Battle.psarc.sdat` | `F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E` |
 
 두 설치 방식 모두 이 결과를 만듭니다.

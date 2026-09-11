@@ -27,11 +27,11 @@ FILES = (
         "name": "Common",
         "iso_path": "PS3_GAME/USRDIR/PSARC/COMMON_PSARC.SDAT",
         "source": ROOT / "original_backups/Common.psarc.sdat.orig",
-        # Keep only the startup warning, title logo, and scenario title cards.
-        # Shared/animated UI image replacements remain intentionally excluded.
-        "target": ROOT / "korean_build_v3/Common_runtime_followups_ko_20260819.psarc.sdat",
+        # Startup warning, title logo, scenario title cards, and the five
+        # Archive story texts (246 paragraphs). Shared/animated UI images stay out.
+        "target": ROOT / "korean_build_v3/Common_archive_ko_20260910.psarc.sdat",
         "source_hash": "99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB",
-        "target_hash": "16C45C456DA86DD17B5C05BD8735433873C37503984C1C58A96C613FDA5CD2B2",
+        "target_hash": "52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373",
     },
     {
         "name": "General2d",
@@ -39,20 +39,19 @@ FILES = (
         "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
         # General2d/tex_06.dds image localization is intentionally excluded.
         # It is a shared UI glyph atlas and corrupted the level-up display.
-        "target": ROOT / "korean_build_v3/General2d_prompts_ko_20260826.psarc.sdat",
+        "target": ROOT / "korean_build_v3/General2d_archive_ko_20260910.psarc.sdat",
         "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "699C18FDF5F2E6F5650D4D08669C3168A941E8E587137833341D861ED066C473",
+        "target_hash": "6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47",
     },
     {
         "name": "Logic",
         "iso_path": "PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT",
         "source": ROOT / "original_backups/Logic.psarc.sdat.orig",
-        # Logic image replacements are retired; use the text-only archive.
-        # Includes all localized scenario titles plus the full location-card
-        # audit that replaces visible U+3000 separators with normal spaces.
-        "target": ROOT / "korean_build_v3/Logic_issue6_ko_20260909.psarc.sdat",
+        # Text-only archive: scenario titles, issue #6 name/dialogue fixes,
+        # 2026-09-10 line-wrap pass, and the Archive REPORT dialog strings.
+        "target": ROOT / "korean_build_v3/Logic_archive_ko_20260910.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "6A192C98E1B2845952D51B52A4CFB44CAA79C5D26F67B42C3BADFC895909D7FE",
+        "target_hash": "8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C",
     },
     {
         "name": "Battle",
@@ -63,6 +62,25 @@ FILES = (
         "target": ROOT / "korean_build_v3/Battle_issue6_ko_20260909.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
         "target_hash": "F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E",
+    },
+    {
+        "name": "ParamSfo",
+        "iso_path": "PS3_GAME/PARAM.SFO",
+        "source": ROOT / "original_backups/PARAM.SFO.orig",
+        # Game list title only. TITLE_ID, APP_VER and every other field stay put.
+        "target": ROOT / "korean_build_v3/PARAM_SFO_ko_20260910.bin",
+        "source_hash": "0A876ACFABB16CEAA017EDD51A700079678AA8E61C0B7AEFE0B59CB19B59FF22",
+        "target_hash": "B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54",
+    },
+    {
+        "name": "Icon0",
+        "iso_path": "PS3_GAME/ICON0.PNG",
+        "source": ROOT / "original_backups/ICON0.PNG.orig",
+        # Korean game list icon, zero-padded to the retail slot size.
+        # PNG readers stop at IEND, so the trailing padding is inert.
+        "target": ROOT / "korean_build_v3/ICON0_PNG_ko_20260910.bin",
+        "source_hash": "9B2E67DC606CEF3CD269E13DDA425445820A65F034DE4B3BC000435EA0B9B136",
+        "target_hash": "0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00",
     },
 )
 
