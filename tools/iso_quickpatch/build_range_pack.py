@@ -48,10 +48,11 @@ FILES = (
         "iso_path": "PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT",
         "source": ROOT / "original_backups/Logic.psarc.sdat.orig",
         # Text-only archive: scenario titles, issue #6 name/dialogue fixes,
-        # 2026-09-10 line-wrap pass, and the Archive REPORT dialog strings.
-        "target": ROOT / "korean_build_v3/Logic_archive_ko_20260910.psarc.sdat",
+        # 2026-09-10 line-wrap pass, the Archive REPORT dialog strings, and
+        # the 2026-09-12 guidance pass (15 titles + 15 body images).
+        "target": ROOT / "korean_build_v3/Logic_guidance_full_ko_20260912.psarc.sdat",
         "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C",
+        "target_hash": "A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28",
     },
     {
         "name": "Battle",
@@ -59,9 +60,10 @@ FILES = (
         "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
         # Battle/cosl.dds: the shared HUD atlas. A whole-file replacement once hid
         # unit names and HP/EN; 173 repaints only the 9 attack-type label boxes.
-        "target": ROOT / "korean_build_v3/Battle_issue6_ko_20260909.psarc.sdat",
+        # 2026-09-12: BMD dialogue references repaired (258_repair_battle_references).
+        "target": ROOT / "korean_build_v3/battle_refs_20260912/Battle.psarc.sdat",
         "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E",
+        "target_hash": "E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3",
     },
     {
         "name": "ParamSfo",

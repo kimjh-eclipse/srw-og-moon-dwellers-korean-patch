@@ -9,11 +9,26 @@ all proven relative references so translated dialogue may grow safely.
 """
 import re
 import struct
-import config  # 경로 설정 — 환경변수 OGMD_* 로 바꿀 수 있다
 
 _UTF8=re.compile(rb'(?:[\x20-\x7e]|[\xc2-\xdf][\x80-\xbf]|[\xe0-\xef][\x80-\xbf]{2}|[\xf0-\xf4][\x80-\xbf]{3})+')
 
 class BmdFile:
+    @staticmethod
+    def layout(data):
+        """Version-3 BMD: 12-byte groups, 20-byte events, 20-byte lines.
+
+        Only the last word of each line record is a text-pool-relative
+        pointer. Never infer pointer fields by matching arbitrary integers.
+        """
+        if len(data) < 8 or data[:2] != b'\x03\x00':
+            raise ValueError('Unsupported BMD header')
+        groups, events, lines = struct.unpack_from('>HHH', data, 2)
+        line_start = 8 + groups * 12 + events * 20
+        pool_start = line_start + lines * 20
+        if pool_start > len(data):
+            raise ValueError('BMD tables extend past EOF')
+        return pool_start, [line_start + i * 20 + 16 for i in range(lines)]
+
     def __init__(self, data, pool_start=None):
         self.d=bytearray(data)
         # After a variable rebuild, the final bytes of the preceding pointer
@@ -25,6 +40,8 @@ class BmdFile:
         self.records=self._parse()   # [(off, span(널포함), text)]
 
     def _find_pool(self):
+        if self.d[:2] == b'\x03\x00':
+            return self.layout(self.d)[0]
         # 첫 '긴 UTF-8 문자열'(≥3문자) 위치를 풀 시작으로
         for m in _UTF8.finditer(bytes(self.d)):
             seg=m.group()
@@ -86,17 +103,25 @@ class BmdFile:
             value = index_to_text.get(index, text)
             new_pool += value.encode("utf-8") + b"\0"
 
+        actual_pool, pointer_fields = self.layout(self.d)
+        if actual_pool != self.pool_start:
+            raise ValueError('Explicit pool differs from structural BMD pool')
         prefix = bytearray(self.d[: self.pool_start])
         pointer_hits = 0
         offsets = {old: new for old, new in zip(old_rel, new_rel)}
-        for pos in range(0, len(prefix) - 3, 4):
+        referenced = set()
+        for pos in pointer_fields:
             value = struct.unpack_from(">I", prefix, pos)[0]
-            if value in offsets:
-                struct.pack_into(">I", prefix, pos, offsets[value])
-                pointer_hits += 1
-        if self.records and pointer_hits < len(self.records):
+            if value == 0xFFFFFFFF:
+                continue
+            if value not in offsets:
+                raise ValueError(f'BMD pointer at {pos:#x} is not a string start: {value:#x}')
+            struct.pack_into(">I", prefix, pos, offsets[value])
+            pointer_hits += 1
+            referenced.add(value)
+        if referenced != set(offsets):
             raise ValueError(
-                f"insufficient BMD pointer coverage: {pointer_hits} for {len(self.records)} strings"
+                f"incomplete BMD pointer coverage: {len(referenced)} for {len(self.records)} strings"
             )
         return bytes(prefix + new_pool + self.d[old_pool_end:])
 
@@ -105,7 +130,7 @@ if __name__=='__main__':
     sys.stdout=io.TextIOWrapper(sys.stdout.buffer,encoding='utf-8')
     from sdat import SDATReader
     from psarc import PSARC
-    BAT=rconfig.game_file('Battle.psarc.sdat')
+    BAT=r'C:/Emul/PS3/rpcs3-v0.0.27-14986-db7f84f9_win64/dev_hdd0/game/BLJS10335/USRDIR/PSARC/Battle.psarc.sdat'
     p=PSARC(SDATReader(open(BAT,'rb'),0)); names=p.manifest(); idx={n:i+1 for i,n in enumerate(names)}
     d=p.read_entry(idx['/Dat/Battle/Message/@Ja/0002_ja.bmd'])
     bf=BmdFile(d)

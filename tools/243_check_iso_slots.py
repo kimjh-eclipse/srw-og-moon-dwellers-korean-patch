@@ -25,9 +25,9 @@ TARGETS = (
     ("PS3_GAME/USRDIR/PSARC/GENERAL2D_PSARC.SDAT", "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
      "6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47"),
     ("PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT", "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-     "8FA8EC93EFF285BB2AD74DC5D0A23BE8A67EBF1E5A47B9EB269A6E52FE86777C"),
+     "A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28"),
     ("PS3_GAME/USRDIR/PSARC/BATTLE_PSARC.SDAT", "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-     "F1AC61F80B70BC0E85B5ABB15DC82E2AF55E6A16084DD8C438FC7AA5B2A02E6E"),
+     "E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3"),
 )
 
 
@@ -85,11 +85,15 @@ def main() -> None:
                     left -= len(chunk)
                 total += size
             value = digest.hexdigest().upper()
-            state = "일본판 원본" if value == retail_hash else ("한국어판(v20260910)" if value == korean_hash else "알 수 없음")
+            state = "일본판 원본" if value == retail_hash else ("한국어판(v20260912)" if value == korean_hash else "알 수 없음")
             verdicts.append(state)
             print(f"  {path}")
             print(f"    extent {len(extents)}개, {total:,}B  {value[:16]}  → {state}")
-        print("\n판정:", "전부 일본판 원본" if set(verdicts) == {"일본판 원본"} else f"혼재 {verdicts}")
+        unique = set(verdicts)
+        if len(unique) == 1:
+            print("\n판정: 6개 슬롯 전부", unique.pop())
+        else:
+            print("\n판정: 혼재", verdicts)
 
 
 if __name__ == "__main__":

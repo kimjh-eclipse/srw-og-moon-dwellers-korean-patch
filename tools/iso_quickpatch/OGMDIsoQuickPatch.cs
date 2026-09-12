@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260910-archive-title-icon";
+    private const string VersionText = "v20260912-battle-guidance";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string SaveMapResourceName = "OGMD_SAVE_proxymap.tsv";
     private const string SaveDirectoryPrefix = "BLJS10335_OMI-";
