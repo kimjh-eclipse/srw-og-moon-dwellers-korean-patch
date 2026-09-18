@@ -192,6 +192,8 @@ ISO용 자동 정리는 폴더 직접 패치에 적용되지 않으며, 하위 S
 | 문서 | 내용 |
 |---|---|
 | [SDAT 암호 구조](docs/sdat.md) | NPD 헤더, 블록 단위 AES 키 유도, 메타데이터 위조 |
+| [전투 대사 참조·폰트](docs/bmd-font.md) | 구조 기반 BMD 참조 복구, 공백·렌더링 검사 |
+| [배포 구성·검증 범위](docs/release-validation.md) | 7개 target 해시, ELF 팝업, ISO·폴더 시험 범위 |
 | [PSARC 아카이브 구조](docs/psarc.md) | TOC·블록 테이블 레이아웃, `PSARCLIST.BIN` |
 | [고정 배치 재빌드](docs/fixed-layout.md) | 델타를 87배 줄인 기법과 측정치 |
 | [빌드 파이프라인](docs/pipeline.md) | 추출 → 번역 → 재조립 → 검증 절차 |

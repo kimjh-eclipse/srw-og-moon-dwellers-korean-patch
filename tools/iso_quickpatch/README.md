@@ -29,7 +29,7 @@ ISO 안의 PSARC는 크기가 바뀌지 않으므로 파일 배치가 밀리지 
 
 ## 저장소에 없는 것
 
-- **빌드된 실행 파일** — 하나에 약 25MB이고 릴리스 자산으로 배포됩니다
+- **빌드된 실행 파일** — 크기는 내장 range pack에 따라 달라지며 릴리스 자산으로 배포됩니다
 - **`OGMD_ISO_ranges.bin`** — 게임 데이터에서 뽑아낸 패치 페이로드입니다.
   `build_range_pack.py` 로 다시 만들 수 있습니다
 
@@ -42,7 +42,7 @@ C# 5 문법만 쓰므로 Visual Studio 없이 Windows에 기본으로 있는 컴
 
 ### 1. range pack 생성
 
-PSARC가 바뀌었을 때만 하면 됩니다. UI 코드만 고쳤다면 건너뜁니다.
+PSARC 또는 제목·아이콘 target이 바뀌었을 때 다시 만듭니다. UI 코드만 고쳤고 target 집합·해시가 같다면 기존 검증된 pack을 사용할 수 있습니다. 생성기의 로컬 입력 경로와 source/target 해시를 먼저 확인해야 합니다. 저장소를 내려받는 것만으로 비공개 target 파일이 준비되는 것은 아닙니다.
 NumPy가 필요합니다.
 
 ```
@@ -68,6 +68,7 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
   /reference:System.Windows.Forms.dll
   /reference:System.Drawing.dll
   /resource:OGMD_ISO_ranges.bin,OGMD_ISO_ranges.bin
+  /resource:OGMD_SAVE_proxymap.tsv,OGMD_SAVE_proxymap.tsv
   OGMDIsoQuickPatch.cs
 ```
 
@@ -86,7 +87,7 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 
 ### 재현 빌드
 
-이 소스와 절차로 **배포된 실행 파일이 그대로 재현됩니다.** 아래는 v20260816b
+동일 소스·리소스·컴파일러를 사용해도 PE 시각·MVID 등 때문에 EXE 전체 해시의 동일성을 보장하지 않습니다. 아래는 v20260816b
 배포본으로 확인한 내용이며, v20260818 배포본(크기 55,884,800 바이트,
 내장 range pack 55,839,294 바이트)도 같은 절차로 빌드했습니다.
 

@@ -97,6 +97,8 @@ SDAT은 블록번호로 키를 유도하는 블록 독립 암호화라, 같은 �
 | [설치 안내](install.md) | 준비물, 자동·수동 설치, 확인, 되돌리기 |
 | [알려진 문제](known-issues.md) | 남은 제한, 해결된 항목, 캐시·세이브 안내 |
 | [SDAT 암호 구조](sdat.md) | NPD 헤더, 블록 단위 AES 키 유도, 메타데이터 위조 |
+| [전투 대사 참조·폰트](bmd-font.md) | BMD 구조, 포인터 복구, 공백·글리프 검사 |
+| [배포 구성·검증 범위](release-validation.md) | 7개 target, ELF 팝업, ISO·폴더 왕복 시험의 한계 |
 | [PSARC 아카이브 구조](psarc.md) | TOC·블록 테이블 레이아웃, `PSARCLIST.BIN` |
 | [고정 배치 재빌드](fixed-layout.md) | 델타를 87배 줄인 기법과 측정치 |
 | [빌드 파이프라인](pipeline.md) | 추출 → 번역 → 재조립 → 검증 절차 |
