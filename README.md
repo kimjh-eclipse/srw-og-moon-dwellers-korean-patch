@@ -5,14 +5,14 @@
 주요 스토리와 전투 대사, 메뉴, 파일럿·기체 정보, 에이스 보너스를 한글화했습니다.
 전투 대사는 기계 번역 결과를 그대로 쓰지 않고 캐릭터별 성향과 말투를 고려해 직접 검토했습니다.
 
-> **📦 v20260912 내려받기: [OGMD_KR_v20260912.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260912/OGMD_KR_v20260912.zip)**
+문서 갱신: **2026-09-19**. 공개 최신 릴리스는 `v20260919`입니다.
+이슈 #7·#9 교정이 포함됩니다. 실제 게임 화면 검증은 아직 완료되지 않았습니다.
+
+> **📦 v20260919 내려받기: [OGMD_KR_v20260919.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260919/OGMD_KR_v20260919.zip)**
 > — ISO 빠른 패처 + xdelta 패치 + 설치·검증·복구 스크립트 + 검증 해시 동봉.
 > 원본 게임 데이터는 포함되지 않습니다. 최신판은 [Releases](../../releases/latest) 에서 받으세요.
 >
-> ```
-> OGMD_KR_v20260912.zip   105,303,062 바이트
-> SHA-256: 3F6A04B98F3404F0A72FE19C2EF404625A4253D2015D8D93FC99F977B103D11B
-> ```
+> 배포 파일 해시는 릴리스 본문과 동봉한 `SHA256SUMS.txt`를 확인하세요.
 >
 > **📖 문서 사이트: https://kimjh-eclipse.github.io/srw-og-moon-dwellers-korean-patch/**
 > (설치 안내 · 알려진 문제 · SDAT 암호 구조 · PSARC 레이아웃 · 고정 배치 재빌드 · 빌드 파이프라인)
@@ -20,10 +20,10 @@
 
 | | |
 |---|---|
-| 버전 | `v20260912` |
+| 공개 배포 버전 | `v20260919` |
 | 대상 | 일본판 `BLJS10335` |
 | 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
-| 배포 형식 | xdelta 패치 6개 (합계 약 49.78 MiB) |
+| 배포 형식 | xdelta 패치 7개 + ISO 빠른 패처 + 선택형 RPCS3 패치 |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
 이번 버전부터 설치 방식이 두 가지입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
@@ -32,7 +32,7 @@
 | 방식 | 대상 | 설명 |
 |---|---|---|
 | **A. ISO 빠른 패처** | 복호화된 ISO | `OGMD_ISO_QuickPatch.exe` 로 ISO의 바뀐 구간만 덮어씁니다. 11.8GB를 다시 만들지 않습니다 |
-| **B. xdelta** | 폴더형 게임 / 추출 PSARC | 이 저장소의 스크립트로 PSARC 4개를 패치합니다 |
+| **B. xdelta** | 폴더형 게임 / 추출 PSARC | PSARC 5개와 제목·아이콘 파일 2개를 처리합니다. 제목·아이콘은 대상 경로와 원본 해시가 맞을 때 적용합니다 |
 
 빠른 패처 실행 파일은 크기가 커서 저장소에 두지 않고 [Releases](../../releases/latest) 의
 ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tools/iso_quickpatch/) 에 있습니다.
@@ -53,6 +53,18 @@ ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tool
 
 ---
 
+## 최근 수정 현황 — v20260919
+
+- 이슈 #7의 9월 15·16일 제보와 반복 오류를 포함한 대사 44개 교정.
+- 이슈 #9: 초반 대사 4곳, 퀵 커맨드 문구 49곳, 지형 제목 405개(87종) 교정.
+- 기존 전투 대사 참조 복구·최신 폰트·가이던스 한글화 보존.
+- ISO 빠른 패처와 xdelta에 PSARC 5개 및 제목·아이콘 2개, 총 7개 파일 반영.
+- 아카이브 재생 중단 확인창은 별도 [RPCS3 선택형 패치](RPCS3_optional/README.txt)로 제공합니다. **ISO 자체에는 이 팝업 수정이 포함되지 않습니다.**
+
+파일 검증과 패치·복구 시험은 완료했지만 **이번 변경의 실제 게임 화면 검증은 아직 완료되지 않았습니다.**
+정확한 검증 범위와 변경 사항은 [릴리스 노트](RELEASE_NOTES.md)를 확인하세요.
+이전 버전은 해당 버전의 패처·백업으로 원본을 복구한 후 적용하세요. 이번 버전은 대상 파일이 늘어 이전 ISO 백업의 재사용이 거부될 수 있습니다.
+
 ## 설치 — 방법 A (ISO 빠른 패처)
 
 복호화된 ISO를 그대로 쓰시는 분에게 권장합니다.
@@ -70,7 +82,7 @@ ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tool
 > **v20260822부터** 같은 실행 파일에서 ISO뿐 아니라 **RPCS3/폴더형 게임 경로를 직접 선택해
 > 패치**할 수도 있습니다. BLJS10335 게임 루트, `PS3_GAME`, `USRDIR\PSARC`, RPCS3 루트를
 > 자동 판별하고, `폴더 게임 상태 검사`로 먼저 확인한 뒤 적용합니다.
-> 원본 PSARC 4개 자동 백업 옵션은 기본으로 켜져 있습니다.
+> 원본 PSARC 5개 자동 백업 옵션은 기본으로 켜져 있습니다.
 
 서명되지 않은 실행 파일이라 SmartScreen이나 백신이 경고를 띄울 수 있습니다.
 릴리스 노트의 해시로 대조하실 수 있습니다.
@@ -94,8 +106,9 @@ ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tool
 > ```
 >
 > 게임 데이터는 게임이 첫 실행 때 롬에서 복사해 만드는 **사본**입니다.
-> 사본만 바꾸면 게임이 무결성 검사에서 걸려
-> **`게임 데이터가 손상되었습니다`** 가 뜨고 진행되지 않습니다.
+> 배포 패치는 원본 롬에 적용하세요. 개발용으로 사본만 고치는 작업은 ISO 패치가 아니며,
+> 재설치하면 사라집니다. 수정시각 등 설치 데이터 조건을 보존하지 않으면
+> **`게임 데이터가 손상되었습니다`** 오류가 날 수 있습니다.
 
 ### 1. 준비
 
@@ -104,12 +117,13 @@ ZIP으로만 배포합니다. 만드는 소스는 [`tools/iso_quickpatch/`](tool
   ```
   <롬 폴더>\BLJS10335\PS3_GAME\USRDIR\PSARC
   ```
-- 그 안에 다음 네 파일이 있어야 합니다.
+- 그 안에 다음 다섯 파일이 있어야 합니다.
 
   | 파일 | 크기 |
   |---|---:|
   | `Common.psarc.sdat` | 505,828,992 |
   | `General2d.psarc.sdat` | 611,585,392 |
+  | `General3d.psarc.sdat` | 870,220,816 |
   | `Logic.psarc.sdat` | 38,399,120 |
   | `Battle.psarc.sdat` | 1,729,186,848 |
 
@@ -129,7 +143,7 @@ powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPC
 
 1. RPCS3 실행 여부 확인
 2. 대상 경로 확인
-3. 원본 네 파일의 크기와 SHA-256 검증
+3. 원본 다섯 파일의 크기와 SHA-256 검증
 4. 원본을 `backup_original_<날짜시간>` 폴더에 백업
 5. **임시 파일**에 패치 적용
 6. 임시 결과의 해시 검증
@@ -157,7 +171,7 @@ powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPC
 powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
-네 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
+다섯 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
 
 ### 필수 설정 — `libvdec.sprx` 를 LLE로
 
@@ -206,11 +220,12 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 **한 번 지웠다고 끝나지 않습니다.** 플레이를 계속하면 캐시가 다시 쌓이면서 재발합니다.
 증상이 보이면 그때마다 같은 방법으로 지우면 됩니다.
 
-**설치 스크립트도 빠른 패처도 캐시를 지우지 않습니다.** 위 `Remove SPU Cache` 만 쓰시면 됩니다.
+**빠른 패처는 설치 데이터·SPU 캐시 정리 옵션이 켜져 있으면 해당 게임의 캐시를 정리합니다.**
+반면 `install_xdelta.ps1`은 캐시를 변경하지 않습니다. 수동 정리가 필요하면 위 `Remove SPU Cache`를 사용하세요.
 `cache\BLJS10335` 폴더 전체나 PPU 캐시, 셰이더 캐시는 지우지 마세요.
 
 > v20260813까지의 `install.ps1` 은 설치할 때 SPU 캐시를 자동으로 지웠습니다.
-> 사용자 환경을 임의로 건드리는 동작이라 v20260814부터 뺐습니다.
+> v20260814부터 해당 동작을 뺐습니다. 이 과거 스크립트의 동작과 현재 빠른 패처의 정리 옵션은 별개입니다.
 
 **패치를 적용하지 않은 원본 상태에서도 동일하게 발생**하며, RPCS3 버전을 바꿔도 같습니다.
 이 패치 때문에 생기는 문제가 아닙니다.
@@ -274,17 +289,19 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 
 ## 검증 정보
 
-패치 적용 후 정상 설치된 파일의 SHA-256입니다. 전체 목록은 [SHA256SUMS.txt](SHA256SUMS.txt) 참고.
+**공개 릴리스 v20260919** 적용 후 파일의 SHA-256입니다.
+전체 목록은 [SHA256SUMS.txt](SHA256SUMS.txt) 참고.
 
 | 파일 | SHA-256 |
 |---|---|
 | `Common.psarc.sdat` | `52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373` |
-| `General2d.psarc.sdat` | `6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47` |
-| `Logic.psarc.sdat` | `A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28` |
+| `General2d.psarc.sdat` | `035267C098547C23AC8D4B20F69054966A463FFCA44A682943439790C58A666D` |
+| `General3d.psarc.sdat` | `025EB16CFE6139893332AA575812F43AF2A51F036585EF32DF6961409710B77E` |
+| `Logic.psarc.sdat` | `A34FBBA71611C48DDCFEC71F292D343E29F3AA8D56012A9C3D74255D326F14E1` |
 | `Battle.psarc.sdat` | `E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3` |
 
 두 설치 방식 모두 이 결과를 만듭니다.
-네 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(왕복 검증 4/4 통과).
+일곱 패치 모두 원본에 적용해 위 결과가 바이트 단위로 재현되는 것을 확인했습니다(xdelta 결과 검증 7/7 통과).
 
 [SHA256SUMS.txt](SHA256SUMS.txt) 는 릴리스 ZIP 기준이라 `OGMD_ISO_QuickPatch.exe` 항목도
 들어 있습니다. 그 실행 파일은 저장소가 아니라 [Releases](../../releases/latest) 에 있습니다.

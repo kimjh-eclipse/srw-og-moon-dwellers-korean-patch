@@ -1,8 +1,8 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 설치 스크립트
-  버전 v20260912
+  버전 v20260919
 
-  - 원본 4개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
+  - 원본 5개 파일을 검증한 뒤 백업하고, xdelta 패치를 적용합니다.
   - 임시 파일에 적용해 해시를 검증한 뒤에만 실제 파일을 교체합니다.
   - 게임 캐시는 자동으로 삭제하거나 이동하지 않습니다.
   - 실패해도 원본이나 게임 폴더를 절대 삭제하지 않습니다.
@@ -71,6 +71,7 @@ $EXTRA = [ordered]@{
 }
 
 $SPEC = [ordered]@{
+    'General3d' = @{ Size = 870220816; Source = 'A702DB1295871F38B83827B87A5A36FBC5715E456E9C5E85A875E03EF002B412'; Target = '025EB16CFE6139893332AA575812F43AF2A51F036585EF32DF6961409710B77E' }
     'Common' = @{
         Size   = 505828992
         Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
@@ -79,12 +80,12 @@ $SPEC = [ordered]@{
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47'
+        Target = '035267C098547C23AC8D4B20F69054966A463FFCA44A682943439790C58A666D'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = 'A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28'
+        Target = 'A34FBBA71611C48DDCFEC71F292D343E29F3AA8D56012A9C3D74255D326F14E1'
     }
     'Battle' = @{
         Size   = 1729186848
@@ -150,7 +151,7 @@ if ($isRom) {
 }
 
 # ---------------------------------------------------------------- 3. 원본 검증
-Write-Step '원본 4개 파일 크기 / SHA-256 검증'
+Write-Step '원본 5개 파일 크기 / SHA-256 검증'
 foreach ($n in $SPEC.Keys) {
     $f = Join-Path $full "$n.psarc.sdat"
     if (-not (Test-Path -LiteralPath $f -PathType Leaf)) { Fail "파일이 없습니다: $f" }
@@ -167,7 +168,7 @@ foreach ($n in $SPEC.Keys) {
     }
     Write-Host ("    {0,-10} OK  {1}" -f $n, $h)
 }
-Write-Ok '원본 4개 확인 완료'
+Write-Ok '원본 PSARC 5개 확인 완료'
 
 # ---------------------------------------------------------------- 4. 백업
 $stamp = Get-Date -Format 'yyyyMMdd_HHmmss'

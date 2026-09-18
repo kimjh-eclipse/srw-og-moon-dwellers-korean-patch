@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 한국어 패치 검증 스크립트
-  설치된 네 파일의 크기와 SHA-256을 확인해 현재 상태를 알려줍니다.
+  설치된 다섯 PSARC 파일의 크기와 SHA-256을 확인해 현재 상태를 알려줍니다.
   파일을 수정하지 않습니다. 읽기만 합니다.
 
   사용법:
@@ -51,6 +51,7 @@ $EXTRA = [ordered]@{
 }
 
 $SPEC = [ordered]@{
+    'General3d' = @{ Size = 870220816; Source = 'A702DB1295871F38B83827B87A5A36FBC5715E456E9C5E85A875E03EF002B412'; Target = '025EB16CFE6139893332AA575812F43AF2A51F036585EF32DF6961409710B77E' }
     'Common' = @{
         Size   = 505828992
         Source = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB'
@@ -59,12 +60,12 @@ $SPEC = [ordered]@{
     'General2d' = @{
         Size   = 611585392
         Source = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667'
-        Target = '6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47'
+        Target = '035267C098547C23AC8D4B20F69054966A463FFCA44A682943439790C58A666D'
     }
     'Logic' = @{
         Size   = 38399120
         Source = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181'
-        Target = 'A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28'
+        Target = 'A34FBBA71611C48DDCFEC71F292D343E29F3AA8D56012A9C3D74255D326F14E1'
     }
     'Battle' = @{
         Size   = 1729186848
@@ -126,11 +127,11 @@ foreach ($e in $EXTRA.Keys) {
 }
 
 Write-Host ''
-if ($patched -eq 4) {
-    Write-Host '=> 네 파일 모두 한국어 패치가 정상 적용된 상태입니다.' -ForegroundColor Green
+if ($patched -eq $SPEC.Count) {
+    Write-Host '=> 다섯 PSARC 파일 모두 한국어 패치가 정상 적용된 상태입니다.' -ForegroundColor Green
     exit 0
-} elseif ($original -eq 4) {
-    Write-Host '=> 네 파일 모두 원본 상태입니다. install_xdelta.ps1 로 패치를 적용하세요.' -ForegroundColor Yellow
+} elseif ($original -eq $SPEC.Count) {
+    Write-Host '=> 다섯 PSARC 파일 모두 원본 상태입니다. install_xdelta.ps1 로 패치를 적용하세요.' -ForegroundColor Yellow
     exit 0
 } else {
     Write-Host "=> 상태가 섞여 있습니다. 패치됨 $patched / 원본 $original / 알 수 없음 $unknown" -ForegroundColor Red

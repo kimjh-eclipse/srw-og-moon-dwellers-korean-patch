@@ -1,0 +1,23 @@
+Version: 1.2
+PPU-e429bb11d03c2e6a046775179d21169cba555c47:
+  OGMD archive replay-question Korean 20260918:
+    Games:
+      "Super Robot Taisen OG - The Moon Dwellers":
+        BLJS10335: [ "01.00" ]
+    Author: Local OGMD Korean patch
+    Patch Version: 1.0
+    Notes: Replaces only the verified archive replay-stop literal in the original ELF.
+    Patch:
+      - [ bd32, 0x00dca070, 0xe89e82e7 ]
+      - [ bd32, 0x00dca074, 0xa293c383 ]
+      - [ bd32, 0x00dca078, 0x20e8acac ]
+      - [ bd32, 0x00dca07c, 0xe5b68bea ]
+      - [ bd32, 0x00dca080, 0x81bdc28d ]
+      - [ bd32, 0x00dca084, 0xc2a62e40 ]
+      - [ bd32, 0x00dca088, 0xe587a7e9 ]
+      - [ bd32, 0x00dca08c, 0x858be896 ]
+      - [ bd32, 0x00dca090, 0xaae7afa0 ]
+      - [ bd32, 0x00dca094, 0xe4beafc2 ]
+      - [ bd32, 0x00dca098, 0x8bc28de5 ]
+      - [ bd32, 0x00dca09c, 0x8db83f00 ]
+      - [ bd32, 0x00dca0a0, 0x00000000 ]

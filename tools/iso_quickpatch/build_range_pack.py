@@ -24,65 +24,60 @@ OUTPUT = Path(__file__).resolve().parent / "OGMD_ISO_ranges.bin"
 
 FILES = (
     {
-        "name": "Common",
-        "iso_path": "PS3_GAME/USRDIR/PSARC/COMMON_PSARC.SDAT",
-        "source": ROOT / "original_backups/Common.psarc.sdat.orig",
-        # Startup warning, title logo, scenario title cards, and the five
-        # Archive story texts (246 paragraphs). Shared/animated UI images stay out.
-        "target": ROOT / "korean_build_v3/Common_archive_ko_20260910.psarc.sdat",
-        "source_hash": "99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB",
-        "target_hash": "52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373",
+        'name': 'Common',
+        'iso_path': 'PS3_GAME/USRDIR/PSARC/COMMON_PSARC.SDAT',
+        'source': ROOT / 'original_backups/Common.psarc.sdat.orig',
+        'target': ROOT / 'korean_build_v3/Common_archive_ko_20260910.psarc.sdat',
+        'source_hash': '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB',
+        'target_hash': '52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373',
     },
     {
-        "name": "General2d",
-        "iso_path": "PS3_GAME/USRDIR/PSARC/GENERAL2D_PSARC.SDAT",
-        "source": ROOT / "original_backups/General2d.psarc.sdat.orig",
-        # General2d/tex_06.dds image localization is intentionally excluded.
-        # It is a shared UI glyph atlas and corrupted the level-up display.
-        "target": ROOT / "korean_build_v3/General2d_archive_ko_20260910.psarc.sdat",
-        "source_hash": "04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667",
-        "target_hash": "6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47",
+        'name': 'General2d',
+        'iso_path': 'PS3_GAME/USRDIR/PSARC/GENERAL2D_PSARC.SDAT',
+        'source': ROOT / 'original_backups/General2d.psarc.sdat.orig',
+        'target': ROOT / 'korean_build_v3/issue9_batch_20260918/General2d.psarc.sdat',
+        'source_hash': '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667',
+        'target_hash': '035267C098547C23AC8D4B20F69054966A463FFCA44A682943439790C58A666D',
     },
     {
-        "name": "Logic",
-        "iso_path": "PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT",
-        "source": ROOT / "original_backups/Logic.psarc.sdat.orig",
-        # Text-only archive: scenario titles, issue #6 name/dialogue fixes,
-        # 2026-09-10 line-wrap pass, the Archive REPORT dialog strings, and
-        # the 2026-09-12 guidance pass (15 titles + 15 body images).
-        "target": ROOT / "korean_build_v3/Logic_guidance_full_ko_20260912.psarc.sdat",
-        "source_hash": "AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181",
-        "target_hash": "A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28",
+        'name': 'General3d',
+        'iso_path': 'PS3_GAME/USRDIR/PSARC/GENERAL3D_PSARC.SDAT',
+        'source': ROOT / 'original_backups/General3d.psarc.sdat.orig',
+        'target': ROOT / 'korean_build_v3/issue9_batch_20260918/General3d.psarc.sdat',
+        'source_hash': 'A702DB1295871F38B83827B87A5A36FBC5715E456E9C5E85A875E03EF002B412',
+        'target_hash': '025EB16CFE6139893332AA575812F43AF2A51F036585EF32DF6961409710B77E',
     },
     {
-        "name": "Battle",
-        "iso_path": "PS3_GAME/USRDIR/PSARC/BATTLE_PSARC.SDAT",
-        "source": ROOT / "original_backups/Battle.psarc.sdat.orig",
-        # Battle/cosl.dds: the shared HUD atlas. A whole-file replacement once hid
-        # unit names and HP/EN; 173 repaints only the 9 attack-type label boxes.
-        # 2026-09-12: BMD dialogue references repaired (258_repair_battle_references).
-        "target": ROOT / "korean_build_v3/battle_refs_20260912/Battle.psarc.sdat",
-        "source_hash": "2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844",
-        "target_hash": "E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3",
+        'name': 'Logic',
+        'iso_path': 'PS3_GAME/USRDIR/PSARC/LOGIC_PSARC.SDAT',
+        'source': ROOT / 'original_backups/Logic.psarc.sdat.orig',
+        'target': ROOT / 'korean_build_v3/issue7_batch_20260918/Logic.psarc.sdat',
+        'source_hash': 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181',
+        'target_hash': 'A34FBBA71611C48DDCFEC71F292D343E29F3AA8D56012A9C3D74255D326F14E1',
     },
     {
-        "name": "ParamSfo",
-        "iso_path": "PS3_GAME/PARAM.SFO",
-        "source": ROOT / "original_backups/PARAM.SFO.orig",
-        # Game list title only. TITLE_ID, APP_VER and every other field stay put.
-        "target": ROOT / "korean_build_v3/PARAM_SFO_ko_20260910.bin",
-        "source_hash": "0A876ACFABB16CEAA017EDD51A700079678AA8E61C0B7AEFE0B59CB19B59FF22",
-        "target_hash": "B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54",
+        'name': 'Battle',
+        'iso_path': 'PS3_GAME/USRDIR/PSARC/BATTLE_PSARC.SDAT',
+        'source': ROOT / 'original_backups/Battle.psarc.sdat.orig',
+        'target': ROOT / 'korean_build_v3/battle_refs_20260912/Battle.psarc.sdat',
+        'source_hash': '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844',
+        'target_hash': 'E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3',
     },
     {
-        "name": "Icon0",
-        "iso_path": "PS3_GAME/ICON0.PNG",
-        "source": ROOT / "original_backups/ICON0.PNG.orig",
-        # Korean game list icon, zero-padded to the retail slot size.
-        # PNG readers stop at IEND, so the trailing padding is inert.
-        "target": ROOT / "korean_build_v3/ICON0_PNG_ko_20260910.bin",
-        "source_hash": "9B2E67DC606CEF3CD269E13DDA425445820A65F034DE4B3BC000435EA0B9B136",
-        "target_hash": "0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00",
+        'name': 'ParamSfo',
+        'iso_path': 'PS3_GAME/PARAM.SFO',
+        'source': ROOT / 'original_backups/PARAM.SFO.orig',
+        'target': ROOT / 'korean_build_v3/PARAM_SFO_ko_20260910.bin',
+        'source_hash': '0A876ACFABB16CEAA017EDD51A700079678AA8E61C0B7AEFE0B59CB19B59FF22',
+        'target_hash': 'B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54',
+    },
+    {
+        'name': 'Icon0',
+        'iso_path': 'PS3_GAME/ICON0.PNG',
+        'source': ROOT / 'original_backups/ICON0.PNG.orig',
+        'target': ROOT / 'korean_build_v3/ICON0_PNG_ko_20260910.bin',
+        'source_hash': '9B2E67DC606CEF3CD269E13DDA425445820A65F034DE4B3BC000435EA0B9B136',
+        'target_hash': '0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00',
     },
 )
 

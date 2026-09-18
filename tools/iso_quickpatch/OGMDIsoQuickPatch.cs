@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using System.Windows.Forms;
 internal static class OGMDIsoQuickPatch
 {
     private const int SectorSize = 2048;
-    private const string VersionText = "v20260912-battle-guidance";
+    private const string VersionText = "v20260919-issues7-9";
     private const string PatchResourceName = "OGMD_ISO_ranges.bin";
     private const string SaveMapResourceName = "OGMD_SAVE_proxymap.tsv";
     private const string SaveDirectoryPrefix = "BLJS10335_OMI-";
@@ -281,7 +281,7 @@ internal static class OGMDIsoQuickPatch
             Controls.Add(rpcs3BrowseButton);
 
             directBackupCheck = new CheckBox();
-            directBackupCheck.Text = "폴더 직접 패치 전 원본 PSARC 4개 자동 백업 (권장)";
+            directBackupCheck.Text = "폴더 직접 패치 전 원본 PSARC 5개 자동 백업 (권장)";
             directBackupCheck.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             directBackupCheck.AutoSize = true;
             directBackupCheck.Checked = true;
@@ -556,7 +556,7 @@ internal static class OGMDIsoQuickPatch
                 Path.Combine(full, "dev_hdd0", "game", "BLJS10335", "USRDIR", "PSARC"),
                 Path.Combine(full, "game", "BLJS10335", "USRDIR", "PSARC")
             };
-            string[] names = { "Common", "General2d", "Logic", "Battle" };
+            string[] names = { "Common", "General2d", "General3d", "Logic", "Battle" };
             foreach (string candidate in candidates.Distinct(StringComparer.OrdinalIgnoreCase))
             {
                 if (Directory.Exists(candidate) && names.All(delegate(string name)
@@ -567,7 +567,7 @@ internal static class OGMDIsoQuickPatch
             }
 
             throw new DirectoryNotFoundException(
-                "선택한 경로에서 OGMD PSARC 4개를 찾지 못했습니다.\r\n\r\n" +
+                "선택한 경로에서 OGMD PSARC 5개를 찾지 못했습니다.\r\n\r\n" +
                 "지원 예시:\r\n" +
                 "  ...\\BLJS10335\\PS3_GAME\\USRDIR\\PSARC\r\n" +
                 "  ...\\dev_hdd0\\game\\BLJS10335\\USRDIR\\PSARC");

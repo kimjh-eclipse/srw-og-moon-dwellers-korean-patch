@@ -1,6 +1,6 @@
 ﻿<#
   슈퍼로봇대전 OG 문 드웰러즈 (BLJS10335) 원본 복구 스크립트
-  install_xdelta.ps1 이 만든 backup_original_* 폴더에서 원본 네 파일을 되돌립니다.
+  install_xdelta.ps1 이 만든 backup_original_* 폴더에서 원본 다섯 PSARC 파일을 되돌립니다.
 
   사용법:
     .\restore_xdelta_backup.ps1 -TargetDir "<...\BLJS10335\USRDIR\PSARC>"
@@ -44,6 +44,7 @@ if ([string]::IsNullOrEmpty($ScriptRoot)) { $ScriptRoot = (Get-Location).Path }
 
 # 원본 SHA-256 (수정시각은 백업 파일 자체의 값을 사용)
 $SPEC = [ordered]@{
+    'General3d' = @{ Size = 870220816; Hash = 'A702DB1295871F38B83827B87A5A36FBC5715E456E9C5E85A875E03EF002B412' }
     'Common'    = @{ Size = 505828992;  Hash = '99B298B3BBE126647582A8B6201513B5E80E2B2F06BF0D5BB1F0D87D0D2093BB' }
     'General2d' = @{ Size = 611585392;  Hash = '04C3D1DA43BBE58622FE89499C08A2525CD5AB78C30B830A0D1781ED59F16667' }
     'Logic'     = @{ Size = 38399120;   Hash = 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181' }
