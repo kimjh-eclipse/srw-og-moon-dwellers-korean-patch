@@ -1,268 +1,122 @@
-﻿# 설치 안내
+# 설치 안내
 
-## 적용 대상
+2026-09-19 갱신 · 배포 기준 **v20260919**
 
-PS3 『슈퍼로봇대전 OG 더 문 드웰러즈』 **일본판** — 게임 ID `BLJS10335`
+## 준비
 
-다른 리전판에는 적용할 수 없습니다.
+PS3 일본판 『슈퍼로봇대전 OG 더 문 드웰러즈』(`BLJS10335`)의 복호화된 ISO 또는 폴더형 원본이 필요합니다. 게임 원본은 제공하지 않습니다. RPCS3를 종료하고, 원본 및 세이브를 백업한 다음 진행하세요.
 
-> **원본 게임 데이터는 직접 준비해야 합니다.**
-> 이 저장소와 배포물에는 게임 파일이나 ISO가 들어 있지 않으며, 제공하지도 않습니다.
+- [최신 릴리즈](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
+- [v20260919 ZIP 다운로드](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260919/OGMD_KR_v20260919.zip)
+- ZIP 크기: **107,425,524 바이트**
+- ZIP SHA-256: `13F42206702C59D7AB6F34E4BFE11E790E12B0F291805124F71DE7F33337FB63`
 
-## 설치 방식 두 가지 — 하나만 고르세요
+```powershell
+Get-FileHash .\OGMD_KR_v20260919.zip -Algorithm SHA256
+```
 
-v20260816부터 방식이 둘입니다. 두 방식이 만드는 최종 한국어 데이터는 같습니다.
+ZIP을 전부 풀어 사용하세요. EXE만 따로 옮기지 마세요. 백업과 임시 출력 파일을 저장할 여유 공간이 필요합니다.
 
+### 이전 버전에서 업데이트
 
-| 방식 | 대상 | 사용 파일 |
+이미 패치된 파일 위에 무조건 덮어쓰지 마세요. 먼저 **이전 버전의 도구와 그때 만든 백업**으로 원본을 복구하고, 새 버전으로 검사·적용하세요. 이번 버전에는 `General3d`가 추가되어 과거 6개 대상 백업과 현재 7개 대상 백업을 동일하게 취급할 수 없습니다. 새 백업은 별도 경로에 보관하세요.
+
+## 설치 방식 선택 — 하나만 사용
+
+| 방식 | 대상 | 도구 |
 |---|---|---|
-| **A. ISO 빠른 패처** | 복호화된 ISO | `OGMD_ISO_QuickPatch.exe` |
-| **B. xdelta** | 폴더형 게임 / 추출 PSARC | `install_xdelta.ps1` + `patches` |
+| A. ISO 패치 | 복호화된 ISO | `OGMD_ISO_QuickPatch.exe` |
+| B. 폴더 직접 패치 | 폴더형 게임 또는 RPCS3 설치 데이터 | 같은 EXE의 폴더 기능 |
+| C. PowerShell 설치 | 폴더형 게임 또는 RPCS3 설치 데이터 | `install_xdelta.ps1` |
 
-> **같은 원본에 두 방식을 겹쳐 적용하지 마세요.**
+B와 C는 같은 폴더에 연속 적용하는 절차가 아니라 선택 가능한 대안입니다.
 
-### 방법 A — ISO 빠른 패처
+## A. ISO 빠른 패처
 
-1. RPCS3를 완전히 종료합니다.
-2. `OGMD_ISO_QuickPatch.exe` 를 실행합니다.
-3. 복호화된 일본판 `BLJS10335` ISO와 백업 파일 경로를 지정합니다.
-4. 필요하면 RPCS3 경로도 지정합니다.
-5. **[원본 검사]** 로 ISO와 RPCS3 경로를 확인합니다.
-6. 주의사항 확인란을 체크하고 **[ISO에 한국어 패치 적용]** 을 누릅니다.
+1. `OGMD_ISO_QuickPatch.exe`를 실행합니다.
+2. 대상 ISO와 백업 저장 경로를 지정합니다.
+3. **ISO 원본 검사**로 적용 가능한 원본인지 확인합니다.
+4. **ISO에 한국어 패치 적용**을 누릅니다.
+5. 성공 로그를 확인하고 백업을 보관합니다.
+6. 아래의 설치 데이터·SPU 캐시 정리를 확인한 뒤 RPCS3에서 실행합니다.
 
-ISO 안의 PSARC는 패치해도 크기가 바뀌지 않으므로, 전체 11.8GB를 다시 만들지 않고
-필요한 구간만 고칩니다.
+ISO는 직접 변경됩니다. **원본으로 복구** 버튼은 ISO용 백업으로 ISO를 복구하는 기능입니다. 폴더 백업을 복구하는 버튼이 아닙니다.
 
-처음 패치할 때 복구용 `.ogmd-backup` 파일을 만듭니다. 원상복구와 다음 버전 갱신에
-필요하니 보관하세요.
+**ISO 패치 성공 후 BLJS10335 설치 데이터와 해당 SPU 캐시만 정리 (권장)** 옵션은 ISO 패치에 적용됩니다. 유효한 RPCS3 경로가 필요하며, 경로가 없으면 정리를 건너뛸 수 있습니다. 옵션을 켰다는 이유만으로 정리가 모두 완료되었다고 판단하지 말고 로그를 확인하세요.
 
-v20260822부터 같은 실행 파일에서 **RPCS3/폴더형 게임 경로를 직접 선택해 패치**할 수도
-있습니다. BLJS10335 게임 루트, `PS3_GAME`, `USRDIR\PSARC`, RPCS3 루트를 자동 판별하고,
-`폴더 게임 상태 검사`로 먼저 확인한 뒤 `RPCS3 / 폴더 게임에 직접 패치`를 누릅니다.
-원본 PSARC 4개 자동 백업 옵션은 기본으로 켜져 있습니다.
+## B. EXE로 폴더 직접 패치
 
-**설치 데이터 정리는 패처가 합니다.** 「ISO 패치 성공 후 BLJS10335 설치 데이터와
-해당 SPU 캐시만 정리」 옵션이 기본으로 켜져 있고, RPCS3 경로를 지정해 달라는 이유가
-이것입니다. 지우는 것은 그 폴더와 `cache\BLJS10335\spu-safe-v1-tane.dat` 뿐이며,
-세이브·savestate·PPU·셰이더 캐시는 건드리지 않습니다.
+1. 게임 폴더 또는 RPCS3 경로를 지정합니다. 게임 루트, `PS3_GAME`, `USRDIR\PSARC` 및 RPCS3 루트에서 대상을 찾을 수 있습니다.
+2. **폴더 게임 상태 검사**를 누르고 실제로 선택된 대상 경로를 확인합니다.
+3. **폴더 직접 패치 전 원본 PSARC 5개 자동 백업 (권장)**을 켜 둡니다.
+4. **RPCS3 / 폴더 게임에 직접 패치**를 누르고 성공 로그와 백업 경로를 확인합니다.
 
-이 옵션을 끄셨거나 RPCS3 경로를 지정하지 않으셨다면 아래 **4. 게임 데이터 폴더 삭제**
-를 직접 해 주세요.
+원본 PSARC의 수정시각을 보존합니다. 제목·아이콘 파일은 존재 여부와 적용 가능한 원본인지에 따라 처리되므로 로그도 확인하세요.
 
-아래 내용은 **방법 B (xdelta)** 기준입니다.
+**ISO용 정리 옵션은 폴더 직접 패치에는 적용되지 않습니다.** SPU 캐시는 따로 정리하세요. 특히 `dev_hdd0\game\BLJS10335`를 직접 패치했다면 그 폴더를 삭제하면 방금 적용한 패치도 없어집니다. 설치 데이터를 다시 만들면 디스크 쪽 데이터로 돌아가므로 지속적으로 사용하려면 ISO 또는 폴더형 원본에도 패치해야 합니다.
 
-## ⚠️ 어디에 패치할 것인가 — 가장 중요합니다
+## C. PowerShell로 폴더 설치
 
-관련 폴더가 두 곳입니다. 헷갈리기 쉬우니 먼저 확인하세요.
-
-```
-롬 (여기에 패치)     ...\BLJS10335\PS3_GAME\USRDIR\PSARC
-게임 데이터 (아님)   <RPCS3 폴더>\dev_hdd0\game\BLJS10335\USRDIR\PSARC
-```
-
-게임 데이터는 게임이 첫 실행 때 롬에서 복사해 만드는 **사본**입니다.
-사본만 바꾸면 게임이 무결성 검사에서 걸려
-**`게임 데이터가 손상되었습니다`** 가 뜨고 진행되지 않습니다.
-
-반드시 **롬 쪽에 패치**하고, **게임 데이터 폴더는 삭제**해서 게임이 다시 만들도록 하세요.
-
-## 1. 준비
-
-1. **RPCS3를 완전히 종료합니다.** 실행 중이면 설치가 거부됩니다.
-2. 롬의 PSARC 폴더를 확인합니다.
-   ```
-   <롬 폴더>\BLJS10335\PS3_GAME\USRDIR\PSARC
-   ```
-3. 그 안에 다음 네 파일이 있어야 합니다.
-
-   | 파일 | 크기 | 원본 SHA-256 |
-   |---|---:|---|
-   | `Common.psarc.sdat` | 505,828,992 | `99B298B3…2093BB` |
-   | `General2d.psarc.sdat` | 611,585,392 | `04C3D1DA…F16667` |
-   | `Logic.psarc.sdat` | 38,399,120 | `AF453B39…F5F181` |
-   | `Battle.psarc.sdat` | 1,729,186,848 | `2C5CA16F…F894A844` |
-
-4. 네 파일을 다른 곳에 복사해 두면 더 안전합니다. `install_xdelta.ps1`도 자동으로 백업합니다.
-5. 세이브 데이터를 지울 필요는 없습니다. 다만 백업을 권장합니다.
-
-## 2. 내려받기
-
-[OGMD_KR_v20260912.zip](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260912/OGMD_KR_v20260912.zip)
-을 받아 압축을 풉니다. 최신판은
-[Releases](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
-에서 확인하세요.
-
-```
-OGMD_KR_v20260912.zip   105,303,062 바이트
-SHA-256: 3F6A04B98F3404F0A72FE19C2EF404625A4253D2015D8D93FC99F977B103D11B
-```
+압축을 푼 배포 폴더에서 실행합니다. 경로는 자신의 게임 위치로 바꾸세요.
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260912.zip -Algorithm SHA256
+powershell -ExecutionPolicy Bypass -File .\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
-압축을 풀면 아래 파일이 나옵니다. 방법 A는 `OGMD_ISO_QuickPatch.exe` 하나만 쓰고,
-방법 B는 나머지를 씁니다.
+대상은 PSARC **5개**와 제목·아이콘 **2개**, 총 7개입니다.
 
-```
-OGMD_ISO_QuickPatch.exe          방법 A
-install_xdelta.ps1               방법 B
-verify_xdelta.ps1
-restore_xdelta_backup.ps1
-xdelta.exe
-patches\                         Common / General2d / Logic / Battle
-README_사용법.txt
-CHANGELOG.txt
-SHA256SUMS.txt
-```
+| PSARC 파일 | 일본판 원본 크기(바이트) |
+|---|---:|
+| Common.psarc.sdat | 505,828,992 |
+| General2d.psarc.sdat | 611,585,392 |
+| General3d.psarc.sdat | 870,220,816 |
+| Logic.psarc.sdat | 38,399,120 |
+| Battle.psarc.sdat | 1,729,186,848 |
 
-ZIP 안에 `OGMD_KR_v20260912` 폴더가 들어 있습니다. 압축을 풀면
-이 폴더가 생기며, 아래 명령은 모두 그 폴더 안에서 실행합니다.
+스크립트는 원본 해시 검사, 백업, 임시 출력 생성 및 출력 해시 검증 후 파일을 교체하고 수정시각을 보존합니다. `PARAM.SFO`와 `ICON0.PNG`는 파일이 없거나 지원하는 원본 해시와 다르면 건너뛸 수 있습니다. PSARC 성공만으로 제목·아이콘까지 적용되었다고 판단하지 마세요.
 
-## 3. 자동 설치 (권장)
+이 스크립트는 RPCS3 설치 데이터나 SPU 캐시를 자동 정리하지 않습니다. 작업 중 중단이나 디스크 오류에 대비해 백업을 유지하세요.
 
-압축을 푼 폴더에서 PowerShell을 엽니다.
-폴더 빈 곳에서 `Shift` + 마우스 오른쪽 클릭 → "여기에 PowerShell 창 열기".
+## 설치 데이터와 SPU 캐시
+
+**ISO 또는 폴더형 원본을 패치한 경우:** 기존 설치 데이터가 남아 있으면 예전 파일을 읽을 수 있습니다. RPCS3를 종료하고 `<RPCS3>\dev_hdd0\game\BLJS10335`만 별도 위치로 백업·이동한 뒤 재설치하세요. RPCS3 전체나 `dev_hdd0` 전체를 삭제하지 마세요. `dev_hdd0\home`의 세이브는 정리 대상이 아닙니다.
+
+**hdd0 설치 데이터를 직접 패치한 경우:** 위 설치 데이터 폴더를 삭제하지 마세요. SPU 캐시만 정리합니다.
+
+SPU 캐시는 RPCS3 게임 목록의 해당 게임 우클릭 메뉴에서 **Remove → Remove SPU Cache**로 정리할 수 있습니다. UI 언어에 따라 이름은 다를 수 있습니다.
+
+현재 EXE의 자동 정리는 `cache\BLJS10335\spu-safe-v1-tane.dat`를 대상으로 하며, 하위 `ppu-…-EBOOT.BIN` 폴더의 `spu*.dat`까지 재귀적으로 정리하지 않습니다. 자동 정리 로그에서 캐시가 없다고 나와도 위 메뉴로 해당 게임의 SPU 캐시를 확인·정리하세요. PPU·셰이더 캐시와 세이브는 이 안내의 삭제 대상이 아닙니다.
+
+## 설치 확인과 복구
+
+폴더 설치 확인:
 
 ```powershell
-.\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
+powershell -ExecutionPolicy Bypass -File .\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
 ```
 
-실행이 막히면 아래를 먼저 실행합니다.
+PSARC 5개 결과와 제목·아이콘 처리 결과를 각각 확인하세요. 게임의 실제 표시까지 확인하는 검사는 아닙니다.
+
+폴더 복구:
 
 ```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC" -BackupDir "C:\백업\backup_original_날짜시간"
 ```
 
-### 스크립트가 하는 일
+폴더 복구에는 해당 설치 때 생성한 신뢰할 수 있는 **백업 디렉터리**를 지정합니다. ISO용 `.ogmd-backup` 파일과 혼용하지 마세요. 이전 버전 백업은 이전 버전 복구 도구로 복구합니다. 원본 디스크 쪽을 복구했다면 설치 데이터와 SPU 캐시도 위 기준에 따라 정리하세요.
 
-1. RPCS3 실행 여부 확인
-2. 대상이 롬인지 게임 데이터인지 판별하고 알려줌
-3. 원본 네 파일의 크기와 SHA-256 검증
-4. 원본을 `backup_original_<날짜시간>` 폴더에 백업
-5. **임시 파일**에 패치 적용 — 대상 파일에 직접 쓰지 않습니다
-6. 임시 결과의 크기와 SHA-256 검증
-7. **검증을 통과한 결과만** 실제 파일로 교체
-8. 원래 수정시각 복원
-9. 최종 해시 출력
+## 선택 사항: 아카이브 재생 중지 확인창
 
-> 검증에 실패하면 게임 파일을 건드리지 않고 중단합니다.
-> 실패했다고 원본을 삭제하거나 게임 폴더를 지우지 않습니다.
+아카이브 재생 중지 확인창의 한글화는 ISO에 포함된 EBOOT 수정이 아니라 **별도 RPCS3 패치**입니다.
 
-> 스크립트는 `cache\BLJS10335`, PPU·SPU·셰이더 캐시, 세이브 데이터를 건드리지 않습니다.
-> 화면이 하얗게 보일 때만 RPCS3의 `Remove SPU Cache` 를 쓰세요.
+1. 배포물의 `RPCS3_optional/OGMD_archive_popup_patch.yml`을 RPCS3 패치 관리자에서 가져옵니다.
+2. `OGMD archive replay-question Korean 20260918` 패치를 활성화합니다.
+3. 대상 실행 파일의 PPU 해시가 `e429bb11d03c2e6a046775179d21169cba555c47`인지 확인합니다.
 
-### 설치 성공 시 해시
+기존 `patch.yml`이나 설정 파일 전체를 이 파일로 덮어쓰지 마세요. 이 선택 패치를 활성화하지 않으면 해당 확인창은 일본어로 남습니다. 정적 검증과 별개로 실제 화면 테스트가 필요합니다.
 
-| 파일 | SHA-256 |
-|---|---|
-| `Common.psarc.sdat` | `52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373` |
-| `General2d.psarc.sdat` | `6BCB01A3D66FE668ECA2BF5167D9552DBD1D6F6DB1B0A24083FD40DA2D14AD47` |
-| `Logic.psarc.sdat` | `A2446B21BB01FE32375BC7F337BCDA0E8C2B76083E8681C05ED4B7F50F6F0E28` |
-| `Battle.psarc.sdat` | `E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3` |
+## 실행 후 확인
 
-## 4. 게임 데이터 폴더 삭제
+기존 Save State 대신 게임을 새로 부팅해 확인하세요. 패치 이전에 저장된 세이브 목록 문구는 그대로 남을 수 있습니다. EXE의 세이브 목록 한글화 기능은 별도 선택 기능이므로 백업과 처리 로그를 확인하고 사용하세요.
 
-**방법 B(xdelta)로 롬을 패치했을 때 필요한 단계입니다.**
-방법 A의 빠른 패처는 정리 옵션이 기본으로 켜져 있어 이 일을 대신 처리합니다.
-
-롬을 패치했으니, 예전에 만들어진 게임 데이터가 남아 있으면 그것이 먼저 쓰입니다.
-아래 폴더를 삭제하거나 다른 곳으로 옮긴 뒤 게임을 실행하세요.
-
-```
-<RPCS3 폴더>\dev_hdd0\game\BLJS10335
-```
-
-게임이 데이터를 다시 설치하고, 그 뒤 한국어로 표시됩니다.
-세이브 데이터는 `dev_hdd0\home\00000001\savedata` 에 따로 있으므로 안전합니다.
-
-### 필수 설정 — `libvdec.sprx` 를 LLE로
-
-게임 우클릭 → **Change Custom Configuration** → **Advanced** 탭 →
-**Firmware Libraries** 목록에서 **`libvdec.sprx`** 를 체크합니다.
-기본값은 HLE이고, 체크하면 LLE가 됩니다.
-
-초반에 뜨는 오류 표시가 생략됩니다. 그리고 **화면이 하얗게 보이는 문제를 잡으려면
-이 설정이 먼저 되어 있어야 합니다.** 이 설정 없이 SPU 캐시만 지우면 다시 하얗게 보입니다.
-자세한 내용은 [알려진 문제](known-issues.md)를 참고하세요.
-
-## 5. 설치 확인
-
-```powershell
-.\verify_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
-```
-
-네 파일이 모두 `한국어 패치됨`으로 나오면 정상입니다.
-
-## 6. 되돌리기
-
-```powershell
-.\restore_xdelta_backup.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
-```
-
-`install_xdelta.ps1`이 만든 백업 폴더를 자동으로 찾습니다.
-백업이 **진짜 원본인지 해시로 확인한 뒤에만** 복구하므로 안전합니다.
-
-백업 폴더를 직접 지정할 수도 있습니다.
-
-```powershell
-.\restore_xdelta_backup.ps1 -TargetDir "..." -BackupDir "backup_original_20260808_202401"
-```
-
-> **게임 폴더를 통째로 지우지 마세요.** 백업 복구만으로 충분합니다.
-
-## 수동 설치
-
-자동 설치를 쓸 수 없을 때 사용합니다.
-
-1. RPCS3를 완전히 종료합니다.
-2. 압축을 푼 폴더의 `xdelta.exe` 와 `patches` 폴더를 **롬의 PSARC 폴더 안에** 복사합니다.
-3. 그 PSARC 폴더에서 PowerShell을 엽니다.
-   (폴더 빈 곳에서 `Shift` + 마우스 오른쪽 클릭 → "여기에 PowerShell 창 열기")
-4. 아래 네 줄을 차례로 실행합니다. 경로는 본인 롬 위치로 바꾸세요.
-
-```powershell
-.\xdelta.exe -d -s "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC\Common.psarc.sdat" "patches\Common.psarc.sdat.xdelta" "Common.new"
-
-.\xdelta.exe -d -s "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC\Battle.psarc.sdat" "patches\Battle.psarc.sdat.xdelta" "Battle.new"
-
-.\xdelta.exe -d -s "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC\General2d.psarc.sdat" "patches\General2d.psarc.sdat.xdelta" "General2d.new"
-
-.\xdelta.exe -d -s "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC\Logic.psarc.sdat" "patches\Logic.psarc.sdat.xdelta" "Logic.new"
-```
-
-5. 만들어진 `.new` 파일 네 개를 원래 이름으로 바꿔 덮어씁니다.
-   원본은 먼저 다른 곳에 백업해 두시길 권합니다.
-
-   | 만들어진 파일 | 바꿀 이름 |
-   |---|---|
-   | `Common.new` | `Common.psarc.sdat` |
-   | `Battle.new` | `Battle.psarc.sdat` |
-   | `General2d.new` | `General2d.psarc.sdat` |
-   | `Logic.new` | `Logic.psarc.sdat` |
-
-6. `<RPCS3 폴더>\dev_hdd0\game\BLJS10335` 폴더를 삭제합니다.
-7. 게임 목록에서 해당 게임 우클릭 → **Remove** → **Remove SPU Cache**
-8. 게임을 실행합니다.
-
-수동 설치는 해시 검증을 건너뛰므로, 끝난 뒤 **반드시 `verify_xdelta.ps1`을 실행**하세요.
-
-## 오류 제보
-
-[Issues](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/issues)에
-다음을 함께 올려 주시면 확인이 빠릅니다.
-
-1. 화면 캡처
-2. 그 화면까지 들어간 경로 (어떤 메뉴를 거쳤는지)
-3. 사용한 패치 버전
-4. `verify_xdelta.ps1` 실행 결과
-
-## 감사
-
-**박호울**님께 감사드립니다. 이 안내는 박호울님이 정리해 주신 내용을 따랐습니다.
-게임 데이터가 아니라 롬 쪽에 패치해야 한다는 점, 수동 설치 절차, SPU 캐시 삭제,
-`libvdec.sprx` 설정까지 직접 확인해 알려 주셨습니다.
-
-> https://naver.me/Gy3MRaii
-
-설치 절차와 관련한 내용은 모두 박호울님 안내를 따랐습니다.
+v20260919는 파일 해시·패치/복구 검증을 통과했지만 모든 변경 장면의 게임 실행 검증을 완료했다는 뜻은 아닙니다. [알려진 제한](known-issues.md)도 확인하세요. 문제 제보 시 버전, 게임 ID, ISO/폴더/hdd0 중 적용 경로, 검사 로그 및 화면을 [이슈](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/issues)에 첨부해 주세요.

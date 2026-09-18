@@ -25,7 +25,7 @@ Get-FileHash .\OGMD_KR_v20260919.zip -Algorithm SHA256
 |---|---|
 | 버전 | `v20260919` |
 | 대상 | 일본판 `BLJS10335` |
-| 설치 방식 | ISO 빠른 패처 / xdelta — **둘 중 하나만** |
+| 설치 방식 | ISO / 폴더 GUI / 폴더 PowerShell — **하나만 선택** |
 | 배포 형식 | xdelta 패치 7개 + 선택형 RPCS3 런타임 패치 |
 | 검증 환경 | RPCS3 v0.0.42 계열 (Vulkan) |
 
@@ -55,19 +55,17 @@ Get-FileHash .\OGMD_KR_v20260919.zip -Algorithm SHA256
 
 ## 빠른 설치
 
-설치 방식이 두 가지입니다. 두 방식의 결과는 같으니 **하나만** 고르세요.
+RPCS3를 종료하고 배포 ZIP을 전부 푼 뒤 한 가지 방식만 선택하세요.
 
-복호화된 ISO를 쓰신다면 릴리스 ZIP의 `OGMD_ISO_QuickPatch.exe` 를 실행합니다.
+- ISO: EXE의 `ISO 원본 검사` → `ISO에 한국어 패치 적용`.
+- 폴더 GUI: `폴더 게임 상태 검사` → `RPCS3 / 폴더 게임에 직접 패치`.
+- 폴더 PowerShell: `install_xdelta.ps1 -TargetDir "대상 PSARC 경로"`.
 
-폴더형 게임이나 추출한 PSARC를 쓰신다면, RPCS3를 **완전히 종료**한 뒤
-압축을 푼 폴더에서 실행합니다.
+이전 버전은 이전 도구·백업으로 복구한 뒤 적용합니다. 대상은 PSARC 5개와 제목·아이콘 2개입니다.
+ISO용 자동 정리는 폴더 직접 패치에 적용되지 않으며 하위 SPU 캐시도 수동 정리가 필요합니다.
+hdd0를 직접 패치했다면 그 설치 데이터 폴더를 삭제하지 마세요.
 
-```powershell
-.\install_xdelta.ps1 -TargetDir "C:\RPCS3\games\BLJS10335\PS3_GAME\USRDIR\PSARC"
-```
-
-검증에 실패하면 게임 파일을 건드리지 않고 중단합니다.
-자세한 절차는 [설치 안내](install.md)를 참고하세요.
+다운로드·검증·복구·별도 팝업 패치 절차는 [최신 설치 안내](install.md)를 참고하세요.
 
 ## 이 프로젝트에서 얻은 것
 
@@ -97,7 +95,7 @@ SDAT은 블록번호로 키를 유도하는 블록 독립 암호화라, 같은 �
 | 문서 | 내용 |
 |---|---|
 | [설치 안내](install.md) | 준비물, 자동·수동 설치, 확인, 되돌리기 |
-| [알려진 문제](known-issues.md) | 타이틀 백화 회피법, 옵션 `트/특`, 지형 한자 |
+| [알려진 문제](known-issues.md) | 남은 제한, 해결된 항목, 캐시·세이브 안내 |
 | [SDAT 암호 구조](sdat.md) | NPD 헤더, 블록 단위 AES 키 유도, 메타데이터 위조 |
 | [PSARC 아카이브 구조](psarc.md) | TOC·블록 테이블 레이아웃, `PSARCLIST.BIN` |
 | [고정 배치 재빌드](fixed-layout.md) | 델타를 87배 줄인 기법과 측정치 |
