@@ -1,18 +1,18 @@
 # 설치 안내
 
-2026-09-19 갱신 · 배포 기준 **v20260919**
+2026-09-23 갱신 · 배포 기준 **v20260923**
 
 ## 준비
 
 PS3 일본판 『슈퍼로봇대전 OG 더 문 드웰러즈』(`BLJS10335`)의 복호화된 ISO 또는 폴더형 원본이 필요합니다. 게임 원본은 제공하지 않습니다. RPCS3를 종료하고, 원본 및 세이브를 백업한 다음 진행하세요.
 
 - [최신 릴리즈](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/latest)
-- [v20260919 ZIP 다운로드](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260919/OGMD_KR_v20260919.zip)
-- ZIP 크기: **107,425,524 바이트**
-- ZIP SHA-256: `13F42206702C59D7AB6F34E4BFE11E790E12B0F291805124F71DE7F33337FB63`
+- [v20260923 ZIP 다운로드](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/releases/download/v20260923/OGMD_KR_v20260923.zip)
+- ZIP 크기: **107,431,851 바이트**
+- ZIP SHA-256: `B4C8FC1AE7B2ACDD1FE2124B4E6C184CD57F970C0BA4760AA0E594998B59B3C2`
 
 ```powershell
-Get-FileHash .\OGMD_KR_v20260919.zip -Algorithm SHA256
+Get-FileHash .\OGMD_KR_v20260923.zip -Algorithm SHA256
 ```
 
 ZIP을 전부 풀어 사용하세요. EXE만 따로 옮기지 마세요. 백업과 임시 출력 파일을 저장할 여유 공간이 필요합니다.
@@ -119,4 +119,4 @@ powershell -ExecutionPolicy Bypass -File .\restore_xdelta_backup.ps1 -TargetDir 
 
 기존 Save State 대신 게임을 새로 부팅해 확인하세요. 패치 이전에 저장된 세이브 목록 문구는 그대로 남을 수 있습니다. EXE의 세이브 목록 한글화 기능은 별도 선택 기능이므로 백업과 처리 로그를 확인하고 사용하세요.
 
-v20260919는 파일 해시·패치/복구 검증을 통과했지만 모든 변경 장면의 게임 실행 검증을 완료했다는 뜻은 아닙니다. [알려진 제한](known-issues.md)도 확인하세요. 문제 제보 시 버전, 게임 ID, ISO/폴더/hdd0 중 적용 경로, 검사 로그 및 화면을 [이슈](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/issues)에 첨부해 주세요.
+v20260923는 파일 해시·패치/복구 검증을 통과했지만 모든 변경 장면의 게임 실행 검증을 완료했다는 뜻은 아닙니다. [알려진 제한](known-issues.md)도 확인하세요. 문제 제보 시 버전, 게임 ID, ISO/폴더/hdd0 중 적용 경로, 검사 로그 및 화면을 [이슈](https://github.com/kimjh-eclipse/srw-og-moon-dwellers-korean-patch/issues)에 첨부해 주세요.

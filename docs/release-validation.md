@@ -1,6 +1,6 @@
 # 배포 구성과 검증 범위
 
-2026-09-19 갱신 · 공개 릴리스 `v20260919` 기준. 최신 설치 절차는 [설치 안내](install.md)를 따른다.
+2026-09-23 갱신 · 공개 릴리스 `v20260923` 기준. 최신 설치 절차는 [설치 안내](install.md)를 따른다.
 
 ## 두 기준을 구분한다
 
@@ -15,12 +15,12 @@
 
 ## 현재 배포 대상
 
-| 파일 | 역할 | v20260919 target SHA-256 |
+| 파일 | 역할 | v20260923 target SHA-256 |
 |---|---|---|
 | Common.psarc.sdat | 폰트 포함 공용 자원 | `52FFAF183FD89A2A0967A492CA369E6131CA121E403EC1E0E4FB941633B90373` |
-| General2d.psarc.sdat | UI·2D 자원, 퀵 커맨드 | `035267C098547C23AC8D4B20F69054966A463FFCA44A682943439790C58A666D` |
+| General2d.psarc.sdat | UI·2D 자원, 퀵 커맨드 | `9175EB54E45048E783F9C4AD75891914255259C8AABF0533FB08E23EC6CD36EA` |
 | General3d.psarc.sdat | 지형 제목 등 | `025EB16CFE6139893332AA575812F43AF2A51F036585EF32DF6961409710B77E` |
-| Logic.psarc.sdat | 시나리오 등 | `A34FBBA71611C48DDCFEC71F292D343E29F3AA8D56012A9C3D74255D326F14E1` |
+| Logic.psarc.sdat | 시나리오 등 | `860425420778C6CE7DA92792B90066454B66134534EA563228798DC761FC224E` |
 | Battle.psarc.sdat | 전투 대사 참조 수정본 | `E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3` |
 | PARAM.SFO | 게임 제목 메타데이터 | `B7ABDFE7FED52FB9EEEDDE02FBD33475A449C20B4EE6099E59BC025E1F32DE54` |
 | ICON0.PNG | 게임 아이콘 | `0B038E45343B203DE00D1323247FD5AFFFF3AB61AF35A8206010EA5601948A00` |
@@ -80,7 +80,7 @@ ISO 시험은 7개 원본 파일의 전체 payload와 실제 내부 경로를 �
 5. 선택형 런타임 YAML의 주소·PPU 키·활성화 안내.
 6. 배포 ZIP 내부 체크섬, ZIP 전체 해시, 공개 다운로드 결과.
 
-v20260919 ZIP은 107,425,524바이트이며 SHA-256은 `13F42206702C59D7AB6F34E4BFE11E790E12B0F291805124F71DE7F33337FB63`이다. 문서만 고쳐 main에 게시한 것은 기존 ZIP을 교체했다는 뜻이 아니다. ZIP의 체크섬 목록을 현재 웹 문서 파일의 해시 목록으로 해석하지 않는다.
+v20260923 ZIP은 107,431,851바이트이며 SHA-256은 `B4C8FC1AE7B2ACDD1FE2124B4E6C184CD57F970C0BA4760AA0E594998B59B3C2`이다. 문서만 고쳐 main에 게시한 것은 기존 ZIP을 교체했다는 뜻이 아니다. ZIP의 체크섬 목록을 현재 웹 문서 파일의 해시 목록으로 해석하지 않는다.
 
 ## 후속 작업 인계에 남길 항목
 
