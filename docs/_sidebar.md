@@ -7,6 +7,7 @@
 * **기술 문서**
   * [전투 대사 참조·폰트](bmd-font.md)
   * [배포 구성·검증 범위](release-validation.md)
+  * [이슈 #10 교정·검증 설계](issue10-validation.md)
   * [SDAT 암호 구조](sdat.md)
   * [PSARC 아카이브 구조](psarc.md)
   * [고정 배치 재빌드](fixed-layout.md)
