@@ -53,7 +53,7 @@ FILES = (
         "source": ROOT / 'original_backups/Logic.psarc.sdat.orig',
         "target": ROOT / 'korean_build/Logic.psarc.sdat',
         "source_hash": 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181',
-        "target_hash": '860425420778C6CE7DA92792B90066454B66134534EA563228798DC761FC224E',
+        "target_hash": '3383E1F6DA0F79355E5F32CB215E9C6EAE56E6ED976E4A09CCE06B1857A94BA1',
     },
     {
         "name": 'Battle',
@@ -61,7 +61,7 @@ FILES = (
         "source": ROOT / 'original_backups/Battle.psarc.sdat.orig',
         "target": ROOT / 'korean_build/Battle.psarc.sdat',
         "source_hash": '2C5CA16F75FCE3725E97977F79CD281FD52BF78BC67C9232228E37AFF894A844',
-        "target_hash": 'E7F07D0CED655852CEFD144679829ED3EAEFFF6C06A232D861E1514ACADA66B3',
+        "target_hash": 'C1E0E4A0882EB3473934D42500248A420978074BEFE09D58645B2B3165639820',
     },
     {
         "name": 'ParamSfo',
