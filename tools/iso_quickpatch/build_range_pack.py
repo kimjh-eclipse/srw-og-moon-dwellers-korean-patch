@@ -53,7 +53,7 @@ FILES = (
         "source": ROOT / 'original_backups/Logic.psarc.sdat.orig',
         "target": ROOT / 'korean_build/Logic.psarc.sdat',
         "source_hash": 'AF453B395D358FAB79740310BBA03F400A54F3D86CC6A82FD0A504FF25F5F181',
-        "target_hash": '3383E1F6DA0F79355E5F32CB215E9C6EAE56E6ED976E4A09CCE06B1857A94BA1',
+        "target_hash": 'F292BD53604280406F42EF523132C770FA57EC68F532F2DF34E8EAE4E265E2E0',
     },
     {
         "name": 'Battle',
